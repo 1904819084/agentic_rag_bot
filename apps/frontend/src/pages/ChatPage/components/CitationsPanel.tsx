@@ -20,7 +20,7 @@ export default function CitationsPanel({ citations, onSampleClick }: CitationsPa
           {citations.length ? `${citations.length} 个来源` : '暂无'}
         </Typography.Text>
       }
-      bordered={false}
+      variant="borderless"
     >
       {citations.length ? (
         <div>

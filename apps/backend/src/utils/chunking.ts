@@ -1,3 +1,4 @@
+// 原始文本输入
 export interface ChunkPlainTextInput {
   docId: string;
   title: string;
@@ -6,7 +7,8 @@ export interface ChunkPlainTextInput {
   childOverlapChars?: number;
 }
 
-export interface ParentChunkDraft {
+// 父块
+export interface ParentChunk {
   id: string;
   docId: string;
   title: string;
@@ -14,7 +16,8 @@ export interface ParentChunkDraft {
   content: string;
 }
 
-export interface ChildChunkDraft {
+// 子块
+export interface ChildChunk {
   id: string;
   parentId: string;
   docId: string;
@@ -116,12 +119,12 @@ export function chunkPlainText(input: ChunkPlainTextInput) {
   const childMaxChars = input.childMaxChars ?? DEFAULT_CHILD_MAX_CHARS;
   const childOverlapChars = input.childOverlapChars ?? DEFAULT_CHILD_OVERLAP_CHARS;
   const sections = splitIntoSections(input.title, input.content);
-  const parents: ParentChunkDraft[] = [];
-  const children: ChildChunkDraft[] = [];
+  const parents: ParentChunk[] = [];
+  const children: ChildChunk[] = [];
 
   sections.forEach((section, sectionIndex) => {
     const parentId = `${input.docId}_p_${sectionIndex}_${createIdPart(section.title)}`;
-    const parent: ParentChunkDraft = {
+    const parent: ParentChunk = {
       id: parentId,
       docId: input.docId,
       title: section.title,

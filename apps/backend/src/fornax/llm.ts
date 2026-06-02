@@ -1,6 +1,7 @@
 import { getFornaxAuthOptions } from './fornaxAuth';
 import { loadFornaxSdk } from './fornaxSdk';
 
+// 移除 Markdown 代码 fence
 function stripMarkdownCodeFence(text: string) {
   return text
     .trim()
@@ -9,6 +10,7 @@ function stripMarkdownCodeFence(text: string) {
     .trim();
 }
 
+// 归一化 LLM 返回的文本结果
 function normalizeTextResult(result: unknown) {
   if (!result) {
     return '';

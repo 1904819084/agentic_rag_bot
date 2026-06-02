@@ -26,7 +26,7 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([
     createMessage(
       'assistant',
-      '你好，我是研发知识库助手。可以基于 PRD、TRD、评审纪要和行动点回答研发问题，并附带原始决策与引用来源。',
+      '你好，我是研发知识库助手。可以基于知识库中的PRD、TRD文档回答业务研发问题，并附带引用来源。',
     ),
   ]);
   const [lastResponse, setLastResponse] = useState<AskQuestionResponse | null>(null);
@@ -56,7 +56,7 @@ export default function ChatPage() {
 
   return (
     <div className={styles.layout}>
-      <Card className={`page-card ${styles.card}`} title="研发问答" bordered={false}>
+      <Card className={`page-card ${styles.card}`} title="研发问答" variant="borderless">
         <ChatMessages messages={messages} loading={askQuestionRequest.loading} />
         <ChatInput
           loading={askQuestionRequest.loading}

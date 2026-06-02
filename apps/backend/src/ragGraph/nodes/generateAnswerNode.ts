@@ -1,7 +1,7 @@
 import { fornaxExecute } from '../../fornax/llm';
 import type { RagGraphOutput } from '../ragGraphState';
 
-const PROMPT_KEY = 'demo.agentic_rag_answerGenerate.prompt';
+const PROMPT_KEY = 'demo.agentic_rag_answer.prompt';
 
 function formatStepResults(state: Partial<RagGraphOutput>) {
   const steps = state.stepResults ?? [];
@@ -37,7 +37,6 @@ export function createGenerateAnswerNode() {
         query: state.rewrittenQuery ?? state.question,
         contexts: state.formattedContexts ?? '',
         step_results: formatStepResults(state),
-        citation_rules: '每个关键结论后标注引用来源，例如 [资料 1]。资料不足时明确说明。',
       },
     });
 

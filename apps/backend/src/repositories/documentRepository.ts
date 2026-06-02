@@ -1,6 +1,6 @@
 import { Injectable } from '@gulux/gulux';
 import type { KnowledgeDocument, KnowledgeDocumentType, RetrievedContext } from '@rag/shared';
-import type { ChildChunkDraft, ParentChunkDraft } from '../utils/chunking';
+import type { ChildChunk, ParentChunk } from '../utils/chunking';
 import { PostgresRepository } from './postgres';
 
 @Injectable()
@@ -13,8 +13,8 @@ export default class DocumentRepository {
     children,
   }: {
     document: KnowledgeDocument & { metadata?: Record<string, unknown> };
-    parents: ParentChunkDraft[];
-    children: ChildChunkDraft[];
+    parents: ParentChunk[];
+    children: ChildChunk[];
   }) {
     await this.postgres.query('BEGIN');
     try {

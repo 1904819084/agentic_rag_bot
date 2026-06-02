@@ -1,10 +1,10 @@
 import { AppError } from '../utils/appError';
-
 export interface FeishuDocxUrlInfo {
   url: string;
   docxToken: string;
 }
 
+// 解析Feishu Docx URL
 export function parseFeishuDocxUrl(rawUrl: string): FeishuDocxUrlInfo {
   const url = rawUrl.trim();
 
