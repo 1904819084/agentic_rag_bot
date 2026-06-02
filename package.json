@@ -1,0 +1,41 @@
+{
+  "name": "rag-business-qa-bot",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter @rag/shared build && sh -c 'pnpm --filter @rag/backend dev:api & pnpm --filter @rag/frontend dev'",
+    "dev:frontend": "pnpm --filter @rag/shared build && pnpm --filter @rag/frontend dev",
+    "dev:backend": "pnpm --filter @rag/shared build && pnpm --filter @rag/backend dev:api",
+    "dev:worker": "pnpm --filter @rag/shared build && pnpm --filter @rag/backend dev:worker",
+    "build": "pnpm --filter @rag/shared build && pnpm --filter @rag/shared check:dist && pnpm --filter @rag/backend build && pnpm --filter @rag/frontend build",
+    "typecheck": "pnpm --filter @rag/shared typecheck && pnpm --filter @rag/backend typecheck && pnpm --filter @rag/frontend typecheck",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,less,css,yaml,yml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,less,css,yaml,yml}\"",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix --max-warnings=0",
+      "prettier --write"
+    ],
+    "*.{json,md,less,css,yaml,yml}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.3.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.7",
+    "prettier": "^3.8.3",
+    "typescript-eslint": "^8.59.3"
+  },
+  "packageManager": "pnpm@10.0.0"
+}

@@ -1,0 +1,36 @@
+{
+  "extends": "@gulux/style/lib",
+  "compilerOptions": {
+    "outDir": "output",
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "types": ["node"],
+    "strict": false,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@rag/shared": ["../../packages/shared/src/index.ts"],
+      "@rag/shared/*": ["../../packages/shared/src/*"]
+    }
+  },
+  "exclude": [
+    ".gulux",
+    "coverage",
+    "log",
+    "node_modules",
+    "output",
+    "test",
+    "test-output",
+    "*.json",
+    "*.md",
+    "src/**/*.test.ts"
+  ],
+  "include": ["src/**/*.ts", "../../packages/shared/src/**/*.ts"],
+  "ts-node": {
+    "files": true
+  }
+}

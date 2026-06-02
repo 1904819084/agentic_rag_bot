@@ -1,0 +1,14 @@
+node_modules
+dist
+build
+output
+coverage
+.gulux
+.test-output
+test-output
+pnpm-lock.yaml
+*.log
+apps/backend/.bootstrap.ts
+apps/frontend/dist
+packages/shared/dist
+.trae

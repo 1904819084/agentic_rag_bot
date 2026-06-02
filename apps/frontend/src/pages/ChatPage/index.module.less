@@ -1,0 +1,209 @@
+@color-bg: #f8fafc;
+@color-surface: #ffffff;
+@color-border-soft: #edf2f7;
+@color-text: #0f172a;
+@color-text-muted: #475569;
+@color-text-subtle: #64748b;
+@color-primary: #2563eb;
+@color-primary-soft: #eff6ff;
+@color-accent-soft: #f1f5f9;
+
+@radius-md: 10px;
+@duration: 200ms;
+@easing: cubic-bezier(0.4, 0, 0.2, 1);
+
+// =============================================
+// Chat page
+// =============================================
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 16px;
+
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 152px);
+  min-height: 520px;
+
+  :global(.ant-card-body) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+}
+
+.messages {
+  flex: 1;
+  overflow: auto;
+  padding: 4px 4px 12px;
+  scroll-behavior: smooth;
+}
+
+.message {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  background: @color-accent-soft;
+  color: @color-text-muted;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.role {
+  font-size: 12px;
+  font-weight: 600;
+  color: @color-text-muted;
+  margin-bottom: 4px;
+  letter-spacing: 0.02em;
+}
+
+.bubble {
+  padding: 12px 14px;
+  border-radius: @radius-md;
+  border: 1px solid @color-border-soft;
+  background: @color-surface;
+  color: @color-text;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+  transition: border-color @duration @easing;
+}
+
+.meta {
+  margin-top: 6px;
+  font-size: 12px;
+  color: @color-text-subtle;
+}
+
+.user {
+  .avatar {
+    background: @color-primary-soft;
+    color: @color-primary;
+  }
+
+  .bubble {
+    background: @color-primary-soft;
+    border-color: rgba(37, 99, 235, 0.18);
+  }
+}
+
+.assistant {
+  .avatar {
+    background: #ecfdf5;
+    color: #059669;
+  }
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 4px;
+  color: @color-text-subtle;
+  font-size: 13px;
+}
+
+.dots {
+  display: inline-flex;
+  gap: 4px;
+
+  span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: @color-primary;
+    animation: chatDot 1.4s infinite ease-in-out both;
+  }
+
+  span:nth-child(1) {
+    animation-delay: -0.32s;
+  }
+
+  span:nth-child(2) {
+    animation-delay: -0.16s;
+  }
+}
+
+@keyframes chatDot {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.input {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid @color-border-soft;
+}
+
+.inputRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.inputHint {
+  flex: 1;
+  margin-top: 8px;
+  font-size: 12px;
+  color: @color-text-subtle;
+}
+
+// 空态下的示例问题区
+.samples {
+  margin-top: 12px;
+  text-align: left;
+}
+
+.samplesList {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sampleTag {
+  cursor: pointer;
+  padding: 4px 10px;
+}
+
+.emptyTitle {
+  font-weight: 500;
+  color: @color-text-muted;
+}
+
+.emptyHint {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #94a3b8;
+}

@@ -1,0 +1,57 @@
+# ---- OS / 编辑器 ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# ---- 本地 IDE / Agent ----
+.claude/
+.cursor/
+.aider*
+
+# ---- Node / pnpm ----
+node_modules/
+.pnpm-store/
+pnpm-debug.log*
+npm-debug.log*
+
+# ---- 环境变量 ----
+.env
+.env.*
+!.env.example
+
+# ---- 构建产物 ----
+dist/
+build/
+coverage/
+*.tsbuildinfo
+apps/backend/output/
+apps/frontend/dist/
+packages/shared/dist/
+
+# ---- 测试 / 临时输出 ----
+.test-output/
+apps/backend/test-output/
+apps/backend/test/
+apps/backend/tsconfig.test.json
+
+# ---- 日志 ----
+logs/
+log/
+*.log
+apps/backend/log/
+runtime-data/
+
+# ---- Gulux 运行时 ----
+.gulux/
+apps/backend/.gulux/
+apps/backend/.bootstrap.ts
+
+# ---- Python 缓存（.trae skills 脚本） ----
+__pycache__/
+*.py[cod]
+*.pyo
+
+# ---- Husky 内部 stub（husky init 自管）----
+.husky/_/
