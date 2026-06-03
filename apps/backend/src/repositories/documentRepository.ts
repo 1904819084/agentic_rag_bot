@@ -1,5 +1,5 @@
 import { Injectable } from '@gulux/gulux';
-import type { KnowledgeDocument, RetrievedContext } from '@rag/shared';
+import type { Document, RetrievedContext } from '@rag/shared';
 import pgvector from 'pgvector';
 import type { ChildChunk, ParentChunk } from '../types';
 import { PostgresRepository } from './postgres';
@@ -18,7 +18,7 @@ export default class DocumentRepository {
     parents,
     children,
   }: {
-    document: KnowledgeDocument;
+    document: Document;
     parents: ParentChunk[];
     children: ChildChunkWithEmbedding[];
   }) {
@@ -78,15 +78,15 @@ export default class DocumentRepository {
     });
   }
 
-  public async listDocuments(): Promise<KnowledgeDocument[]> {
+  public async listDocuments(): Promise<Document[]> {
     try {
       const result = await this.postgres.query<{
         id: string;
-        source: KnowledgeDocument['source'];
+        source: Document['source'];
         source_doc_id: string;
         title: string;
         source_url: string | null;
-        status: KnowledgeDocument['status'];
+        status: Document['status'];
         parent_chunk_count: number;
         child_chunk_count: number;
         updated_at: Date | null;

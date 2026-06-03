@@ -13,6 +13,7 @@ export default [
       '**/build/**',
       '**/output/**',
       '**/coverage/**',
+      '**/.claude/**',
       '**/.gulux/**',
       '**/.test-output/**',
       '**/test-output/**',

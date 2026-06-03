@@ -1,6 +1,6 @@
 import { Inject } from '@gulux/gulux';
 import { Body, Controller, Get, Param, Post } from '@gulux/gulux/application-http';
-import type { ImportFeishuDocxDocumentRequest } from '@rag/shared';
+import type { ImportFeishuDocumentRequest } from '@rag/shared';
 import DocumentIngestionService from '../services/documentIngestionService';
 import DocumentService from '../services/documentService';
 import { AppError } from '../utils/appError';
@@ -21,9 +21,9 @@ export default class DocumentController {
   }
 
   @Post('/import/feishu-docx')
-  public importFeishuDocxDocument(@Body() body: ImportFeishuDocxDocumentRequest) {
+  public importFeishuDocxDocument(@Body() body: ImportFeishuDocumentRequest) {
     if (!body?.url || typeof body.url !== 'string') {
-      throw new AppError('invalid_feishu_docx_url', 400, 'url is required');
+      throw new AppError('invalid_feishu_document_url', 400, 'url is required');
     }
 
     return this.documentIngestionService.importFeishuDocxDocument(body);

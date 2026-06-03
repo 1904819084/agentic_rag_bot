@@ -55,9 +55,10 @@ export type RetrievalSearchOptions = {
 
 // ---------- Feishu ----------
 
-export interface FeishuDocxUrlInfo {
+export interface FeishuDocumentUrlInfo {
   url: string;
-  docxToken: string;
+  token: string;
+  tokenType: 'docx' | 'wiki';
 }
 
 export interface FeishuMessageEvent {
@@ -66,7 +67,7 @@ export interface FeishuMessageEvent {
   text?: string;
 }
 
-export interface FeishuDocxContent {
+export interface FeishuDocumentContent {
   sourceDocId: string;
   sourceUrl: string;
   title: string;

@@ -1,11 +1,11 @@
-import type { KnowledgeDocument } from '@rag/shared';
+import type { Document } from '@rag/shared';
 import { Button, Card, Space, Table, Tag, Typography } from 'antd';
 import EmptyState from '../../../components/EmptyState';
 import StatusTag from '../../../components/StatusTag';
 import { DOCUMENT_STATUS_COLOR, DOCUMENT_STATUS_LABEL } from '../../../constants';
 
 interface DocumentsTableProps {
-  items: KnowledgeDocument[];
+  items: Document[];
   loading: boolean;
   onRefresh: () => void;
 }
@@ -26,13 +26,13 @@ export default function DocumentsTable({ items, loading, onRefresh }: DocumentsT
         </Space>
       }
     >
-      <Table<KnowledgeDocument>
+      <Table<Document>
         rowKey="id"
         loading={loading}
         dataSource={items}
         scroll={{ x: 1200 }}
         locale={{
-          emptyText: <EmptyState description="暂无文档，从上方导入飞书 Docx 开始" />,
+          emptyText: <EmptyState description="暂无文档，从上方导入飞书文档开始" />,
         }}
         columns={[
           {
@@ -54,7 +54,7 @@ export default function DocumentsTable({ items, loading, onRefresh }: DocumentsT
             render: (value) => <Tag bordered={false}>{value}</Tag>,
           },
           {
-            title: 'Docx Token',
+            title: '文档 Token',
             dataIndex: 'sourceDocId',
             width: 200,
             ellipsis: true,

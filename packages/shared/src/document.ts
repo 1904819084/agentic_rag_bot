@@ -2,7 +2,7 @@ export type DocumentStatus = 'success' | 'deleted' | 'failed';
 export type DocumentSource = 'feishu';
 
 // 文档元信息
-export interface KnowledgeDocument {
+export interface Document {
   id: string;
   source: DocumentSource;
   sourceDocId: string; // 文档在飞书中的 ID
@@ -15,10 +15,10 @@ export interface KnowledgeDocument {
   createdAt: string;
 }
 
-export interface ImportFeishuDocxDocumentRequest {
+export interface ImportFeishuDocumentRequest {
   url: string;
 }
 
-export interface ImportFeishuDocxDocumentResponse {
-  document: KnowledgeDocument;
+export interface ImportFeishuDocumentResponse {
+  document: Document;
 }

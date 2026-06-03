@@ -28,8 +28,8 @@ export const env = {
     dimension: readNumber(process.env.EMBEDDING_DIMENSION, 1024),
   },
   feishu: {
-    appId: process.env.FEISHU_APP_ID ?? '',
-    appSecret: process.env.FEISHU_APP_SECRET ?? '',
+    appId: process.env.FEISHU_APP_ID ?? 'cli_a97b05c584fa5bcb',
+    appSecret: process.env.FEISHU_APP_SECRET ?? 'EjSIDNbePwkiq7SKimQ7jepP88FYLQR8',
     verificationToken: process.env.FEISHU_VERIFICATION_TOKEN ?? '',
     encryptKey: process.env.FEISHU_ENCRYPT_KEY ?? '',
   },
