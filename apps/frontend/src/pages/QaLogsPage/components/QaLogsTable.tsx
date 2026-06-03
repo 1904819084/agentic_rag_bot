@@ -1,17 +1,10 @@
 import type { QaLog } from '@rag/shared';
 import { Card, Space, Table, Tag, Typography } from 'antd';
 import EmptyState from '../../../components/EmptyState';
-import { LATENCY_THRESHOLDS_MS } from '../../../constants';
 
 interface QaLogsTableProps {
   items: QaLog[];
   loading: boolean;
-}
-
-function getLatencyColor(value: number): string | undefined {
-  if (value > LATENCY_THRESHOLDS_MS.error) return 'error';
-  if (value > LATENCY_THRESHOLDS_MS.warning) return 'warning';
-  return undefined;
 }
 
 export default function QaLogsTable({ items, loading }: QaLogsTableProps) {
@@ -67,17 +60,6 @@ export default function QaLogsTable({ items, loading }: QaLogsTableProps) {
               <Space size={4}>
                 <span className="mono">{value.length}</span>
               </Space>
-            ),
-          },
-          {
-            title: '耗时',
-            dataIndex: 'latencyMs',
-            width: 100,
-            align: 'right',
-            render: (value: number) => (
-              <Tag color={getLatencyColor(value)} bordered={false}>
-                <span className="mono">{value}ms</span>
-              </Tag>
             ),
           },
           {

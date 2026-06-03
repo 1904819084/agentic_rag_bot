@@ -15,14 +15,12 @@ export default class QaService {
   ) {}
 
   public async ask(payload: AskQuestionRequest): Promise<AskQuestionResponse> {
-    const startedAt = Date.now();
     const channel: QaChannel = payload.channel ?? 'web';
     const result = await this.ragGraphService.answer({
       question: payload.question,
       userId: payload.userId,
       channel,
     });
-    const latencyMs = Date.now() - startedAt;
     const qaLogId = createId('qa');
 
     await this.qaLogRepository.createLog({
@@ -32,7 +30,6 @@ export default class QaService {
       channel,
       userId: payload.userId,
       citations: result.citations ?? [],
-      latencyMs,
     });
 
     return {
@@ -44,7 +41,6 @@ export default class QaService {
       citations: result.citations ?? [],
       contexts: result.contexts ?? [],
       qaLogId,
-      latencyMs,
     };
   }
 

@@ -28,12 +28,7 @@ function dedupeContexts(contexts: RetrievedContext[]) {
 function formatStepContexts(contexts: RetrievedContext[]) {
   return contexts
     .map((context, index) =>
-      [
-        `[资料 ${index + 1}]`,
-        `标题：${context.title}`,
-        context.sectionPath?.length ? `章节：${context.sectionPath.join(' > ')}` : undefined,
-        `内容：${context.content}`,
-      ]
+      [`[资料 ${index + 1}]`, `标题：${context.title}`, `内容：${context.content}`]
         .filter(Boolean)
         .join('\n'),
     )

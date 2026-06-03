@@ -16,21 +16,16 @@ function createIdPart(value: string) {
   );
 }
 
-function splitIntoSections(title: string, content: string) {
+// 按标题分割为父块内容
+function splitIntoParentContents(content: string) {
   const lines = normalizeText(content).split('\n');
-  const sections: Array<{ title: string; sectionPath: string[]; content: string }> = [];
-  let currentTitle = title;
-  let currentPath = [title];
+  const parents: string[] = [];
   let buffer: string[] = [];
 
   function flush() {
     const text = buffer.join('\n').trim();
     if (text) {
-      sections.push({
-        title: currentTitle,
-        sectionPath: currentPath,
-        content: text,
-      });
+      parents.push(text);
     }
     buffer = [];
   }
@@ -39,23 +34,21 @@ function splitIntoSections(title: string, content: string) {
     const heading = /^(#{1,6})\s+(.+?)\s*$/.exec(line);
     if (heading) {
       flush();
-      currentTitle = heading[2].trim();
-      currentPath = [currentTitle];
-      continue;
     }
     buffer.push(line);
   }
 
   flush();
 
-  if (!sections.length && content.trim()) {
-    return [{ title, sectionPath: [title], content: normalizeText(content) }];
+  if (!parents.length && content.trim()) {
+    return [normalizeText(content)];
   }
 
-  return sections;
+  return parents;
 }
 
-function splitLongText(content: string, maxChars: number, overlapChars: number) {
+// 按段落分割为子块内容
+function splitIntoChildContents(content: string, maxChars: number, overlapChars: number) {
   if (content.length <= maxChars) {
     return [content];
   }
@@ -88,38 +81,31 @@ function splitLongText(content: string, maxChars: number, overlapChars: number) 
   return chunks;
 }
 
+// 把文档分割为父块和子块
 export function chunkPlainText(input: ChunkPlainTextInput) {
   const childMaxChars = input.childMaxChars ?? DEFAULT_CHILD_MAX_CHARS;
   const childOverlapChars = input.childOverlapChars ?? DEFAULT_CHILD_OVERLAP_CHARS;
-  const sections = splitIntoSections(input.title, input.content);
+  const parentContents = splitIntoParentContents(input.content);
   const parents: ParentChunk[] = [];
   const children: ChildChunk[] = [];
 
-  sections.forEach((section, sectionIndex) => {
-    const parentId = `${input.docId}_p_${sectionIndex}_${createIdPart(section.title)}`;
+  parentContents.forEach((parentContent, parentIndex) => {
+    const parentId = `${input.docId}_p_${parentIndex}_${createIdPart(parentContent)}`;
     const parent: ParentChunk = {
       id: parentId,
       docId: input.docId,
-      title: section.title,
-      sectionPath: section.sectionPath,
-      content: section.content,
+      content: parentContent,
+      createdAt: new Date().toISOString(),
     };
     parents.push(parent);
 
-    splitLongText(section.content, childMaxChars, childOverlapChars).forEach(
+    splitIntoChildContents(parentContent, childMaxChars, childOverlapChars).forEach(
       (childContent, childIndex) => {
         children.push({
           id: `${parentId}_c_${childIndex}`,
           parentId,
           docId: input.docId,
-          title: section.title,
-          sectionPath: section.sectionPath,
           content: childContent,
-          contentForEmbedding: [
-            `文档：${input.title}`,
-            `章节：${section.sectionPath.join(' > ')}`,
-            childContent,
-          ].join('\n'),
         });
       },
     );

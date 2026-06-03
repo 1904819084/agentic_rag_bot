@@ -1,4 +1,3 @@
-
 import type { Citation, QueryPlanDag, QueryPlanStepResult, RetrievedContext } from '@rag/shared';
 
 // ---------- RAG Graph ----------
@@ -35,9 +34,8 @@ export interface ChunkPlainTextInput {
 export interface ParentChunk {
   id: string;
   docId: string;
-  title: string;
-  sectionPath: string[];
   content: string;
+  createdAt?: string;
 }
 
 // 子块
@@ -45,10 +43,8 @@ export interface ChildChunk {
   id: string;
   parentId: string;
   docId: string;
-  title: string;
-  sectionPath: string[];
   content: string;
-  contentForEmbedding: string;
+  createdAt?: string;
 }
 
 // ---------- Retrieval ----------
@@ -72,7 +68,7 @@ export interface FeishuMessageEvent {
 
 export interface FeishuDocxContent {
   sourceDocId: string;
-  url: string;
+  sourceUrl: string;
   title: string;
   content: string;
 }

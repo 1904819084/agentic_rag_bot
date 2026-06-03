@@ -53,8 +53,7 @@ export function rerankByQueryOverlap(
 
   return contexts
     .map((context, index) => {
-      const haystack =
-        `${context.title} ${context.sectionPath?.join(' ') ?? ''} ${context.content}`.toLowerCase();
+      const haystack = `${context.title} ${context.content}`.toLowerCase();
       const overlap = queryTokens.reduce(
         (score, token) => score + (haystack.includes(token.toLowerCase()) ? 1 : 0),
         0,

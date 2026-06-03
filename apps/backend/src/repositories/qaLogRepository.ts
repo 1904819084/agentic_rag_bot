@@ -12,8 +12,8 @@ export default class QaLogRepository {
 
     try {
       await this.postgres.query(
-        `INSERT INTO qa_logs (id, question, answer, channel, user_id, citations, latency_ms, created_at)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        `INSERT INTO qa_logs (id, question, answer, channel, user_id, citations, created_at)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
         [
           item.id,
           item.question,
@@ -21,7 +21,6 @@ export default class QaLogRepository {
           item.channel,
           item.userId ?? null,
           JSON.stringify(item.citations),
-          item.latencyMs,
           createdAt,
         ],
       );
@@ -41,10 +40,9 @@ export default class QaLogRepository {
         channel: QaChannel;
         user_id: string | null;
         citations: Citation[];
-        latency_ms: number;
         created_at: Date;
       }>(
-        `SELECT id, question, answer, channel, user_id, citations, latency_ms, created_at
+        `SELECT id, question, answer, channel, user_id, citations, created_at
          FROM qa_logs
          ORDER BY created_at DESC
          LIMIT 200`,
@@ -57,7 +55,6 @@ export default class QaLogRepository {
         channel: row.channel,
         userId: row.user_id ?? undefined,
         citations: row.citations ?? [],
-        latencyMs: row.latency_ms,
         createdAt: row.created_at.toISOString(),
       }));
     } catch {

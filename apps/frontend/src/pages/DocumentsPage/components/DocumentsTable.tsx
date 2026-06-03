@@ -39,8 +39,8 @@ export default function DocumentsTable({ items, loading, onRefresh }: DocumentsT
             title: '标题',
             dataIndex: 'title',
             render: (text, record) =>
-              record.url ? (
-                <a href={record.url} target="_blank" rel="noreferrer">
+              record.sourceUrl ? (
+                <a href={record.sourceUrl} target="_blank" rel="noreferrer">
                   {text}
                 </a>
               ) : (
@@ -97,8 +97,8 @@ export default function DocumentsTable({ items, loading, onRefresh }: DocumentsT
             ),
           },
           {
-            title: '同步时间',
-            dataIndex: 'syncedAt',
+            title: '创建时间',
+            dataIndex: 'createdAt',
             width: 180,
             render: (value) => (
               <span className="muted-text" style={{ fontSize: 12 }}>

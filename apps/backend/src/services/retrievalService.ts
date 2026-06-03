@@ -38,9 +38,9 @@ export default class RetrievalService {
     );
   }
 
-  private async searchKeyword(query: string, limit: number, options: RetrievalSearchOptions) {
+  private async searchKeyword(query: string, limit: number, _options: RetrievalSearchOptions) {
     try {
-      return await this.documentRepository.searchKeyword(query, limit, options);
+      return await this.documentRepository.searchKeyword(query, limit);
     } catch {
       return [];
     }
@@ -49,11 +49,11 @@ export default class RetrievalService {
   private async searchVector(
     query: string,
     limit: number,
-    options: RetrievalSearchOptions,
+    _options: RetrievalSearchOptions,
   ): Promise<RetrievedContext[]> {
     try {
       const vector = await this.embeddingService.embedQuery(query);
-      return await this.documentRepository.searchVector(vector, limit, options);
+      return await this.documentRepository.searchVector(vector, limit);
     } catch {
       return [];
     }

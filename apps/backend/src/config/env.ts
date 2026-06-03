@@ -12,7 +12,7 @@ export const env = {
   postgres: {
     host: process.env.POSTGRES_HOST ?? 'localhost',
     port: readNumber(process.env.POSTGRES_PORT, 5432),
-    database: process.env.POSTGRES_DB ?? 'rag',
+    database: process.env.POSTGRES_DB ?? 'agentic_rag',
     user: process.env.POSTGRES_USER ?? 'bytedance',
     password: process.env.POSTGRES_PASSWORD ?? '123456',
   },

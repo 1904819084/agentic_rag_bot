@@ -26,7 +26,7 @@ export default class FeishuDocxService {
 
     return {
       sourceDocId: parsed.docxToken,
-      url: parsed.url,
+      sourceUrl: parsed.url,
       title,
       content,
     };

@@ -1,27 +1,18 @@
-export type DocumentStatus = 'active' | 'deleted' | 'syncing' | 'failed';
-export type DocumentSource = 'feishu' | 'manual' | 'upload';
-export type KnowledgeDocumentType =
-  | 'prd'
-  | 'trd'
-  | 'review_notes'
-  | 'postmortem'
-  | 'action_items'
-  | 'other';
+export type DocumentStatus = 'success' | 'deleted' | 'failed';
+export type DocumentSource = 'feishu';
 
+// 文档元信息
 export interface KnowledgeDocument {
   id: string;
   source: DocumentSource;
-  sourceDocId: string;
-  documentType?: KnowledgeDocumentType;
-  projectKey?: string;
-  businessDomain?: string;
+  sourceDocId: string; // 文档在飞书中的 ID
   title: string;
-  url?: string;
+  sourceUrl?: string;
   status: DocumentStatus;
   parentChunkCount: number;
   childChunkCount: number;
   updatedAt?: string;
-  syncedAt?: string;
+  createdAt: string;
 }
 
 export interface ImportFeishuDocxDocumentRequest {

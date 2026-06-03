@@ -19,9 +19,7 @@ export interface Citation {
   sourceId: string;
   docId?: string;
   title: string;
-  sectionPath?: string[];
-  url?: string;
-  snippet?: string;
+  sourceUrl?: string;
   score?: number;
 }
 
@@ -30,10 +28,9 @@ export interface RetrievedContext {
   parentId?: string;
   docId?: string;
   title: string;
-  sectionPath?: string[];
   content: string;
   score?: number;
-  url?: string;
+  sourceUrl?: string;
 }
 
 export interface QueryPlanStep {
@@ -65,7 +62,6 @@ export interface AskQuestionResponse {
   citations: Citation[];
   contexts?: RetrievedContext[];
   qaLogId?: string;
-  latencyMs: number;
 }
 
 export interface QaLog {
@@ -75,6 +71,5 @@ export interface QaLog {
   channel: QaChannel;
   userId?: string;
   citations: Citation[];
-  latencyMs: number;
   createdAt: string;
 }

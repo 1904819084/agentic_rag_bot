@@ -17,20 +17,14 @@ export const SAMPLE_QUESTIONS: readonly string[] = [
 
 /** 知识文档状态 → Antd Tag color */
 export const DOCUMENT_STATUS_COLOR: Record<string, string> = {
-  active: 'success',
+  success: 'success',
+  deleted: 'default',
   failed: 'error',
-  pending: 'processing',
 };
 
 /** 知识文档状态 → 中文标签 */
 export const DOCUMENT_STATUS_LABEL: Record<string, string> = {
-  active: '已索引',
-  failed: '失败',
-  pending: '待处理',
+  success: '文档导入知识库成功',
+  deleted: '文档已从知识库删除',
+  failed: '文档导入知识库失败',
 };
-
-/** 问答耗时阈值（毫秒），用于 QaLogsPage 的视觉警示 */
-export const LATENCY_THRESHOLDS_MS = {
-  warning: 3000,
-  error: 6000,
-} as const;

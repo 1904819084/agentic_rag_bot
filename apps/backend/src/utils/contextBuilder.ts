@@ -5,9 +5,7 @@ export function buildAnswerContext(contexts: RetrievedContext[]) {
     sourceId: `资料 ${index + 1}`,
     docId: context.docId,
     title: context.title,
-    sectionPath: context.sectionPath,
-    url: context.url,
-    snippet: context.content.slice(0, 220),
+    sourceUrl: context.sourceUrl,
     score: context.score,
   }));
 
@@ -16,8 +14,7 @@ export function buildAnswerContext(contexts: RetrievedContext[]) {
       return [
         `[资料 ${index + 1}]`,
         `标题：${context.title}`,
-        context.sectionPath?.length ? `章节：${context.sectionPath.join(' > ')}` : undefined,
-        context.url ? `来源：${context.url}` : undefined,
+        context.sourceUrl ? `来源：${context.sourceUrl}` : undefined,
         '内容：',
         context.content,
       ]
