@@ -2,13 +2,11 @@ import {
   CommentOutlined,
   FileTextOutlined,
   HistoryOutlined,
-  SyncOutlined,
 } from '@ant-design/icons';
 import type { ReactNode } from 'react';
 import ChatPage from '../pages/ChatPage';
 import DocumentsPage from '../pages/DocumentsPage';
 import QaLogsPage from '../pages/QaLogsPage';
-import SyncJobsPage from '../pages/SyncJobsPage';
 
 /**
  * 应用导航分组 key，仅用于 sider 中分组展示。
@@ -54,15 +52,6 @@ export const ROUTES: AppRoute[] = [
     icon: <FileTextOutlined />,
     group: '知识管理',
     element: <DocumentsPage />,
-  },
-  {
-    key: 'sync',
-    path: '/sync',
-    label: '同步任务',
-    description: '飞书云文档同步状态',
-    icon: <SyncOutlined />,
-    group: '知识管理',
-    element: <SyncJobsPage />,
   },
   {
     key: 'logs',

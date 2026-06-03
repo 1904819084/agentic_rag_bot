@@ -9,12 +9,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"src/**/*.ts\" --max-warnings=0",
     "lint:fix": "eslint \"src/**/*.ts\" --fix",
-    "dev:api": "PROCESS_ROLE=api GULUX_ENV=dev gulux dev --root . --config src/config --tsc",
-    "dev:worker": "PROCESS_ROLE=worker GULUX_ENV=dev gulux dev --root . --config src/config --tsc",
-    "dev:all": "PROCESS_ROLE=all GULUX_ENV=dev gulux dev --root . --config src/config --tsc",
-    "start:api": "PROCESS_ROLE=api NODE_ENV=production gulux start --root . --config src/config",
-    "start:worker": "PROCESS_ROLE=worker NODE_ENV=production gulux start --root . --config src/config",
-    "start:all": "PROCESS_ROLE=all NODE_ENV=production gulux start --root . --config src/config"
+    "dev:api": "GULUX_ENV=dev gulux dev --root . --config src/config --tsc",
+    "start:api": "NODE_ENV=production gulux start --root . --config src/config"
   },
   "dependencies": {
     "@gulux/cli": "^1.25.16",
@@ -23,9 +19,7 @@
     "@next-ai/fornax-sdk": "^2.4.5",
     "@rag/shared": "workspace:*",
     "@zilliz/milvus2-sdk-node": "^2.5.10",
-    "bullmq": "^5.77.6",
     "dotenv": "^16.6.1",
-    "ioredis": "^5.8.2",
     "pg": "^8.16.3",
     "typescript": "^5.9.3",
     "zod": "^3.25.76"

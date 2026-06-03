@@ -9,17 +9,12 @@ function readNumber(value: string | undefined, defaultValue: number) {
 
 export const env = {
   port: readNumber(process.env.PORT, 3001),
-  processRole: process.env.PROCESS_ROLE ?? 'api',
   postgres: {
     host: process.env.POSTGRES_HOST ?? 'localhost',
     port: readNumber(process.env.POSTGRES_PORT, 5432),
     database: process.env.POSTGRES_DB ?? 'rag',
     user: process.env.POSTGRES_USER ?? 'bytedance',
     password: process.env.POSTGRES_PASSWORD ?? '123456',
-  },
-  redis: {
-    host: process.env.REDIS_HOST ?? 'localhost',
-    port: readNumber(process.env.REDIS_PORT, 6379),
   },
   retrieval: {
     provider: process.env.RETRIEVAL_PROVIDER ?? 'hybrid',

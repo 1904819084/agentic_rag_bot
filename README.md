@@ -12,15 +12,14 @@
 - Workflow：LangGraph
 - Vector DB：Milvus
 - Metadata：PostgreSQL
-- Queue/Cache：Redis + BullMQ
 
 ## 目录结构
 
 ```text
 apps/frontend     React Web 前端
-apps/backend      Gulux API、RAG 编排、文档导入和同步任务
+apps/backend      Gulux API、RAG 编排、文档导入和检索服务
 packages/shared   前后端共享 TypeScript 类型
-infra             本地 PostgreSQL / Redis / Milvus docker compose
+infra             本地 PostgreSQL / Milvus docker compose
 .trae/document    系统设计文档
 ```
 
@@ -44,7 +43,7 @@ docker compose -f infra/docker-compose.yml up -d
 cp apps/backend/.env.example apps/backend/.env
 ```
 
-填写 Fornax、Feishu、PostgreSQL、Redis、Embedding 配置。导入飞书 Docx 链接需要 `FEISHU_APP_ID` 和 `FEISHU_APP_SECRET`。默认 `RETRIEVAL_PROVIDER=hybrid`，不会使用 Fornax Knowledge Retriever。`EMBEDDING_PROVIDER=hash` 可用于本地验证；生产应改为真实 embedding HTTP 服务。不要提交 `.env`。
+填写 Fornax、Feishu、PostgreSQL、Embedding 配置。导入飞书 Docx 链接需要 `FEISHU_APP_ID` 和 `FEISHU_APP_SECRET`。默认 `RETRIEVAL_PROVIDER=hybrid`，不会使用 Fornax Knowledge Retriever。`EMBEDDING_PROVIDER=hash` 可用于本地验证；生产应改为真实 embedding HTTP 服务。不要提交 `.env`。
 
 4. 构建共享类型：
 
@@ -71,7 +70,6 @@ pnpm lint
 pnpm build
 pnpm --filter @rag/shared check:dist
 pnpm --filter @rag/backend dev:api
-pnpm --filter @rag/backend dev:worker
 pnpm --filter @rag/frontend dev
 ```
 

@@ -1,31 +1,4 @@
-// 原始文本输入
-export interface ChunkPlainTextInput {
-  docId: string;
-  title: string;
-  content: string;
-  childMaxChars?: number;
-  childOverlapChars?: number;
-}
-
-// 父块
-export interface ParentChunk {
-  id: string;
-  docId: string;
-  title: string;
-  sectionPath: string[];
-  content: string;
-}
-
-// 子块
-export interface ChildChunk {
-  id: string;
-  parentId: string;
-  docId: string;
-  title: string;
-  sectionPath: string[];
-  content: string;
-  contentForEmbedding: string;
-}
+import type { ChildChunk, ChunkPlainTextInput, ParentChunk } from '../types';
 
 const DEFAULT_CHILD_MAX_CHARS = 1200;
 const DEFAULT_CHILD_OVERLAP_CHARS = 160;

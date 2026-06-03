@@ -14,20 +14,3 @@ export const RagGraphState = Annotation.Root({
   citations: Annotation<Citation[]>,
   answer: Annotation<string>,
 });
-
-export type RagGraphInput = {
-  question: string;
-  userId?: string;
-  channel: 'web' | 'feishu';
-};
-
-export type RagGraphOutput = RagGraphInput & {
-  rewrittenQuery?: string;
-  queryPlan: string[];
-  queryPlanDag?: QueryPlanDag;
-  stepResults: QueryPlanStepResult[];
-  contexts: RetrievedContext[];
-  formattedContexts: string;
-  citations: Citation[];
-  answer: string;
-};

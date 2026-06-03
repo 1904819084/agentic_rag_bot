@@ -3,13 +3,10 @@ import type { RetrievedContext } from '@rag/shared';
 import { env } from '../config/env';
 import { MilvusClientProvider } from '../infra/milvusClient';
 import DocumentRepository from '../repositories/documentRepository';
+import type { RetrievalSearchOptions } from '../types';
 import { combineHybridResults, rerankByQueryOverlap } from '../utils/retrievalRanking';
 import EmbeddingService from './embeddingService';
 import MilvusIndexService from './milvusIndexService';
-
-export type RetrievalSearchOptions = {
-  userId?: string;
-};
 
 @Injectable()
 export default class RetrievalService {

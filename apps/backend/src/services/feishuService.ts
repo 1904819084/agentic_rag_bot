@@ -1,11 +1,6 @@
 import { Injectable } from '@gulux/gulux';
 import { env } from '../config/env';
-
-export interface FeishuMessageEvent {
-  messageId?: string;
-  userId?: string;
-  text?: string;
-}
+import type { FeishuMessageEvent } from '../types';
 
 @Injectable()
 export default class FeishuService {

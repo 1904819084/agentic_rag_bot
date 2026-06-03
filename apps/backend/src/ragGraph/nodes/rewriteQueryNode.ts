@@ -1,5 +1,5 @@
 import { fornaxExecute } from '../../fornax/llm';
-import type { RagGraphOutput } from '../ragGraphState';
+import type { RagGraphOutput } from '../../types';
 
 const PROMPT_KEY = 'demo.agentic_rag_rewrite.prompt';
 

@@ -1,10 +1,7 @@
 import type { QueryPlanStepResult, RetrievedContext } from '@rag/shared';
 import { fornaxExecute } from '../../fornax/llm';
-import type { RagGraphOutput } from '../ragGraphState';
+import type { RagGraphOutput, RetrievalSearchOptions } from '../../types';
 
-type RetrievalSearchOptions = {
-  userId?: string;
-};
 type SearchService = {
   search(query: string, options?: RetrievalSearchOptions): Promise<RetrievedContext[]>;
 };

@@ -1,6 +1,6 @@
 import { fornaxExecute } from '../../fornax/llm';
+import type { RagGraphOutput } from '../../types';
 import { buildQueryPlanDag, parseQueryDecompositionJson } from '../queryPlanDag';
-import type { RagGraphOutput } from '../ragGraphState';
 
 const PROMPT_KEY = 'demo.agentic_rag_planing.prompt';
 

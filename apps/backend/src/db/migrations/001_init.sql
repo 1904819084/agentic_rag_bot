@@ -58,15 +58,3 @@ CREATE TABLE IF NOT EXISTS qa_logs (
   latency_ms INT NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
-
-CREATE TABLE IF NOT EXISTS sync_jobs (
-  id TEXT PRIMARY KEY,
-  type TEXT NOT NULL,
-  status TEXT NOT NULL,
-  message TEXT,
-  document_count INT NOT NULL DEFAULT 0,
-  chunk_count INT NOT NULL DEFAULT 0,
-  started_at TIMESTAMPTZ,
-  finished_at TIMESTAMPTZ,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);

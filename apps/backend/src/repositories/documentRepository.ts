@@ -1,6 +1,6 @@
 import { Injectable } from '@gulux/gulux';
 import type { KnowledgeDocument, KnowledgeDocumentType, RetrievedContext } from '@rag/shared';
-import type { ChildChunk, ParentChunk } from '../utils/chunking';
+import type { ChildChunk, ParentChunk } from '../types';
 import { PostgresRepository } from './postgres';
 
 @Injectable()

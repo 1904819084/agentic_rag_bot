@@ -2,7 +2,7 @@ import { Injectable } from '@gulux/gulux';
 import { DataType } from '@zilliz/milvus2-sdk-node';
 import { env } from '../config/env';
 import { MilvusClientProvider } from '../infra/milvusClient';
-import type { ChildChunkDraft } from '../utils/chunking';
+import type { ChildChunk } from '../types';
 
 @Injectable()
 export default class MilvusIndexService {
@@ -51,7 +51,7 @@ export default class MilvusIndexService {
     this.initialized = true;
   }
 
-  public async upsertChunks(chunks: ChildChunkDraft[], vectors: number[][], url?: string) {
+  public async upsertChunks(chunks: ChildChunk[], vectors: number[][], url?: string) {
     if (!chunks.length) {
       return;
     }

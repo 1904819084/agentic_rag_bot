@@ -1,18 +1,12 @@
 import { Injectable } from '@gulux/gulux';
 import { env } from '../config/env';
+import type { FeishuDocxContent } from '../types';
 import { AppError } from '../utils/appError';
 import { parseFeishuDocxUrl } from '../utils/feishuDocxUrl';
 
 const FEISHU_DOCX_RAW_CONTENT_PATH = '/open-apis/docx/v1/documents';
 const FEISHU_TENANT_ACCESS_TOKEN_URL =
   'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal';
-
-export interface FeishuDocxContent {
-  sourceDocId: string;
-  url: string;
-  title: string;
-  content: string;
-}
 
 @Injectable()
 export default class FeishuDocxService {

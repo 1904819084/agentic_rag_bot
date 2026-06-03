@@ -1,7 +1,7 @@
 import { Injectable } from '@gulux/gulux';
 import type { QaChannel } from '@rag/shared';
 import { createRagAnswerGraph } from '../ragGraph/createRagAnswerGraph';
-import type { RagGraphOutput } from '../ragGraph/ragGraphState';
+import type { RagGraphOutput } from '../types';
 import RetrievalService from './retrievalService';
 
 @Injectable()
