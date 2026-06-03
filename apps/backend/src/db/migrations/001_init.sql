@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS vector;
+
 CREATE TABLE IF NOT EXISTS documents (
   id TEXT PRIMARY KEY,
   source TEXT NOT NULL,
@@ -41,12 +43,18 @@ CREATE TABLE IF NOT EXISTS child_chunks (
   content TEXT NOT NULL,
   content_for_embedding TEXT NOT NULL,
   url TEXT,
-  embedding_id TEXT,
+  embedding vector(1024),
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+ALTER TABLE child_chunks ADD COLUMN IF NOT EXISTS embedding vector(1024);
+ALTER TABLE child_chunks DROP COLUMN IF EXISTS embedding_id;
+
 CREATE INDEX IF NOT EXISTS idx_child_chunks_content_fts
   ON child_chunks USING GIN (to_tsvector('simple', coalesce(title, '') || ' ' || coalesce(content_for_embedding, '')));
+
+CREATE INDEX IF NOT EXISTS idx_child_chunks_embedding_hnsw
+  ON child_chunks USING hnsw (embedding vector_cosine_ops);
 
 CREATE TABLE IF NOT EXISTS qa_logs (
   id TEXT PRIMARY KEY,

@@ -48,7 +48,7 @@ export function createGenerateAnswerNode() {
     return {
       answer: hasContexts
         ? '已检索到相关资料，但当前 Fornax 大模型未配置或调用失败，暂时无法生成最终答案。请检查 Fornax 环境变量和 Prompt 发布状态。'
-        : '当前知识库暂未检索到可用资料。请先上传 PRD/TRD/评审纪要，或检查 Milvus/Embedding/关键词索引配置。',
+        : '当前知识库暂未检索到可用资料。请先上传 PRD/TRD，或检查 pgvector/Embedding/关键词索引配置。',
     };
   };
 }

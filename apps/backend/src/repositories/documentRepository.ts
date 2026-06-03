@@ -1,7 +1,12 @@
 import { Injectable } from '@gulux/gulux';
 import type { KnowledgeDocument, KnowledgeDocumentType, RetrievedContext } from '@rag/shared';
+import pgvector from 'pgvector';
 import type { ChildChunk, ParentChunk } from '../types';
 import { PostgresRepository } from './postgres';
+
+type ChildChunkWithEmbedding = ChildChunk & {
+  embedding?: number[];
+};
 
 @Injectable()
 export default class DocumentRepository {
@@ -14,13 +19,12 @@ export default class DocumentRepository {
   }: {
     document: KnowledgeDocument & { metadata?: Record<string, unknown> };
     parents: ParentChunk[];
-    children: ChildChunk[];
+    children: ChildChunkWithEmbedding[];
   }) {
-    await this.postgres.query('BEGIN');
-    try {
-      await this.postgres.query('DELETE FROM child_chunks WHERE doc_id = $1', [document.id]);
-      await this.postgres.query('DELETE FROM parent_chunks WHERE doc_id = $1', [document.id]);
-      await this.postgres.query(
+    await this.postgres.transaction(async (client) => {
+      await client.query('DELETE FROM child_chunks WHERE doc_id = $1', [document.id]);
+      await client.query('DELETE FROM parent_chunks WHERE doc_id = $1', [document.id]);
+      await client.query(
         `INSERT INTO documents (
           id, source, source_doc_id, document_type, project_key, business_domain, title, url, status,
           parent_chunk_count, child_chunk_count, metadata, updated_at, synced_at
@@ -59,7 +63,7 @@ export default class DocumentRepository {
       );
 
       for (const parent of parents) {
-        await this.postgres.query(
+        await client.query(
           `INSERT INTO parent_chunks (id, doc_id, title, section_path, content, url)
            VALUES ($1, $2, $3, $4, $5, $6)`,
           [
@@ -74,8 +78,8 @@ export default class DocumentRepository {
       }
 
       for (const child of children) {
-        await this.postgres.query(
-          `INSERT INTO child_chunks (id, parent_id, doc_id, title, section_path, content, content_for_embedding, url, embedding_id)
+        await client.query(
+          `INSERT INTO child_chunks (id, parent_id, doc_id, title, section_path, content, content_for_embedding, url, embedding)
            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
           [
             child.id,
@@ -86,16 +90,11 @@ export default class DocumentRepository {
             child.content,
             child.contentForEmbedding,
             document.url ?? null,
-            child.id,
+            child.embedding ? pgvector.toSql(child.embedding) : null,
           ],
         );
       }
-
-      await this.postgres.query('COMMIT');
-    } catch (error) {
-      await this.postgres.query('ROLLBACK');
-      throw error;
-    }
+    });
   }
 
   public async listDocuments(): Promise<KnowledgeDocument[]> {
@@ -183,6 +182,48 @@ export default class DocumentRepository {
       content: row.content,
       url: row.url ?? undefined,
       score: row.score,
+    }));
+  }
+
+  public async searchVector(
+    vector: number[],
+    limit: number,
+    options: { userId?: string } = {},
+  ): Promise<RetrievedContext[]> {
+    const result = await this.postgres.query<{
+      id: string;
+      parent_id: string;
+      doc_id: string;
+      title: string;
+      section_path: string[];
+      content: string;
+      url: string | null;
+      distance: number;
+    }>(
+      `SELECT child_chunks.id, child_chunks.parent_id, child_chunks.doc_id, child_chunks.title, child_chunks.section_path, child_chunks.content, child_chunks.url,
+              child_chunks.embedding <=> $1 AS distance
+       FROM child_chunks
+       JOIN documents ON documents.id = child_chunks.doc_id
+       WHERE child_chunks.embedding IS NOT NULL
+       AND (
+          $3::text IS NULL
+          OR documents.metadata -> 'permission_users' IS NULL
+          OR documents.metadata -> 'permission_users' ? $3
+       )
+       ORDER BY child_chunks.embedding <=> $1
+       LIMIT $2`,
+      [pgvector.toSql(vector), limit, options.userId ?? null],
+    );
+
+    return result.rows.map((row) => ({
+      id: row.id,
+      parentId: row.parent_id,
+      docId: row.doc_id,
+      title: row.title,
+      sectionPath: row.section_path,
+      content: row.content,
+      url: row.url ?? undefined,
+      score: 1 - row.distance,
     }));
   }
 }

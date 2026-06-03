@@ -56,9 +56,9 @@ export default class EmbeddingService {
     }
 
     const vector = embedding.map(Number);
-    if (vector.length !== env.milvus.dimension) {
+    if (vector.length !== env.embedding.dimension) {
       throw new Error(
-        `Embedding dimension mismatch: expected ${env.milvus.dimension}, got ${vector.length}`,
+        `Embedding dimension mismatch: expected ${env.embedding.dimension}, got ${vector.length}`,
       );
     }
 
@@ -66,12 +66,12 @@ export default class EmbeddingService {
   }
 
   private embedWithHash(text: string): number[] {
-    const vector = new Array(env.milvus.dimension).fill(0);
+    const vector = new Array(env.embedding.dimension).fill(0);
     const tokens = text.toLowerCase().match(/[\p{L}\p{N}_-]+/gu) ?? [];
 
     for (const token of tokens) {
       const digest = crypto.createHash('sha256').update(token).digest();
-      const index = digest.readUInt32BE(0) % env.milvus.dimension;
+      const index = digest.readUInt32BE(0) % env.embedding.dimension;
       const sign = digest[4] % 2 === 0 ? 1 : -1;
       vector[index] += sign;
     }

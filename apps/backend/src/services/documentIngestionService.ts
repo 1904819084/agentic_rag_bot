@@ -8,7 +8,6 @@ import DocumentRepository from '../repositories/documentRepository';
 import { chunkPlainText } from '../utils/chunking';
 import EmbeddingService from './embeddingService';
 import FeishuDocxService from './feishuDocxService';
-import MilvusIndexService from './milvusIndexService';
 
 function createId(prefix: string) {
   return `${prefix}_${Date.now()}_${Math.random().toString(16).slice(2)}`;
@@ -19,7 +18,6 @@ export default class DocumentIngestionService {
   public constructor(
     private readonly documentRepository: DocumentRepository,
     private readonly embeddingService: EmbeddingService,
-    private readonly milvusIndexService: MilvusIndexService,
     private readonly feishuDocxService: FeishuDocxService,
   ) {}
 
@@ -50,21 +48,19 @@ export default class DocumentIngestionService {
         ingestion: 'feishu_docx_url',
       },
     };
+    const vectors = await this.embeddingService.embedTexts(
+      chunks.children.map((chunk) => chunk.contentForEmbedding),
+    );
+    const children = chunks.children.map((chunk, index) => ({
+      ...chunk,
+      embedding: vectors[index],
+    }));
 
     await this.documentRepository.upsertDocumentWithChunks({
       document,
       parents: chunks.parents,
-      children: chunks.children,
+      children,
     });
-
-    try {
-      const vectors = await this.embeddingService.embedTexts(
-        chunks.children.map((chunk) => chunk.contentForEmbedding),
-      );
-      await this.milvusIndexService.upsertChunks(chunks.children, vectors, docx.url);
-    } catch {
-      // Keyword retrieval remains available even when vector indexing is not configured.
-    }
 
     return { document };
   }

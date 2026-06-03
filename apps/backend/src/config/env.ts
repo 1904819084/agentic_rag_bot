@@ -25,11 +25,7 @@ export const env = {
     endpoint: process.env.EMBEDDING_ENDPOINT ?? '',
     apiKey: process.env.EMBEDDING_API_KEY ?? '',
     model: process.env.EMBEDDING_MODEL ?? '',
-  },
-  milvus: {
-    address: process.env.MILVUS_ADDRESS ?? 'localhost:19530',
-    collection: process.env.MILVUS_COLLECTION ?? 'rag_child_chunks',
-    dimension: readNumber(process.env.MILVUS_DIMENSION, 1024),
+    dimension: readNumber(process.env.EMBEDDING_DIMENSION, 1024),
   },
   feishu: {
     appId: process.env.FEISHU_APP_ID ?? '',

@@ -20,7 +20,6 @@ export const DOCUMENT_STATUS_COLOR: Record<string, string> = {
   active: 'success',
   failed: 'error',
   pending: 'processing',
-  syncing: 'processing',
 };
 
 /** 知识文档状态 → 中文标签 */
@@ -28,23 +27,6 @@ export const DOCUMENT_STATUS_LABEL: Record<string, string> = {
   active: '已索引',
   failed: '失败',
   pending: '待处理',
-  syncing: '同步中',
-};
-
-/** 同步任务状态 → Antd Tag color */
-export const SYNC_STATUS_COLOR: Record<string, string> = {
-  completed: 'success',
-  failed: 'error',
-  running: 'processing',
-  pending: 'default',
-};
-
-/** 同步任务状态 → 中文标签 */
-export const SYNC_STATUS_LABEL: Record<string, string> = {
-  completed: '已完成',
-  failed: '失败',
-  running: '运行中',
-  pending: '排队中',
 };
 
 /** 问答耗时阈值（毫秒），用于 QaLogsPage 的视觉警示 */

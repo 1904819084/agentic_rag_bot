@@ -8,9 +8,9 @@
 - Web：React + TypeScript + Vite + Ant Design + ahooks + axios
 - Backend：Gulux + TypeScript + Node.js
 - LLM：Fornax SDK / PTaaS + Prompt Hub
-- Retrieval：自建混合检索，PostgreSQL 关键词检索 + Milvus 向量检索 + RRF 融合
+- Retrieval：自建混合检索，PostgreSQL 关键词检索 + pgvector 向量检索 + RRF 融合
 - Workflow：LangGraph
-- Vector DB：Milvus
+- Vector DB：PostgreSQL + pgvector
 - Metadata：PostgreSQL
 
 ## 目录结构
@@ -19,7 +19,7 @@
 apps/frontend     React Web 前端
 apps/backend      Gulux API、RAG 编排、文档导入和检索服务
 packages/shared   前后端共享 TypeScript 类型
-infra             本地 PostgreSQL / Milvus docker compose
+infra             本地 PostgreSQL + pgvector docker compose
 .trae/document    系统设计文档
 ```
 
@@ -43,7 +43,7 @@ docker compose -f infra/docker-compose.yml up -d
 cp apps/backend/.env.example apps/backend/.env
 ```
 
-填写 Fornax、Feishu、PostgreSQL、Embedding 配置。导入飞书 Docx 链接需要 `FEISHU_APP_ID` 和 `FEISHU_APP_SECRET`。默认 `RETRIEVAL_PROVIDER=hybrid`，不会使用 Fornax Knowledge Retriever。`EMBEDDING_PROVIDER=hash` 可用于本地验证；生产应改为真实 embedding HTTP 服务。不要提交 `.env`。
+填写 Fornax、Feishu、PostgreSQL、Embedding 配置。导入飞书 Docx 链接需要 `FEISHU_APP_ID` 和 `FEISHU_APP_SECRET`。默认 `RETRIEVAL_PROVIDER=hybrid`，使用 PostgreSQL 关键词检索和 pgvector 向量检索融合。`EMBEDDING_PROVIDER=hash` 可用于本地验证；生产应改为真实 embedding HTTP 服务。不要提交 `.env`。
 
 4. 构建共享类型：
 
