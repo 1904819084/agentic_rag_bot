@@ -1,27 +1,66 @@
-# 基于Agentic RAG 的业务研发知识库问答助手
+# 基于 Agentic RAG 的业务研发知识库问答助手
 
-面向研发人员的 PRD/TRD 知识库问答系统，支持通过飞书云文档 Docx 链接导入需求文档、技术方案，帮助追溯业务背景、历史技术决策和行动点。
+面向研发人员的 PRD/TRD 知识库问答系统。系统支持从飞书云文档 Docx 链接导入研发文档，基于多轮会话、用户记忆、查询改写、查询计划 DAG、混合检索和答案校验，帮助追溯业务背景、历史技术决策和行动点。
+
+## 当前能力
+
+- 飞书 Docx 文档导入：解析飞书文档链接，切分 parent / child chunks，写入 PostgreSQL 和 pgvector。
+- 混合检索：支持 keyword、vector、hybrid 三种检索模式，默认 hybrid，并用 RRF 和 query overlap 做结果融合与重排。
+- Agentic RAG 问答：LangGraph 编排 `rewrite_query -> plan_query -> retrieve -> build_context -> generate_answer -> verify_answer`。
+- 多轮会话：前端支持会话侧栏、会话选择、新建会话、历史消息加载；用户没有会话时直接提问会由 `/chat/ask` 自动创建会话。
+- 会话上下文：后端会读取会话摘要和最近消息，作为后续问题的上下文。
+- 用户记忆：从用户问题中提取显式偏好/约束，后续按 `userId` 注入问答上下文；记忆只影响回答风格和偏好，不作为知识库事实证据。
+- 答案可解释性：回答返回引用、查询计划 DAG、分步检索结果和答案支撑性校验信息，前端在消息中展示计划步骤。
+- 飞书事件入口：支持飞书 URL verification challenge 和文本消息事件回复。
 
 ## 技术栈
 
 - Monorepo：pnpm workspace
-- Web：React + TypeScript + Vite + Ant Design + ahooks + axios
+- Web：React 18 + TypeScript + Vite + Ant Design + ahooks + axios
 - Backend：Gulux + TypeScript + Node.js
 - LLM：Fornax SDK / PTaaS + Prompt Hub
-- Retrieval：自建混合检索，PostgreSQL 关键词检索 + pgvector 向量检索 + RRF 融合
 - Workflow：LangGraph
-- Vector DB：PostgreSQL + pgvector
-- Metadata：PostgreSQL
+- Retrieval：PostgreSQL 全文检索 + pgvector 向量检索 + RRF 融合
+- Storage：PostgreSQL + pgvector
 
 ## 目录结构
 
 ```text
-apps/frontend     React Web 前端
-apps/backend      Gulux API、RAG 编排、文档导入和检索服务
-packages/shared   前后端共享 TypeScript 类型
-infra             本地 PostgreSQL + pgvector docker compose
-.trae/document    系统设计文档
+apps/frontend
+  React Web 前端，包含研发问答页、文档管理页、会话侧栏和消息展示
+
+apps/backend
+  Gulux API、RAG Graph、文档导入、检索、会话和用户记忆服务
+
+packages/shared
+  前后端共享 TypeScript 类型，包括文档、会话、问答、引用和查询计划类型
+
+infra
+  本地 PostgreSQL + pgvector docker compose
+
+.trae/document
+  设计文档
 ```
+
+## 核心链路
+
+### 文档入库
+
+1. 前端在文档页提交飞书 Docx 链接。
+2. 后端 `POST /documents/import/feishu-docx` 拉取飞书文档内容。
+3. `DocumentIngestionService` 将正文切分为 parent / child chunks。
+4. `EmbeddingService` 为 child chunks 生成向量。
+5. `DocumentRepository` 写入 `documents`、`parent_chunks`、`child_chunks`。
+
+### 问答
+
+1. 前端调用 `POST /chat/ask`，传入 `question`、可选 `conversationId` 和 `userId`。
+2. `ConversationService.prepareConversation` 准备会话：没有 `conversationId` 时自动创建会话，标题使用首问前 32 个字符。
+3. 后端读取会话摘要、最近消息和用户记忆。
+4. `RagGraphService` 执行 LangGraph：
+   `rewrite_query -> plan_query -> retrieve -> build_context -> generate_answer -> verify_answer`。
+5. 后端追加用户消息和助手消息，更新会话摘要，并从问题中提取用户记忆。
+6. 前端保存返回的 `conversationId`，刷新会话列表和消息；新会话会即时出现在侧栏。
 
 ## 本地启动
 
@@ -43,15 +82,25 @@ docker compose -f infra/docker-compose.yml up -d
 cp apps/backend/.env.example apps/backend/.env
 ```
 
-填写 Fornax、Feishu、PostgreSQL、Embedding 配置。导入飞书 Docx 链接需要 `FEISHU_APP_ID` 和 `FEISHU_APP_SECRET`。默认 `RETRIEVAL_PROVIDER=hybrid`，使用 PostgreSQL 关键词检索和 pgvector 向量检索融合。`EMBEDDING_PROVIDER=hash` 可用于本地验证；生产应改为真实 embedding HTTP 服务。不要提交 `.env`。
+填写 Fornax、Feishu、PostgreSQL、Embedding 配置。导入飞书 Docx 链接需要 `FEISHU_APP_ID` 和 `FEISHU_APP_SECRET`。飞书事件回调校验需要 `FEISHU_VERIFICATION_TOKEN`。
 
-4. 构建共享类型：
+本地默认配置：
+
+- `RETRIEVAL_PROVIDER=hybrid`
+- `RETRIEVAL_TOP_K=8`
+- `EMBEDDING_PROVIDER=hash`
+- `EMBEDDING_DIMENSION=1024`
+
+`hash` embedding 只适合本地验证；生产环境应配置真实 embedding HTTP 服务。不要提交 `.env`。
+
+4. 准备数据库表：
 
 ```bash
-pnpm --filter @rag/shared build
+psql "$DATABASE_URL" -f apps/backend/src/db/migrations/001_init.sql
+psql "$DATABASE_URL" -f apps/backend/src/db/migrations/002_multi_turn_qa.sql
 ```
 
-`@rag/shared` 的构建会先清理 `dist`，避免源码和构建产物漂移。
+如果没有 `DATABASE_URL`，按 `.env` 中的 PostgreSQL 配置连接本地库后执行这两个迁移文件。
 
 5. 启动开发服务：
 
@@ -62,12 +111,21 @@ pnpm dev
 - Web: http://localhost:5173
 - Backend API: http://localhost:3001/api
 
+也可以分别启动：
+
+```bash
+pnpm dev:backend
+pnpm dev:frontend
+```
+
 ## 常用命令
 
 ```bash
 pnpm typecheck
 pnpm lint
 pnpm build
+pnpm format:check
+pnpm --filter @rag/shared build
 pnpm --filter @rag/shared check:dist
 pnpm --filter @rag/backend dev:api
 pnpm --filter @rag/frontend dev
@@ -75,10 +133,79 @@ pnpm --filter @rag/frontend dev
 
 说明：
 
+- `pnpm dev` 会先构建 `@rag/shared`，再同时启动 backend 和 frontend。
 - `pnpm build` 会依次构建 shared、检查 shared `dist` 是否与 `src` 对齐、构建 backend 和 frontend。
-- 当前根目录没有 `pnpm test` 脚本；后端如果需要恢复单测入口，应在 `apps/backend/package.json` 中补回 test script。
+- 根目录当前没有统一 `pnpm test` 脚本。
+- 后端测试文件位于 `apps/backend/test`，使用 Node test runner。
+- 前端新增的会话列表纯函数测试位于 `apps/frontend/src/pages/ChatPage/conversationList.test.ts`。
 
-## Feishu 回调验证
+可按需运行单个测试，例如：
+
+```bash
+pnpm --filter @rag/backend exec tsx --test test/conversationService.test.ts
+pnpm --filter @rag/backend exec tsx --test ../../apps/frontend/src/pages/ChatPage/conversationList.test.ts
+```
+
+## API 概览
+
+后端接口默认挂载在 `/api` 下。
+
+### Chat
+
+```http
+POST /api/chat/ask
+```
+
+请求：
+
+```json
+{
+  "question": "当时为什么没有采用方案 B？",
+  "conversationId": "conv_xxx",
+  "userId": "default-user"
+}
+```
+
+`conversationId` 可省略。省略时后端会自动创建会话，并在响应中返回新 `conversationId`。
+
+响应包含：
+
+- `conversationId`
+- `conversation`
+- `answer`
+- `citations`
+- `rewrittenQuery`
+- `queryPlanDag`
+- `stepResults`
+- `answerVerification`
+
+### Conversations
+
+```http
+GET /api/conversations?userId=default-user
+POST /api/conversations
+GET /api/conversations/:id/messages
+```
+
+`POST /api/conversations` 可用于手动创建空会话。用户直接提问时不需要先调用该接口。
+
+### Documents
+
+```http
+GET /api/documents
+POST /api/documents/import/feishu-docx
+GET /api/documents/:id
+```
+
+当前 `GET /api/documents/:id` 仍返回 501，文档详情页尚未实现。
+
+### Feishu
+
+```http
+POST /api/feishu/events
+```
+
+支持飞书 URL verification challenge：
 
 ```bash
 curl -X POST http://localhost:3001/api/feishu/events \
@@ -92,13 +219,29 @@ curl -X POST http://localhost:3001/api/feishu/events \
 { "challenge": "test_challenge" }
 ```
 
-## 后续扩展
+## 数据表
 
-轻量 MVP 中已预留以下扩展点：
+`001_init.sql` 创建文档和检索相关表：
 
-- 应用级 MinIO / S3：原始文档快照和附件
-- OCR / PDF 解析服务：图片、流程图、PDF 入库
-- 文件解析：当前首版支持飞书云文档 Docx 链接导入，后续可接 docx/pdf 文件解析
-- 真实 Embedding Provider：当前本地默认 hash embedding 仅用于开发验证，生产需要接真实 text-to-vector embedding provider
-- Web SSO / 权限系统
-- 飞书事件加密与签名完整校验
+- `documents`
+- `parent_chunks`
+- `child_chunks`
+
+`002_multi_turn_qa.sql` 创建多轮会话和用户记忆相关表：
+
+- `conversations`
+- `conversation_messages`
+- `user_memories`
+
+## 前端页面
+
+- `/chat`：研发问答。支持会话列表、自动建会话、历史消息加载、回答引用、查询计划和答案校验信息展示。
+- `/documents`：PRD / TRD 文档管理。支持查看文档列表和导入飞书 Docx 文档。
+
+## 注意事项
+
+- `EMBEDDING_DIMENSION` 必须与数据库 `child_chunks.embedding vector(1024)` 维度一致。
+- `RETRIEVAL_PROVIDER` 可选 `keyword`、`vector`、`hybrid`。
+- 当前用户身份由前端默认常量传入，尚未接入 SSO / 权限系统。
+- 飞书事件加密和签名完整校验已有配置位，但当前主要实现 token 校验和文本消息回复。
+- `apps/backend/output` 和前端 `dist` 是构建产物，不应作为源码逻辑修改入口。
