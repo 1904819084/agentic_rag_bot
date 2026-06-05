@@ -17,12 +17,105 @@
 // =============================================
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 380px;
+  grid-template-columns: 260px minmax(0, 1fr);
   gap: 16px;
+
+  @media (max-width: 1360px) {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
 
   @media (max-width: 1100px) {
     grid-template-columns: 1fr;
   }
+}
+
+.conversationPanel {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 152px);
+  min-height: 520px;
+  padding: 12px;
+  background: @color-surface;
+}
+
+.conversationHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid @color-border-soft;
+}
+
+.conversationHeading {
+  font-size: 14px;
+  font-weight: 700;
+  color: @color-text;
+}
+
+.conversationCount {
+  margin-top: 2px;
+  font-size: 12px;
+  color: @color-text-subtle;
+}
+
+.conversationActions {
+  display: flex;
+  gap: 6px;
+}
+
+.conversationList {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding-top: 10px;
+}
+
+.conversationItem {
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 10px;
+  text-align: left;
+  border: 1px solid transparent;
+  border-radius: @radius-md;
+  background: transparent;
+  color: @color-text;
+  cursor: pointer;
+  transition:
+    background @duration @easing,
+    border-color @duration @easing;
+
+  &:hover {
+    background: @color-accent-soft;
+  }
+}
+
+.conversationItemActive {
+  background: @color-primary-soft;
+  border-color: rgba(37, 99, 235, 0.18);
+}
+
+.conversationTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: @color-text;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.conversationSummary {
+  margin: 4px 0 0 !important;
+  color: @color-text-muted;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.conversationMeta {
+  margin-top: 6px;
+  color: @color-text-subtle;
+  font-size: 11px;
 }
 
 .card {
@@ -95,6 +188,98 @@
   margin-top: 6px;
   font-size: 12px;
   color: @color-text-subtle;
+}
+
+.references {
+  margin-top: 8px;
+  padding: 10px;
+  border: 1px solid @color-border-soft;
+  border-radius: @radius-md;
+  background: #fbfdff;
+}
+
+.referencesTitle {
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: @color-text-muted;
+}
+
+.referenceList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.referenceItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: @color-accent-soft;
+  color: @color-text-muted;
+  font-size: 12px;
+  text-decoration: none;
+
+  &:hover {
+    color: @color-primary;
+    background: @color-primary-soft;
+  }
+}
+
+.referenceSource {
+  flex-shrink: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  color: @color-primary;
+}
+
+.referenceName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.planPanel {
+  margin-top: 8px;
+  border: 1px solid @color-border-soft;
+  border-radius: @radius-md;
+  background: #fbfdff;
+}
+
+.planContent {
+  padding: 2px 0 4px;
+}
+
+.planMeta {
+  margin: 4px 0 8px;
+  font-size: 12px;
+  color: @color-text-subtle;
+}
+
+.planText {
+  margin-bottom: 6px !important;
+  color: @color-text-muted;
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.planStep {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background: @color-surface;
+  border: 1px solid @color-border-soft;
+}
+
+.stepHeader {
+  margin-bottom: 6px;
+}
+
+.verificationAlert {
+  margin: 8px;
 }
 
 .user {

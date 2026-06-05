@@ -1,49 +1,26 @@
 import { fornaxExecute } from '../../fornax/llm';
 import type { RagGraphOutput } from '../../types';
+import { formatMemoryContexts, formatRecentMessages } from '../../utils/contextBuilder';
 
 const PROMPT_KEY = 'demo.agentic_rag_rewrite.prompt';
 
-/**
- * 从 LLM 返回文本中提取改写后的 query。
- * 期望的标准格式是 JSON：{ "newquery": "...", "oldquery": "..." }，
- * 兼容退化的 key: value 文本（newquery: xxx），都失败时返回空串让上游回退到原 question。
- */
-function extractNewQuery(text: string): string {
-  const trimmed = text.trim();
-  if (!trimmed) {
-    return '';
-  }
-
-  // 1) 标准 JSON
-  try {
-    const parsed = JSON.parse(trimmed) as Record<string, unknown>;
-    const value = parsed.newquery ?? parsed.newQuery ?? parsed.new_query;
-    if (typeof value === 'string' && value.trim()) {
-      return value.trim();
-    }
-  } catch {
-    // 不是 JSON，进入正则兜底
-  }
-
-  // 2) 文本兜底：匹配 newquery: xxx，到行尾或下一个已知字段
-  const match = trimmed.match(/newquery\s*[:：]\s*([^\n\r]+)/i);
-  if (match?.[1]) {
-    return match[1].trim();
-  }
-
-  return '';
-}
-
 // query 改写节点
+// fornax prompt 输出格式：choices[0].message.content 即改写后的 query 纯文本
+// llm.ts 的 normalizeTextResult 已抽出 content，这里直接 trim 使用
 export function createRewriteQueryNode() {
   return async (state: Partial<RagGraphOutput>) => {
     const question = state.question ?? '';
     const result = await fornaxExecute({
       promptKey: PROMPT_KEY,
-      variables: { query: question },
+      variables: {
+        current_question: question,
+        conversation_summary: state.conversationSummary ?? '',
+        recent_messages: formatRecentMessages(state.recentMessages ?? []),
+        user_memory: formatMemoryContexts(state.memories ?? []),
+      },
     });
 
-    const newQuery = result.ok ? extractNewQuery(result.text) : '';
+    const newQuery = result.ok ? result.text.trim() : '';
 
     return {
       rewrittenQuery: newQuery || question,

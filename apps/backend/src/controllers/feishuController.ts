@@ -1,7 +1,7 @@
 import { Inject } from '@gulux/gulux';
 import { Body, Controller, Post } from '@gulux/gulux/application-http';
 import FeishuService from '../services/feishuService';
-import QaService from '../services/qaService';
+import ChatService from '../services/chatService';
 import { AppError } from '../utils/appError';
 
 @Controller({ path: '/feishu' })
@@ -10,7 +10,7 @@ export default class FeishuController {
   private readonly feishuService!: FeishuService;
 
   @Inject()
-  private readonly qaService!: QaService;
+  private readonly chatService!: ChatService;
 
   @Post('/events')
   public async handleEvent(@Body() body: unknown) {
@@ -31,10 +31,9 @@ export default class FeishuController {
       return { ok: true, ignored: true };
     }
 
-    const answer = await this.qaService.ask({
+    const answer = await this.chatService.ask({
       question: event.text,
       userId: event.userId,
-      channel: 'feishu',
     });
 
     await this.feishuService.replyMessage({

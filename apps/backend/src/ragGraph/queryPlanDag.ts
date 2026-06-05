@@ -1,13 +1,48 @@
-import type { QueryPlanDag, QueryPlanStep } from '@rag/shared';
+import type { QueryPlanDag, QueryPlanIntent, QueryPlanStep, QueryPlanTaskType } from '@rag/shared';
 
 export type FornaxQueryDecomposition = {
-  is_complex?: boolean;
+  schema_version?: unknown;
+  schemaVersion?: unknown;
+  is_complex?: unknown;
+  isComplex?: unknown;
+  intent?: unknown;
+  need_clarification?: unknown;
+  needClarification?: unknown;
+  clarification_question?: unknown;
+  clarificationQuestion?: unknown;
+  final_answer_plan?: unknown;
+  finalAnswerPlan?: unknown;
   steps?: Array<{
     id?: unknown;
+    type?: unknown;
+    taskType?: unknown;
+    task_type?: unknown;
     query?: unknown;
+    question?: unknown;
+    search_query?: unknown;
+    searchQuery?: unknown;
+    expected_evidence?: unknown;
+    expectedEvidence?: unknown;
+    output?: unknown;
     depends?: unknown;
   }>;
 };
+
+const VALID_TASK_TYPES = new Set<QueryPlanTaskType>([
+  'retrieve',
+  'synthesize',
+  'verify',
+  'clarify',
+]);
+const VALID_INTENTS = new Set<QueryPlanIntent>([
+  'factual',
+  'multi_hop',
+  'compare',
+  'summarize',
+  'diagnose',
+  'decision',
+  'ambiguous',
+]);
 
 function stripMarkdownCodeFence(text: string) {
   return text
@@ -15,6 +50,28 @@ function stripMarkdownCodeFence(text: string) {
     .replace(/^```[a-zA-Z0-9_-]*\s*/, '')
     .replace(/```$/, '')
     .trim();
+}
+
+function normalizeString(value: unknown) {
+  return typeof value === 'string' && value.trim() ? value.trim() : undefined;
+}
+
+function normalizeBoolean(value: unknown) {
+  return typeof value === 'boolean' ? value : undefined;
+}
+
+function normalizeIntent(value: unknown): QueryPlanIntent | undefined {
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+  return VALID_INTENTS.has(value as QueryPlanIntent) ? (value as QueryPlanIntent) : undefined;
+}
+
+function normalizeTaskType(value: unknown): QueryPlanTaskType {
+  if (typeof value === 'string' && VALID_TASK_TYPES.has(value as QueryPlanTaskType)) {
+    return value as QueryPlanTaskType;
+  }
+  return 'retrieve';
 }
 
 function normalizeFallbackQuery({
@@ -31,7 +88,17 @@ function createFallbackDag(input: { question?: string; rewrittenQuery?: string }
   const query = normalizeFallbackQuery(input);
   return {
     isComplex: false,
-    steps: query ? [{ id: 1, query, depends: [] }] : [],
+    steps: query
+      ? [
+          {
+            id: 1,
+            query,
+            searchQuery: query,
+            taskType: 'retrieve',
+            depends: [],
+          },
+        ]
+      : [],
     executionLevels: query ? [[1]] : [],
   };
 }
@@ -40,7 +107,12 @@ function toStep(
   rawStep: NonNullable<FornaxQueryDecomposition['steps']>[number],
 ): QueryPlanStep | null {
   const id = typeof rawStep.id === 'number' && Number.isInteger(rawStep.id) ? rawStep.id : null;
-  const query = typeof rawStep.query === 'string' ? rawStep.query.trim() : '';
+  const query = normalizeString(rawStep.query) ?? normalizeString(rawStep.question) ?? '';
+  const searchQuery = normalizeString(rawStep.searchQuery) ?? normalizeString(rawStep.search_query) ?? query;
+  const taskType = normalizeTaskType(rawStep.taskType ?? rawStep.task_type ?? rawStep.type);
+  const expectedEvidence =
+    normalizeString(rawStep.expectedEvidence) ?? normalizeString(rawStep.expected_evidence);
+  const output = normalizeString(rawStep.output);
   const depends = Array.isArray(rawStep.depends)
     ? rawStep.depends.filter(
         (item): item is number => typeof item === 'number' && Number.isInteger(item),
@@ -51,7 +123,23 @@ function toStep(
     return null;
   }
 
-  return { id, query, depends };
+  if ((taskType === 'retrieve' || taskType === 'verify') && !searchQuery) {
+    return null;
+  }
+
+  if (taskType === 'synthesize' && depends.length === 0) {
+    return null;
+  }
+
+  return {
+    id,
+    query,
+    searchQuery,
+    taskType,
+    expectedEvidence,
+    output,
+    depends,
+  };
 }
 
 // ---- 构建执行层级 ----拓扑排序算法-----基于入度的bfs
@@ -136,11 +224,42 @@ export function buildQueryPlanDag({
   rewrittenQuery?: string;
   decomposition?: FornaxQueryDecomposition | null;
 }): QueryPlanDag {
-  if (
-    !decomposition?.is_complex ||
-    !Array.isArray(decomposition.steps) ||
-    decomposition.steps.length === 0
-  ) {
+  if (!decomposition || !Array.isArray(decomposition.steps) || decomposition.steps.length === 0) {
+    return createFallbackDag({ question, rewrittenQuery });
+  }
+
+  const needClarification =
+    normalizeBoolean(decomposition.needClarification) ??
+    normalizeBoolean(decomposition.need_clarification) ??
+    false;
+  const clarificationQuestion =
+    normalizeString(decomposition.clarificationQuestion) ??
+    normalizeString(decomposition.clarification_question);
+
+  if (needClarification && clarificationQuestion) {
+    return {
+      isComplex: false,
+      intent: normalizeIntent(decomposition.intent) ?? 'ambiguous',
+      needClarification,
+      clarificationQuestion,
+      steps: [
+        {
+          id: 1,
+          query: clarificationQuestion,
+          taskType: 'clarify',
+          depends: [],
+        },
+      ],
+      executionLevels: [[1]],
+      finalAnswerPlan:
+        normalizeString(decomposition.finalAnswerPlan) ??
+        normalizeString(decomposition.final_answer_plan),
+    };
+  }
+
+  const isComplex =
+    normalizeBoolean(decomposition.isComplex) ?? normalizeBoolean(decomposition.is_complex) ?? false;
+  if (!isComplex) {
     return createFallbackDag({ question, rewrittenQuery });
   }
 
@@ -157,7 +276,12 @@ export function buildQueryPlanDag({
 
   return {
     isComplex: true,
+    intent: normalizeIntent(decomposition.intent),
+    needClarification,
+    clarificationQuestion,
     steps: normalizedSteps,
     executionLevels,
+    finalAnswerPlan:
+      normalizeString(decomposition.finalAnswerPlan) ?? normalizeString(decomposition.final_answer_plan),
   };
 }

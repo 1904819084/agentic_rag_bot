@@ -1,11 +1,27 @@
-import type { Citation, QueryPlanDag, QueryPlanStepResult, RetrievedContext } from '@rag/shared';
+import type {
+  AnswerVerification,
+  ChatMessage,
+  Citation,
+  QueryPlanDag,
+  QueryPlanStepResult,
+  RetrievedContext,
+} from '@rag/shared';
 
 // ---------- RAG Graph ----------
 
+export type MemoryContext = {
+  type: string;
+  content: string;
+  usage?: string;
+};
+
 export type RagGraphInput = {
   question: string;
+  conversationId?: string;
+  conversationSummary?: string;
+  recentMessages?: ChatMessage[];
+  memories?: MemoryContext[];
   userId?: string;
-  channel: 'web' | 'feishu';
 };
 
 export type RagGraphOutput = RagGraphInput & {
@@ -17,6 +33,7 @@ export type RagGraphOutput = RagGraphInput & {
   formattedContexts: string;
   citations: Citation[];
   answer: string;
+  answerVerification?: AnswerVerification;
 };
 
 // ---------- Chunking ----------

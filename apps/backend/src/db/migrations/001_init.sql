@@ -35,12 +35,3 @@ CREATE INDEX IF NOT EXISTS idx_child_chunks_content_fts
 CREATE INDEX IF NOT EXISTS idx_child_chunks_embedding_hnsw
   ON child_chunks USING hnsw (embedding vector_cosine_ops);
 
-CREATE TABLE IF NOT EXISTS qa_logs (
-  id TEXT PRIMARY KEY,
-  question TEXT NOT NULL,
-  answer TEXT NOT NULL,
-  channel TEXT NOT NULL,
-  user_id TEXT,
-  citations JSONB NOT NULL DEFAULT '[]',
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);

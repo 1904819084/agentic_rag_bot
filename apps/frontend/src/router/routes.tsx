@@ -1,17 +1,12 @@
-import {
-  CommentOutlined,
-  FileTextOutlined,
-  HistoryOutlined,
-} from '@ant-design/icons';
+import { CommentOutlined, FileTextOutlined } from '@ant-design/icons';
 import type { ReactNode } from 'react';
 import ChatPage from '../pages/ChatPage';
 import DocumentsPage from '../pages/DocumentsPage';
-import QaLogsPage from '../pages/QaLogsPage';
 
 /**
  * 应用导航分组 key，仅用于 sider 中分组展示。
  */
-export type RouteGroup = '工作台' | '知识管理' | '系统日志';
+export type RouteGroup = '工作台' | '知识管理';
 
 export interface AppRoute {
   /** 导航 key，路径首段，唯一标识 */
@@ -52,15 +47,6 @@ export const ROUTES: AppRoute[] = [
     icon: <FileTextOutlined />,
     group: '知识管理',
     element: <DocumentsPage />,
-  },
-  {
-    key: 'logs',
-    path: '/logs',
-    label: '问答日志',
-    description: '历史问答与引用追溯',
-    icon: <HistoryOutlined />,
-    group: '系统日志',
-    element: <QaLogsPage />,
   },
 ];
 

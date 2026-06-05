@@ -1,26 +1,24 @@
 import { Injectable } from '@gulux/gulux';
-import type { QaChannel } from '@rag/shared';
 import { createRagAnswerGraph } from '../ragGraph/createRagAnswerGraph';
-import type { RagGraphOutput } from '../types';
+import type { RagGraphInput, RagGraphOutput } from '../types';
 import RetrievalService from './retrievalService';
 
 @Injectable()
 export default class RagGraphService {
   public constructor(private readonly retrievalService: RetrievalService) {}
 
-  public async answer(input: {
-    question: string;
-    userId?: string;
-    channel: QaChannel;
-  }): Promise<RagGraphOutput> {
+  public async answer(input: RagGraphInput): Promise<RagGraphOutput> {
     const graph = createRagAnswerGraph({
       retrievalService: this.retrievalService,
     });
 
     const result = await graph.invoke({
       question: input.question,
+      conversationId: input.conversationId,
+      conversationSummary: input.conversationSummary,
+      recentMessages: input.recentMessages,
+      memories: input.memories ?? [],
       userId: input.userId,
-      channel: input.channel,
       queryPlan: [],
       queryPlanDag: undefined,
       stepResults: [],
@@ -28,6 +26,7 @@ export default class RagGraphService {
       formattedContexts: '',
       citations: [],
       answer: '',
+      answerVerification: undefined,
     });
 
     return result as RagGraphOutput;

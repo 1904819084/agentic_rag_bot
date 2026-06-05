@@ -1,5 +1,6 @@
 import { fornaxExecute } from '../../fornax/llm';
 import type { RagGraphOutput } from '../../types';
+import { formatMemoryContexts, formatRecentMessages } from '../../utils/contextBuilder';
 import { buildQueryPlanDag, parseQueryDecompositionJson } from '../queryPlanDag';
 
 const PROMPT_KEY = 'demo.agentic_rag_planing.prompt';
@@ -14,11 +15,13 @@ export function createPlanQueryNode() {
           variables: {
             query,
             original_query: state.question ?? query,
+            conversation_summary: state.conversationSummary ?? '',
+            recent_messages: formatRecentMessages(state.recentMessages ?? []),
+            memory_context: formatMemoryContexts(state.memories ?? []),
           },
         })
       : null;
-    const decomposition =
-      result?.ok && result.text ? parseQueryDecompositionJson(result.text) : null;
+    const decomposition = result?.ok && result.text ? parseQueryDecompositionJson(result.text) : null;
     const queryPlanDag = buildQueryPlanDag({
       question: state.question,
       rewrittenQuery: state.rewrittenQuery,

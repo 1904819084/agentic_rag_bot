@@ -2,9 +2,6 @@
 // 业务常量集中定义（非 JSX 的纯数据）
 // =============================================
 
-/** 默认问答提交渠道 */
-export const DEFAULT_QA_CHANNEL = 'web';
-
 /** 默认问答提交用户 ID（开发期） */
 export const DEFAULT_QA_USER_ID = 'dev-user';
 

@@ -34,6 +34,7 @@ packages/shared/dist/
 .test-output/
 apps/backend/test-output/
 apps/backend/test/
+apps/backend/scripts/
 apps/backend/tsconfig.test.json
 
 # ---- 日志 ----

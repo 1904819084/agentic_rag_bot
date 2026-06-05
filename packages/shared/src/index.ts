@@ -1,2 +1,2 @@
-export * from './qa.js';
+export * from './conversation.js';
 export * from './document.js';

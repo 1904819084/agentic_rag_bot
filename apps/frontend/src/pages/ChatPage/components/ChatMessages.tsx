@@ -2,6 +2,7 @@ import { RobotOutlined, UserOutlined } from '@ant-design/icons';
 import type { ChatMessage } from '@rag/shared';
 import { useEffect, useRef } from 'react';
 import styles from '../index.module.less';
+import PlanSteps from './PlanSteps';
 
 interface ChatMessagesProps {
   messages: ChatMessage[];
@@ -20,10 +21,7 @@ export default function ChatMessages({ messages, loading }: ChatMessagesProps) {
       {messages.map((item) => {
         const isUser = item.role === 'user';
         return (
-          <div
-            key={item.id}
-            className={`${styles.message} ${isUser ? styles.user : styles.assistant}`}
-          >
+          <div key={item.id} className={`${styles.message} ${isUser ? styles.user : styles.assistant}`}>
             <span className={styles.avatar} aria-hidden>
               {isUser ? <UserOutlined /> : <RobotOutlined />}
             </span>
@@ -31,7 +29,31 @@ export default function ChatMessages({ messages, loading }: ChatMessagesProps) {
               <div className={styles.role}>{isUser ? '我' : '助手'}</div>
               <div className={styles.bubble}>{item.content}</div>
               {item.citations?.length ? (
-                <div className={styles.meta}>引用 {item.citations.length} 个来源</div>
+                <div className={styles.references}>
+                  <div className={styles.referencesTitle}>参考文档</div>
+                  <div className={styles.referenceList}>
+                    {item.citations.map((citation) => (
+                      <a
+                        className={styles.referenceItem}
+                        href={citation.sourceUrl}
+                        key={`${item.id}-${citation.sourceId}`}
+                        rel="noreferrer"
+                        target={citation.sourceUrl ? '_blank' : undefined}
+                      >
+                        <span className={styles.referenceSource}>{citation.sourceId}</span>
+                        <span className={styles.referenceName}>{citation.title}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+              {!isUser ? (
+                <PlanSteps
+                  rewrittenQuery={item.metadata?.rewrittenQuery}
+                  queryPlanDag={item.metadata?.queryPlanDag}
+                  stepResults={item.metadata?.stepResults}
+                  answerVerification={item.metadata?.answerVerification}
+                />
               ) : null}
             </div>
           </div>
