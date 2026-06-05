@@ -14,8 +14,8 @@ import { createConversation } from '../../services/conversationService';
 import ChatInput from './components/ChatInput';
 import ChatMessages from './components/ChatMessages';
 import ConversationSidebar from './components/ConversationSidebar';
-import { mergeConversationList } from './conversationList';
 import styles from './index.module.less';
+import { mergeConversationList } from './utils/conversations';
 
 function createMessage(input: {
   role: ChatMessage['role'];
@@ -60,7 +60,6 @@ export default function ChatPage() {
   const [localConversations, setLocalConversations] = useState<Conversation[]>([]);
   const [hydratedConversationId, setHydratedConversationId] = useState<string | undefined>();
   const [pendingConversationId, setPendingConversationId] = useState<string | undefined>();
-  const [presetQuestion] = useState<string>();
   const chatAskRequest = useChatAsk();
   const conversationsRequest = useConversations({
     userId: DEFAULT_QA_USER_ID,
@@ -206,7 +205,6 @@ export default function ChatPage() {
         />
         <ChatInput
           loading={chatAskRequest.loading}
-          presetQuestion={presetQuestion}
           onAsk={handleAsk}
         />
       </Card>

@@ -1,11 +1,9 @@
 import { SendOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
-import { useEffect } from 'react';
 import styles from '../index.module.less';
 
 interface ChatInputProps {
   loading: boolean;
-  presetQuestion?: string;
   onAsk: (question: string) => Promise<void>;
 }
 
@@ -13,14 +11,8 @@ interface ChatFormValues {
   question: string;
 }
 
-export default function ChatInput({ loading, presetQuestion, onAsk }: ChatInputProps) {
+export default function ChatInput({ loading, onAsk }: ChatInputProps) {
   const [form] = Form.useForm<ChatFormValues>();
-
-  useEffect(() => {
-    if (presetQuestion) {
-      form.setFieldsValue({ question: presetQuestion });
-    }
-  }, [form, presetQuestion]);
 
   async function handleFinish(values: ChatFormValues) {
     const question = values.question.trim();

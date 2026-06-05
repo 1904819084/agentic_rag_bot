@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import type { Conversation } from '@rag/shared';
-import { mergeConversationList } from './conversationList';
+import { mergeConversationList } from './conversations';
 
 const existingConversation: Conversation = {
   id: 'conv-existing',
