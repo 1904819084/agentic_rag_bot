@@ -25,7 +25,6 @@ export default class RagGraphService {
       formattedContexts: '',
       citations: [],
       answer: '',
-      answerVerification: undefined,
     });
 
     return result as RagGraphOutput;

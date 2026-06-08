@@ -153,7 +153,6 @@ export default function ChatPage() {
               rewrittenQuery: chatAnswer.rewrittenQuery,
               queryPlan: chatAnswer.queryPlan,
               stepResults: chatAnswer.stepResults,
-              answerVerification: chatAnswer.answerVerification,
             },
           }),
         ]);

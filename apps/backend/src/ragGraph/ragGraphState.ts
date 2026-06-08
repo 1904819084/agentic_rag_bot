@@ -1,6 +1,5 @@
 import { Annotation } from '@langchain/langgraph';
 import type {
-  AnswerVerification,
   ChatMessage,
   Citation,
   QueryPlan,
@@ -23,5 +22,4 @@ export const RagGraphState = Annotation.Root({
   formattedContexts: Annotation<string>,
   citations: Annotation<Citation[]>,
   answer: Annotation<string>,
-  answerVerification: Annotation<AnswerVerification | undefined>,
 });

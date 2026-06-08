@@ -1,14 +1,35 @@
 import type { ChatMessage, Citation, ConversationMessage, RetrievedContext } from '@rag/shared';
 import type { MemoryContext } from '../types';
 
+function getCitationDocumentKey(context: RetrievedContext) {
+  return context.docId ?? context.sourceUrl ?? context.title;
+}
+
+function buildDocumentCitations(contexts: RetrievedContext[]) {
+  const seen = new Set<string>();
+  const citations: Citation[] = [];
+
+  for (const context of contexts) {
+    const key = getCitationDocumentKey(context);
+    if (seen.has(key)) {
+      continue;
+    }
+
+    seen.add(key);
+    citations.push({
+      sourceId: `文档 ${citations.length + 1}`,
+      docId: context.docId,
+      title: context.title,
+      sourceUrl: context.sourceUrl,
+      score: context.score,
+    });
+  }
+
+  return citations;
+}
+
 export function buildAnswerContext(contexts: RetrievedContext[]) {
-  const citations: Citation[] = contexts.map((context, index) => ({
-    sourceId: `资料 ${index + 1}`,
-    docId: context.docId,
-    title: context.title,
-    sourceUrl: context.sourceUrl,
-    score: context.score,
-  }));
+  const citations = buildDocumentCitations(contexts);
 
   const formattedContexts = contexts
     .map((context, index) => {

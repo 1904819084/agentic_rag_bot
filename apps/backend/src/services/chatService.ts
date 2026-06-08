@@ -38,7 +38,6 @@ export default class ChatService {
         rewrittenQuery: ragAnswer.rewrittenQuery,
         queryPlan: ragAnswer.queryPlan,
         stepResults: ragAnswer.stepResults ?? [],
-        answerVerification: ragAnswer.answerVerification,
       },
     });
     await this.conversationService.updateSummaryAfterTurn({
@@ -66,7 +65,6 @@ export default class ChatService {
       stepResults: ragAnswer.stepResults ?? [],
       citations: ragAnswer.citations ?? [],
       contexts: ragAnswer.contexts ?? [],
-      answerVerification: ragAnswer.answerVerification,
     };
   }
 }

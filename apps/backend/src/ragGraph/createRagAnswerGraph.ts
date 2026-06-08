@@ -5,7 +5,6 @@ import { createExecutePlanNode } from './nodes/executePlanNode';
 import { createGenerateAnswerNode } from './nodes/generateAnswerNode';
 import { createPlanQueryNode } from './nodes/planingNode';
 import { createRewriteQueryNode } from './nodes/rewriteQueryNode';
-import { createVerifyAnswerNode } from './nodes/verifyAnswerNode';
 import { RagGraphState } from './ragGraphState';
 
 const NODE = {
@@ -14,7 +13,6 @@ const NODE = {
   ExecutePlan: 'execute_plan',
   BuildContext: 'build_context',
   GenerateAnswer: 'generate_answer',
-  VerifyAnswer: 'verify_answer',
 } as const;
 
 export function createRagAnswerGraph({ retrievalService }: { retrievalService: RetrievalService }) {
@@ -24,13 +22,11 @@ export function createRagAnswerGraph({ retrievalService }: { retrievalService: R
     .addNode(NODE.ExecutePlan, createExecutePlanNode(retrievalService))
     .addNode(NODE.BuildContext, createBuildContextNode())
     .addNode(NODE.GenerateAnswer, createGenerateAnswerNode())
-    .addNode(NODE.VerifyAnswer, createVerifyAnswerNode())
     .addEdge(START, NODE.RewriteQuery)
     .addEdge(NODE.RewriteQuery, NODE.PlanQuery)
     .addEdge(NODE.PlanQuery, NODE.ExecutePlan)
     .addEdge(NODE.ExecutePlan, NODE.BuildContext)
     .addEdge(NODE.BuildContext, NODE.GenerateAnswer)
-    .addEdge(NODE.GenerateAnswer, NODE.VerifyAnswer)
-    .addEdge(NODE.VerifyAnswer, END)
+    .addEdge(NODE.GenerateAnswer, END)
     .compile();
 }

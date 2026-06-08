@@ -1,18 +1,9 @@
 export type QueryPlanTaskType = 'retrieve' | 'reasoning';
 
-export interface AnswerVerification {
-  isSupported: boolean;
-  warnings: string[];
-  missingCitations?: string[];
-  invalidCitationSourceIds?: string[];
-  insufficientEvidenceSections?: string[];
-}
-
 export interface ChatMessageMetadata {
   rewrittenQuery?: string;
   queryPlan?: QueryPlan;
   stepResults?: QueryPlanStepResult[];
-  answerVerification?: AnswerVerification;
 }
 
 export interface ChatMessage {
@@ -78,7 +69,6 @@ export interface ChatAskResponse {
   stepResults?: QueryPlanStepResult[];
   citations: Citation[];
   contexts?: RetrievedContext[];
-  answerVerification?: AnswerVerification;
 }
 
 export interface Conversation {

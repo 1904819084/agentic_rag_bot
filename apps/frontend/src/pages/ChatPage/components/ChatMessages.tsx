@@ -52,7 +52,6 @@ export default function ChatMessages({ messages, loading }: ChatMessagesProps) {
                   rewrittenQuery={item.metadata?.rewrittenQuery}
                   queryPlan={item.metadata?.queryPlan}
                   stepResults={item.metadata?.stepResults}
-                  answerVerification={item.metadata?.answerVerification}
                 />
               ) : null}
             </div>

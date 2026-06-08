@@ -1,5 +1,5 @@
-import type { AnswerVerification, QueryPlan, QueryPlanStepResult } from '@rag/shared';
-import { Alert, Collapse, Space, Tag, Typography } from 'antd';
+import type { QueryPlan, QueryPlanStepResult } from '@rag/shared';
+import { Collapse, Space, Tag, Typography } from 'antd';
 import styles from '../index.module.less';
 
 const { Text, Paragraph } = Typography;
@@ -8,19 +8,16 @@ interface PlanStepsProps {
   rewrittenQuery?: string;
   queryPlan?: QueryPlan;
   stepResults?: QueryPlanStepResult[];
-  answerVerification?: AnswerVerification;
 }
 
 export default function PlanSteps({
   rewrittenQuery,
   queryPlan,
   stepResults = [],
-  answerVerification,
 }: PlanStepsProps) {
   const hasPlan = Boolean(queryPlan?.tasks?.length || stepResults.length || rewrittenQuery);
-  const hasWarnings = Boolean(answerVerification?.warnings?.length);
 
-  if (!hasPlan && !hasWarnings) {
+  if (!hasPlan) {
     return null;
   }
 
@@ -28,16 +25,6 @@ export default function PlanSteps({
 
   return (
     <div className={styles.planPanel}>
-      {hasWarnings ? (
-        <Alert
-          className={styles.verificationAlert}
-          type={answerVerification?.isSupported ? 'info' : 'warning'}
-          showIcon
-          message="资料充分性提示"
-          description={answerVerification?.warnings.join('；')}
-        />
-      ) : null}
-
       <Collapse
         size="small"
         ghost

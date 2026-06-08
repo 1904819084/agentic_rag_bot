@@ -1,5 +1,4 @@
 import type {
-  AnswerVerification,
   ChatMessage,
   Citation,
   Document,
@@ -33,7 +32,6 @@ export type RagGraphOutput = RagGraphInput & {
   formattedContexts: string;
   citations: Citation[];
   answer: string;
-  answerVerification?: AnswerVerification;
 };
 
 // ---------- Chunking ----------
