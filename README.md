@@ -4,7 +4,7 @@
 
 ## 当前能力
 
-- 飞书 Docx 文档导入：解析飞书文档链接，切分 parent / child chunks，写入 PostgreSQL 和 pgvector。
+- 文档导入：支持飞书 Docx 链接和本地 TXT / Markdown / DOCX / PDF 文件上传，切分 parent / child chunks，写入 PostgreSQL 和 pgvector。
 - 混合检索：支持 keyword、vector、hybrid 三种检索模式，默认 hybrid，并用 RRF 和 query overlap 做结果融合与重排。
 - Agentic RAG 问答：LangGraph 编排 `rewrite_query -> plan_query -> retrieve -> build_context -> generate_answer -> verify_answer`。
 - 多轮会话：前端支持会话侧栏、会话选择、新建会话、历史消息加载；用户没有会话时直接提问会由 `/chat/ask` 自动创建会话。
@@ -46,9 +46,9 @@ infra
 
 ### 文档入库
 
-1. 前端在文档页提交飞书 Docx 链接。
-2. 后端 `POST /documents/import/feishu-docx` 拉取飞书文档内容。
-3. `DocumentIngestionService` 将正文切分为 parent / child chunks。
+1. 前端在文档页提交飞书 Docx 链接，或上传本地 TXT / Markdown / DOCX / PDF 文件。
+2. 后端 `POST /documents/import/feishu-docx` 拉取飞书文档内容，或 `POST /documents/import/file` 解析上传文件。
+3. `DocumentIngestionService` 将解析后的正文切分为 parent / child chunks。
 4. `EmbeddingService` 为 child chunks 生成向量。
 5. `DocumentRepository` 写入 `documents`、`parent_chunks`、`child_chunks`。
 
@@ -98,9 +98,10 @@ cp apps/backend/.env.example apps/backend/.env
 ```bash
 psql "$DATABASE_URL" -f apps/backend/src/db/migrations/001_init.sql
 psql "$DATABASE_URL" -f apps/backend/src/db/migrations/002_multi_turn_qa.sql
+psql "$DATABASE_URL" -f apps/backend/src/db/migrations/003_local_file_documents.sql
 ```
 
-如果没有 `DATABASE_URL`，按 `.env` 中的 PostgreSQL 配置连接本地库后执行这两个迁移文件。
+如果没有 `DATABASE_URL`，按 `.env` 中的 PostgreSQL 配置连接本地库后执行这些迁移文件。
 
 5. 启动开发服务：
 
@@ -194,8 +195,11 @@ GET /api/conversations/:id/messages
 ```http
 GET /api/documents
 POST /api/documents/import/feishu-docx
+POST /api/documents/import/file
 GET /api/documents/:id
 ```
+
+`POST /api/documents/import/file` 使用 `multipart/form-data`，字段名为 `file`。当前支持 `.txt`、`.md`、`.markdown`、`.docx`、`.pdf`，文件大小上限 20MB；上传原文件会保存到 `apps/backend/storage/uploads`，并用内容 hash 作为本地文档来源标识。
 
 当前 `GET /api/documents/:id` 仍返回 501，文档详情页尚未实现。
 
@@ -233,10 +237,19 @@ curl -X POST http://localhost:3001/api/feishu/events \
 - `conversation_messages`
 - `user_memories`
 
+`003_local_file_documents.sql` 为本地文件上传增加文档元信息字段：
+
+- `file_name`
+- `mime_type`
+- `file_size`
+- `storage_key`
+- `content_hash`
+- `import_error`
+
 ## 前端页面
 
 - `/chat`：研发问答。支持会话列表、自动建会话、历史消息加载、回答引用、查询计划和答案校验信息展示。
-- `/documents`：PRD / TRD 文档管理。支持查看文档列表和导入飞书 Docx 文档。
+- `/documents`：PRD / TRD 文档管理。支持查看文档列表、导入飞书 Docx 文档和上传本地文档。
 
 ## 注意事项
 

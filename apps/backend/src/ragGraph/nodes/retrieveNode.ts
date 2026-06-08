@@ -164,7 +164,11 @@ export function createRetrieveNode(
               .map((dependencyStepId) => resultByStepId.get(dependencyStepId))
               .filter((result): result is QueryPlanStepResult => Boolean(result));
             const taskType = step.taskType ?? 'retrieve';
-            const searchQuery = step.searchQuery || step.query;
+            const baseSearchQuery = step.searchQuery || step.query;
+            const searchQuery = buildDependencyAwareRetrievalQuery(
+              baseSearchQuery,
+              dependencyResults,
+            );
             const shouldRetrieve = taskType === 'retrieve' || taskType === 'verify';
             const contexts = shouldRetrieve
               ? await retrievalService.search(searchQuery, {

@@ -2,6 +2,7 @@ import type {
   AnswerVerification,
   ChatMessage,
   Citation,
+  Document,
   QueryPlanDag,
   QueryPlanStepResult,
   RetrievedContext,
@@ -89,4 +90,21 @@ export interface FeishuDocumentContent {
   sourceUrl: string;
   title: string;
   content: string;
+}
+
+// ---------- Document Ingestion ----------
+
+export interface ParsedDocumentInput {
+  source: Document['source'];
+  sourceDocId: string;
+  title: string;
+  sourceUrl?: string;
+  content: string;
+  metadata?: {
+    fileName?: string;
+    mimeType?: string;
+    fileSize?: number;
+    contentHash?: string;
+    storageKey?: string;
+  };
 }

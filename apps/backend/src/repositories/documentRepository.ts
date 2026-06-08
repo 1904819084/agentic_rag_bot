@@ -28,9 +28,10 @@ export default class DocumentRepository {
       await client.query(
         `INSERT INTO documents (
           id, source, source_doc_id, title, source_url, status,
-          parent_chunk_count, child_chunk_count, updated_at, created_at
+          parent_chunk_count, child_chunk_count, file_name, mime_type,
+          file_size, storage_key, content_hash, import_error, updated_at, created_at
         )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
         ON CONFLICT (id) DO UPDATE SET
           source = EXCLUDED.source,
           source_doc_id = EXCLUDED.source_doc_id,
@@ -39,6 +40,12 @@ export default class DocumentRepository {
           status = EXCLUDED.status,
           parent_chunk_count = EXCLUDED.parent_chunk_count,
           child_chunk_count = EXCLUDED.child_chunk_count,
+          file_name = EXCLUDED.file_name,
+          mime_type = EXCLUDED.mime_type,
+          file_size = EXCLUDED.file_size,
+          storage_key = EXCLUDED.storage_key,
+          content_hash = EXCLUDED.content_hash,
+          import_error = EXCLUDED.import_error,
           updated_at = EXCLUDED.updated_at`,
         [
           document.id,
@@ -49,6 +56,12 @@ export default class DocumentRepository {
           document.status,
           document.parentChunkCount,
           document.childChunkCount,
+          document.fileName ?? null,
+          document.mimeType ?? null,
+          document.fileSize ?? null,
+          document.storageKey ?? null,
+          document.contentHash ?? null,
+          document.importError ?? null,
           document.updatedAt ?? null,
           document.createdAt,
         ],
@@ -89,10 +102,18 @@ export default class DocumentRepository {
         status: Document['status'];
         parent_chunk_count: number;
         child_chunk_count: number;
+        file_name: string | null;
+        mime_type: string | null;
+        file_size: string | number | null;
+        storage_key: string | null;
+        content_hash: string | null;
+        import_error: string | null;
         updated_at: Date | null;
         created_at: Date;
       }>(
-        `SELECT id, source, source_doc_id, title, source_url, status, parent_chunk_count, child_chunk_count, updated_at, created_at
+        `SELECT id, source, source_doc_id, title, source_url, status,
+                parent_chunk_count, child_chunk_count, file_name, mime_type,
+                file_size, storage_key, content_hash, import_error, updated_at, created_at
          FROM documents
          ORDER BY updated_at DESC NULLS LAST, created_at DESC
          LIMIT 200`,
@@ -107,6 +128,12 @@ export default class DocumentRepository {
         status: row.status,
         parentChunkCount: row.parent_chunk_count,
         childChunkCount: row.child_chunk_count,
+        fileName: row.file_name ?? undefined,
+        mimeType: row.mime_type ?? undefined,
+        fileSize: row.file_size === null ? undefined : Number(row.file_size),
+        storageKey: row.storage_key ?? undefined,
+        contentHash: row.content_hash ?? undefined,
+        importError: row.import_error ?? undefined,
         updatedAt: row.updated_at?.toISOString(),
         createdAt: row.created_at.toISOString(),
       }));

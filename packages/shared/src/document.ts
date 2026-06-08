@@ -1,5 +1,5 @@
 export type DocumentStatus = 'success' | 'deleted' | 'failed';
-export type DocumentSource = 'feishu';
+export type DocumentSource = 'feishu' | 'local_file';
 
 // 文档元信息
 export interface Document {
@@ -11,6 +11,12 @@ export interface Document {
   status: DocumentStatus;
   parentChunkCount: number;
   childChunkCount: number;
+  fileName?: string;
+  mimeType?: string;
+  fileSize?: number;
+  storageKey?: string;
+  contentHash?: string;
+  importError?: string;
   updatedAt?: string;
   createdAt: string;
 }
@@ -20,5 +26,9 @@ export interface ImportFeishuDocumentRequest {
 }
 
 export interface ImportFeishuDocumentResponse {
+  document: Document;
+}
+
+export interface ImportLocalFileDocumentResponse {
   document: Document;
 }

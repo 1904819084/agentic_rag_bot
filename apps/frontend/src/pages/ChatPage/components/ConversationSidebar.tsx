@@ -1,15 +1,17 @@
-import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import type { Conversation } from '@rag/shared';
 import { Button, Empty, Spin, Tooltip } from 'antd';
 import styles from '../index.module.less';
 
 interface ConversationSidebarProps {
-  items: Conversation[];
+  conversations: Conversation[];
   activeConversationId?: string;
   loading: boolean;
   creating: boolean;
   onNewConversation: () => void;
   onSelectConversation: (conversationId: string) => void;
+  onEditConversationTitle: (conversation: Conversation) => void;
+  onDeleteConversation: (conversation: Conversation) => void;
   onRefresh?: () => void;
 }
 
@@ -28,12 +30,14 @@ function formatTime(value: string) {
 }
 
 export default function ConversationSidebar({
-  items,
+  conversations,
   activeConversationId,
   loading,
   creating,
   onNewConversation,
   onSelectConversation,
+  onEditConversationTitle,
+  onDeleteConversation,
   onRefresh,
 }: ConversationSidebarProps) {
   return (
@@ -41,7 +45,7 @@ export default function ConversationSidebar({
       <div className={styles.conversationHeader}>
         <div>
           <div className={styles.conversationHeading}>会话</div>
-          <div className={styles.conversationCount}>共 {items.length} 个</div>
+          <div className={styles.conversationCount}>共 {conversations.length} 个</div>
         </div>
         <div className={styles.conversationActions}>
           {onRefresh ? (
@@ -57,18 +61,62 @@ export default function ConversationSidebar({
 
       <div className={styles.conversationList}>
         <Spin spinning={loading}>
-          {items.length ? (
-            items.map((item) => {
-              const active = item.id === activeConversationId;
+          {conversations.length ? (
+            conversations.map((conversation) => {
+              const active = conversation.id === activeConversationId;
               return (
                 <button
                   className={`${styles.conversationItem} ${active ? styles.conversationItemActive : ''}`}
-                  key={item.id}
+                  key={conversation.id}
                   type="button"
-                  onClick={() => onSelectConversation(item.id)}
+                  onClick={() => onSelectConversation(conversation.id)}
                 >
-                  <div className={styles.conversationTitle}>{item.title || '新会话'}</div>
-                  <div className={styles.conversationMeta}>{formatTime(item.updatedAt)}</div>
+                  <div className={styles.conversationItemHeader}>
+                    <div className={styles.conversationTitle}>{conversation.title || '新会话'}</div>
+                    <div className={styles.conversationItemActions}>
+                      <Tooltip title="修改标题">
+                        <span
+                          className={styles.conversationIconAction}
+                          role="button"
+                          tabIndex={0}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            onEditConversationTitle(conversation);
+                          }}
+                          onKeyDown={(event) => {
+                            if (event.key === 'Enter' || event.key === ' ') {
+                              event.preventDefault();
+                              event.stopPropagation();
+                              onEditConversationTitle(conversation);
+                            }
+                          }}
+                        >
+                          <EditOutlined />
+                        </span>
+                      </Tooltip>
+                      <Tooltip title="删除会话">
+                        <span
+                          className={`${styles.conversationIconAction} ${styles.conversationDelete}`}
+                          role="button"
+                          tabIndex={0}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            onDeleteConversation(conversation);
+                          }}
+                          onKeyDown={(event) => {
+                            if (event.key === 'Enter' || event.key === ' ') {
+                              event.preventDefault();
+                              event.stopPropagation();
+                              onDeleteConversation(conversation);
+                            }
+                          }}
+                        >
+                          <DeleteOutlined />
+                        </span>
+                      </Tooltip>
+                    </div>
+                  </div>
+                  <div className={styles.conversationMeta}>{formatTime(conversation.updatedAt)}</div>
                 </button>
               );
             })

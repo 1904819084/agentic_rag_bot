@@ -7,6 +7,7 @@ import type {
   ConversationMessage,
 } from '@rag/shared';
 import ConversationRepository from '../repositories/conversationRepository';
+import { AppError } from '../utils/appError';
 import { createId } from '../utils/id';
 
 const RECENT_MESSAGE_LIMIT = 6;
@@ -33,33 +34,33 @@ function trimSummary(summary: string) {
 export default class ConversationService {
   public constructor(private readonly conversationRepository: ConversationRepository) {}
 
-  public async createConversation(input: CreateConversationRequest) {
+  public async createConversation(createRequest: CreateConversationRequest) {
     const conversationId = createId('conv');
     return this.conversationRepository.ensureConversation({
       id: conversationId,
-      userId: input.userId,
-      title: input.title || '新会话',
+      userId: createRequest.userId,
+      title: createRequest.title || '新会话',
     });
   }
 
-  public listConversations(input: { userId?: string } = {}) {
-    return this.conversationRepository.listConversations(input);
+  public listConversations(conversationFilter: { userId?: string } = {}) {
+    return this.conversationRepository.listConversations(conversationFilter);
   }
 
   // 准备会话上下文：
   // - 未传 conversationId：创建新会话，title 直接用首问前 32 字。
   // - 已传 conversationId：复用已有会话；若不存在则惰性建一个，避免阻塞问答。
-  public async prepareConversation(input: {
+  public async prepareConversation(contextRequest: {
     conversationId?: string;
     userId?: string;
     question: string;
   }): Promise<ConversationContext> {
-    const conversationId = input.conversationId || createId('conv');
-    const fallbackTitle = input.question.slice(0, 32) || '新会话';
+    const conversationId = contextRequest.conversationId || createId('conv');
+    const fallbackTitle = contextRequest.question.slice(0, 32) || '新会话';
 
     const conversation = await this.conversationRepository.ensureConversation({
       id: conversationId,
-      userId: input.userId,
+      userId: contextRequest.userId,
       title: fallbackTitle,
     });
 
@@ -76,7 +77,7 @@ export default class ConversationService {
 
   // 追加会话轮次
   // 追加用户问题和助手回答到会话中
-  public async appendChatTurn(input: {
+  public async appendChatTurn(chatTurn: {
     conversationId: string;
     question: string;
     answer: string;
@@ -84,20 +85,20 @@ export default class ConversationService {
     assistantMetadata?: ChatMessageMetadata;
   }) {
     await this.conversationRepository.appendTurn({
-      conversationId: input.conversationId,
+      conversationId: chatTurn.conversationId,
       userMessage: {
         id: createId('msg'),
-        conversationId: input.conversationId,
+        conversationId: chatTurn.conversationId,
         role: 'user',
-        content: input.question,
+        content: chatTurn.question,
       },
       assistantMessage: {
         id: createId('msg'),
-        conversationId: input.conversationId,
+        conversationId: chatTurn.conversationId,
         role: 'assistant',
-        content: input.answer,
-        citations: input.citations,
-        metadata: input.assistantMetadata,
+        content: chatTurn.answer,
+        citations: chatTurn.citations,
+        metadata: chatTurn.assistantMetadata,
       },
     });
   }
@@ -116,9 +117,33 @@ export default class ConversationService {
     };
   }
 
+  public updateConversationTitle(renameRequest: { conversationId: string; title: string }) {
+    const normalizedTitle = renameRequest.title.trim();
+    if (!normalizedTitle) {
+      throw new AppError('invalid_conversation_title', 400, 'title is required');
+    }
+
+    if (normalizedTitle.length > 80) {
+      throw new AppError(
+        'conversation_title_too_long',
+        400,
+        'title must be 80 characters or fewer',
+      );
+    }
+
+    return this.conversationRepository.updateConversationTitle({
+      conversationId: renameRequest.conversationId,
+      title: normalizedTitle,
+    });
+  }
+
+  public deleteConversation(conversationId: string) {
+    return this.conversationRepository.deleteConversation(conversationId);
+  }
+
   // 更新会话摘要
   // 更新会话的摘要，包括用户最新问题和助手最新回答摘要
-  public async updateSummaryAfterTurn(input: {
+  public async updateSummaryAfterTurn(summaryUpdate: {
     conversationId: string;
     previousSummary?: string;
     question: string;
@@ -126,16 +151,16 @@ export default class ConversationService {
   }) {
     const nextSummary = trimSummary(
       [
-        input.previousSummary ? `此前摘要：${input.previousSummary}` : undefined,
-        `用户最新问题：${input.question}`,
-        `助手最新回答摘要：${input.answer.slice(0, 400)}`,
+        summaryUpdate.previousSummary ? `此前摘要：${summaryUpdate.previousSummary}` : undefined,
+        `用户最新问题：${summaryUpdate.question}`,
+        `助手最新回答摘要：${summaryUpdate.answer.slice(0, 400)}`,
       ]
         .filter(Boolean)
         .join('\n'),
     );
 
     await this.conversationRepository.updateSummary({
-      conversationId: input.conversationId,
+      conversationId: summaryUpdate.conversationId,
       summary: nextSummary,
     });
   }

@@ -172,6 +172,32 @@ export default class ConversationRepository {
     return result.rows.map(mapMessage);
   }
 
+  public async updateConversationTitle(input: {
+    conversationId: string;
+    title: string;
+  }): Promise<Conversation | null> {
+    const result = await this.postgres.query<ConversationRow>(
+      `UPDATE conversations
+       SET title = $2,
+           updated_at = now()
+       WHERE id = $1
+       RETURNING id, user_id, title, summary, created_at, updated_at`,
+      [input.conversationId, input.title],
+    );
+
+    return result.rows[0] ? mapConversation(result.rows[0]) : null;
+  }
+
+  public async deleteConversation(conversationId: string): Promise<boolean> {
+    const result = await this.postgres.query(
+      `DELETE FROM conversations
+       WHERE id = $1`,
+      [conversationId],
+    );
+
+    return (result.rowCount ?? 0) > 0;
+  }
+
   public async appendMessage(input: AppendMessageInput): Promise<ConversationMessage | null> {
     const createdAt = input.createdAt ?? new Date().toISOString();
 

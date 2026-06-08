@@ -1,21 +1,40 @@
 import type {
   CreateConversationRequest,
   CreateConversationResponse,
+  DeleteConversationResponse,
   ListConversationMessagesResponse,
   ListConversationsResponse,
+  UpdateConversationRequest,
+  UpdateConversationResponse,
 } from '@rag/shared';
 import { request } from './http';
 
-export function listConversations(params: { userId?: string } = {}) {
+export function listConversations(filter: { userId?: string } = {}) {
   return request<ListConversationsResponse>('/conversations', {
-    params,
+    params: filter,
   });
 }
 
-export function createConversation(payload: CreateConversationRequest) {
+export function createConversation(createRequest: CreateConversationRequest) {
   return request<CreateConversationResponse>('/conversations', {
     method: 'POST',
-    data: payload,
+    data: createRequest,
+  });
+}
+
+export function updateConversationTitle(
+  conversationId: string,
+  updateRequest: UpdateConversationRequest,
+) {
+  return request<UpdateConversationResponse>(`/conversations/${conversationId}`, {
+    method: 'PATCH',
+    data: updateRequest,
+  });
+}
+
+export function deleteConversation(conversationId: string) {
+  return request<DeleteConversationResponse>(`/conversations/${conversationId}`, {
+    method: 'DELETE',
   });
 }
 

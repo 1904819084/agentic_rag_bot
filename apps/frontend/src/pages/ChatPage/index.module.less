@@ -105,6 +105,50 @@
   white-space: nowrap;
 }
 
+.conversationItemHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.conversationItemActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity @duration @easing;
+}
+
+.conversationIconAction {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: @color-text-subtle;
+  transition:
+    color @duration @easing,
+    background @duration @easing;
+
+  &:hover {
+    color: @color-primary;
+    background: @color-surface;
+  }
+}
+
+.conversationDelete:hover {
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+.conversationItem:hover .conversationItemActions,
+.conversationItemActive .conversationItemActions,
+.conversationItemActions:focus-within {
+  opacity: 1;
+}
+
 .conversationMeta {
   margin-top: 6px;
   color: @color-text-subtle;

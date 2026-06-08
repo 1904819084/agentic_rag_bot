@@ -1,6 +1,15 @@
 import { Inject } from '@gulux/gulux';
-import { Body, Controller, Get, Param, Post, Query } from '@gulux/gulux/application-http';
-import type { CreateConversationRequest } from '@rag/shared';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@gulux/gulux/application-http';
+import type { CreateConversationRequest, UpdateConversationRequest } from '@rag/shared';
 import ConversationService from '../services/conversationService';
 import { AppError } from '../utils/appError';
 
@@ -26,6 +35,40 @@ export default class ConversationController {
     return { conversation };
   }
 
+  @Patch('/:id')
+  public async updateConversation(
+    @Param('id') id: string,
+    @Body() body: UpdateConversationRequest = {},
+  ) {
+    if (!id) {
+      throw new AppError('invalid_conversation_id', 400, 'conversation id is required');
+    }
+
+    const conversation = await this.conversationService.updateConversationTitle({
+      conversationId: id,
+      title: body.title ?? '',
+    });
+    if (!conversation) {
+      throw new AppError('conversation_not_found', 404, `conversation not found: ${id}`);
+    }
+
+    return { conversation };
+  }
+
+  @Delete('/:id')
+  public async deleteConversation(@Param('id') id: string) {
+    if (!id) {
+      throw new AppError('invalid_conversation_id', 400, 'conversation id is required');
+    }
+
+    const deleted = await this.conversationService.deleteConversation(id);
+    if (!deleted) {
+      throw new AppError('conversation_not_found', 404, `conversation not found: ${id}`);
+    }
+
+    return { success: true };
+  }
+
   // 列出会话消息
   // 返回会话的所有消息，包括用户问题和助手回答
   @Get('/:id/messages')
@@ -34,11 +77,11 @@ export default class ConversationController {
       throw new AppError('invalid_conversation_id', 400, 'conversation id is required');
     }
 
-    const result = await this.conversationService.listMessages(id);
-    if (!result) {
+    const messagesResult = await this.conversationService.listMessages(id);
+    if (!messagesResult) {
       throw new AppError('conversation_not_found', 404, `conversation not found: ${id}`);
     }
 
-    return result;
+    return messagesResult;
   }
 }

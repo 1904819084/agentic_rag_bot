@@ -33,7 +33,8 @@ packages/shared/dist/
 # ---- 测试 / 临时输出 ----
 .test-output/
 apps/backend/test-output/
-apps/backend/test/
+apps/backend/test/*
+!apps/backend/test/localDocumentService.test.ts
 apps/backend/scripts/
 apps/backend/tsconfig.test.json
 
@@ -43,6 +44,7 @@ log/
 *.log
 apps/backend/log/
 runtime-data/
+apps/backend/storage/
 
 # ---- Gulux 运行时 ----
 .gulux/

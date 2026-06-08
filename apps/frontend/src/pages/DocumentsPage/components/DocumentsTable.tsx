@@ -5,12 +5,29 @@ import StatusTag from '../../../components/StatusTag';
 import { DOCUMENT_STATUS_COLOR, DOCUMENT_STATUS_LABEL } from '../../../constants';
 
 interface DocumentsTableProps {
-  items: Document[];
+  documents: Document[];
   loading: boolean;
   onRefresh: () => void;
 }
 
-export default function DocumentsTable({ items, loading, onRefresh }: DocumentsTableProps) {
+const SOURCE_LABEL: Record<Document['source'], string> = {
+  feishu: '飞书',
+  local_file: '本地文件',
+};
+
+function formatFileSize(size?: number) {
+  if (!size) {
+    return '-';
+  }
+
+  if (size < 1024 * 1024) {
+    return `${(size / 1024).toFixed(1)} KB`;
+  }
+
+  return `${(size / 1024 / 1024).toFixed(1)} MB`;
+}
+
+export default function DocumentsTable({ documents, loading, onRefresh }: DocumentsTableProps) {
   return (
     <Card
       className="page-card"
@@ -18,7 +35,7 @@ export default function DocumentsTable({ items, loading, onRefresh }: DocumentsT
       extra={
         <Space size={12}>
           <Typography.Text type="secondary" style={{ fontSize: 12 }}>
-            共 {items.length} 篇
+            共 {documents.length} 篇
           </Typography.Text>
           <Button onClick={onRefresh} loading={loading}>
             刷新
@@ -29,7 +46,7 @@ export default function DocumentsTable({ items, loading, onRefresh }: DocumentsT
       <Table<Document>
         rowKey="id"
         loading={loading}
-        dataSource={items}
+        dataSource={documents}
         scroll={{ x: 1200 }}
         locale={{
           emptyText: <EmptyState description="暂无文档，从上方导入飞书文档开始" />,
@@ -38,35 +55,54 @@ export default function DocumentsTable({ items, loading, onRefresh }: DocumentsT
           {
             title: '标题',
             dataIndex: 'title',
-            render: (text, record) =>
-              record.sourceUrl ? (
-                <a href={record.sourceUrl} target="_blank" rel="noreferrer">
-                  {text}
+            render: (documentTitle, document) =>
+              document.sourceUrl ? (
+                <a href={document.sourceUrl} target="_blank" rel="noreferrer">
+                  {documentTitle}
                 </a>
               ) : (
-                text
+                documentTitle
               ),
           },
           {
             title: '来源',
             dataIndex: 'source',
             width: 120,
-            render: (value) => <Tag bordered={false}>{value}</Tag>,
+            render: (documentSource: Document['source']) => (
+              <Tag bordered={false}>{SOURCE_LABEL[documentSource] ?? documentSource}</Tag>
+            ),
           },
           {
-            title: '文档 Token',
+            title: '来源标识',
             dataIndex: 'sourceDocId',
             width: 200,
             ellipsis: true,
-            render: (value) => <span className="mono">{value}</span>,
+            render: (sourceDocId) => <span className="mono">{sourceDocId}</span>,
+          },
+          {
+            title: '文件',
+            dataIndex: 'fileName',
+            width: 220,
+            ellipsis: true,
+            render: (fileName, document) =>
+              fileName ? (
+                <Space direction="vertical" size={0}>
+                  <span>{fileName}</span>
+                  <Typography.Text type="secondary" style={{ fontSize: 12 }}>
+                    {formatFileSize(document.fileSize)}
+                  </Typography.Text>
+                </Space>
+              ) : (
+                '-'
+              ),
           },
           {
             title: '状态',
             dataIndex: 'status',
             width: 110,
-            render: (value: string) => (
+            render: (documentStatus: string) => (
               <StatusTag
-                value={value}
+                value={documentStatus}
                 colorMap={DOCUMENT_STATUS_COLOR}
                 labelMap={DOCUMENT_STATUS_LABEL}
               />
@@ -77,22 +113,22 @@ export default function DocumentsTable({ items, loading, onRefresh }: DocumentsT
             dataIndex: 'parentChunkCount',
             width: 100,
             align: 'right',
-            render: (value) => <span className="mono">{value ?? '-'}</span>,
+            render: (parentChunkCount) => <span className="mono">{parentChunkCount ?? '-'}</span>,
           },
           {
             title: 'Child',
             dataIndex: 'childChunkCount',
             width: 100,
             align: 'right',
-            render: (value) => <span className="mono">{value ?? '-'}</span>,
+            render: (childChunkCount) => <span className="mono">{childChunkCount ?? '-'}</span>,
           },
           {
             title: '更新时间',
             dataIndex: 'updatedAt',
             width: 180,
-            render: (value) => (
+            render: (updatedAt) => (
               <span className="muted-text" style={{ fontSize: 12 }}>
-                {value || '-'}
+                {updatedAt || '-'}
               </span>
             ),
           },
@@ -100,9 +136,9 @@ export default function DocumentsTable({ items, loading, onRefresh }: DocumentsT
             title: '创建时间',
             dataIndex: 'createdAt',
             width: 180,
-            render: (value) => (
+            render: (createdAt) => (
               <span className="muted-text" style={{ fontSize: 12 }}>
-                {value || '-'}
+                {createdAt || '-'}
               </span>
             ),
           },

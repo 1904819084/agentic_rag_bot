@@ -1,12 +1,18 @@
 import { Space } from 'antd';
-import { useDocuments, useImportFeishuDocxDocument } from '../../hooks/useDocuments';
+import {
+  useDocuments,
+  useImportFeishuDocxDocument,
+  useImportLocalFileDocument,
+} from '../../hooks/useDocuments';
 import DocumentsTable from './components/DocumentsTable';
 import ImportDocumentCard from './components/ImportDocumentCard';
+import UploadLocalDocumentCard from './components/UploadLocalDocumentCard';
 
 export default function DocumentsPage() {
   const documentsRequest = useDocuments();
   const importRequest = useImportFeishuDocxDocument(documentsRequest.refresh);
-  const items = documentsRequest.data?.items ?? [];
+  const uploadRequest = useImportLocalFileDocument(documentsRequest.refresh);
+  const documents = documentsRequest.data?.items ?? [];
 
   return (
     <Space direction="vertical" size={16} style={{ width: '100%' }}>
@@ -14,8 +20,12 @@ export default function DocumentsPage() {
         loading={importRequest.loading}
         onSubmit={(url) => importRequest.runAsync({ url })}
       />
+      <UploadLocalDocumentCard
+        loading={uploadRequest.loading}
+        onUpload={(documentFile) => uploadRequest.runAsync(documentFile)}
+      />
       <DocumentsTable
-        items={items}
+        documents={documents}
         loading={documentsRequest.loading}
         onRefresh={documentsRequest.refresh}
       />

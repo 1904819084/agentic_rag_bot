@@ -137,6 +137,18 @@ export interface CreateConversationResponse {
   conversation: Conversation;
 }
 
+export interface UpdateConversationRequest {
+  title?: string;
+}
+
+export interface UpdateConversationResponse {
+  conversation: Conversation;
+}
+
+export interface DeleteConversationResponse {
+  success: boolean;
+}
+
 export interface ListConversationMessagesResponse {
   conversation: Conversation;
   messages: ConversationMessage[];
