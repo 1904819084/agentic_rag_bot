@@ -40,7 +40,7 @@ export function verifyAnswer(input: {
   }
 
   const noEvidenceSteps = input.stepResults.filter(
-    (step) => step.taskType !== 'synthesize' && step.evidenceStatus === 'none',
+    (step) => step.taskType === 'retrieve' && step.contexts.length === 0,
   );
   if (noEvidenceSteps.length && !hasInsufficientStatement) {
     warnings.push('部分检索步骤没有命中资料，但最终答案没有说明这些不足。');

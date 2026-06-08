@@ -36,7 +36,7 @@ export default class ChatService {
       citations: ragAnswer.citations ?? [],
       assistantMetadata: {
         rewrittenQuery: ragAnswer.rewrittenQuery,
-        queryPlanDag: ragAnswer.queryPlanDag,
+        queryPlan: ragAnswer.queryPlan,
         stepResults: ragAnswer.stepResults ?? [],
         answerVerification: ragAnswer.answerVerification,
       },
@@ -63,7 +63,6 @@ export default class ChatService {
       answer: ragAnswer.answer,
       rewrittenQuery: ragAnswer.rewrittenQuery,
       queryPlan: ragAnswer.queryPlan,
-      queryPlanDag: ragAnswer.queryPlanDag,
       stepResults: ragAnswer.stepResults ?? [],
       citations: ragAnswer.citations ?? [],
       contexts: ragAnswer.contexts ?? [],

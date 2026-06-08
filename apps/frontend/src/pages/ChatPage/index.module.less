@@ -197,7 +197,7 @@
 }
 
 .body {
-  flex: 1;
+  max-width: min(760px, calc(100% - 44px));
   min-width: 0;
 }
 
@@ -320,6 +320,18 @@
 }
 
 .user {
+  flex-direction: row-reverse;
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .role {
+    text-align: right;
+  }
+
   .avatar {
     background: @color-primary-soft;
     color: @color-primary;
@@ -328,10 +340,15 @@
   .bubble {
     background: @color-primary-soft;
     border-color: rgba(37, 99, 235, 0.18);
+    border-top-right-radius: 4px;
   }
 }
 
 .assistant {
+  .bubble {
+    border-top-left-radius: 4px;
+  }
+
   .avatar {
     background: #ecfdf5;
     color: #059669;

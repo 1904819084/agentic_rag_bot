@@ -1,4 +1,4 @@
-import type { AnswerVerification, QueryPlanDag, QueryPlanStepResult } from '@rag/shared';
+import type { AnswerVerification, QueryPlan, QueryPlanStepResult } from '@rag/shared';
 import { Alert, Collapse, Space, Tag, Typography } from 'antd';
 import styles from '../index.module.less';
 
@@ -6,25 +6,18 @@ const { Text, Paragraph } = Typography;
 
 interface PlanStepsProps {
   rewrittenQuery?: string;
-  queryPlanDag?: QueryPlanDag;
+  queryPlan?: QueryPlan;
   stepResults?: QueryPlanStepResult[];
   answerVerification?: AnswerVerification;
 }
 
-const EVIDENCE_COLOR: Record<string, string> = {
-  sufficient: 'success',
-  weak: 'warning',
-  none: 'error',
-  not_applicable: 'default',
-};
-
 export default function PlanSteps({
   rewrittenQuery,
-  queryPlanDag,
+  queryPlan,
   stepResults = [],
   answerVerification,
 }: PlanStepsProps) {
-  const hasPlan = Boolean(queryPlanDag?.steps?.length || stepResults.length || rewrittenQuery);
+  const hasPlan = Boolean(queryPlan?.tasks?.length || stepResults.length || rewrittenQuery);
   const hasWarnings = Boolean(answerVerification?.warnings?.length);
 
   if (!hasPlan && !hasWarnings) {
@@ -60,48 +53,28 @@ export default function PlanSteps({
                     {rewrittenQuery}
                   </Paragraph>
                 ) : null}
-                {queryPlanDag ? (
-                  <Space className={styles.planMeta} size={[6, 6]} wrap>
-                    <Tag color={queryPlanDag.isComplex ? 'blue' : 'default'}>
-                      {queryPlanDag.isComplex ? '复杂问题' : '单步问题'}
-                    </Tag>
-                    {queryPlanDag.intent ? <Tag>{queryPlanDag.intent}</Tag> : null}
-                    {queryPlanDag.needClarification ? <Tag color="orange">需澄清</Tag> : null}
-                  </Space>
-                ) : null}
-                {(queryPlanDag?.steps ?? []).map((step) => {
-                  const result = resultByStepId.get(step.id);
+                {(queryPlan?.tasks ?? []).map((task) => {
+                  const result = resultByStepId.get(task.id);
                   return (
-                    <div className={styles.planStep} key={step.id}>
+                    <div className={styles.planStep} key={task.id}>
                       <Space className={styles.stepHeader} size={[6, 6]} wrap>
-                        <Tag color="geekblue">步骤 {step.id}</Tag>
-                        <Tag>{step.taskType ?? result?.taskType ?? 'retrieve'}</Tag>
-                        {result?.evidenceStatus ? (
-                          <Tag color={EVIDENCE_COLOR[result.evidenceStatus] ?? 'default'}>
-                            {result.evidenceStatus}
-                          </Tag>
-                        ) : null}
+                        <Tag color="geekblue">步骤 {task.id}</Tag>
+                        <Tag>{task.type}</Tag>
                       </Space>
                       <Paragraph className={styles.planText}>
                         <Text strong>子问题：</Text>
-                        {step.query}
+                        {task.query}
                       </Paragraph>
-                      {step.searchQuery || result?.searchQuery ? (
+                      {result?.searchQuery ? (
                         <Paragraph className={styles.planText}>
                           <Text strong>检索式：</Text>
-                          {step.searchQuery ?? result?.searchQuery}
+                          {result.searchQuery}
                         </Paragraph>
                       ) : null}
-                      {step.expectedEvidence || result?.expectedEvidence ? (
-                        <Paragraph className={styles.planText}>
-                          <Text strong>期望证据：</Text>
-                          {step.expectedEvidence ?? result?.expectedEvidence}
-                        </Paragraph>
-                      ) : null}
-                      {step.depends.length ? (
+                      {task.dependsOn.length ? (
                         <Paragraph className={styles.planText}>
                           <Text strong>依赖：</Text>
-                          {step.depends.join(', ')}
+                          {task.dependsOn.join(', ')}
                         </Paragraph>
                       ) : null}
                       {result ? (
@@ -112,9 +85,6 @@ export default function PlanSteps({
                           </Paragraph>
                           <div className={styles.planMeta}>
                             命中资料 {result.contexts.length} 条
-                            {result.missingEvidence?.length
-                              ? `；缺失：${result.missingEvidence.join('；')}`
-                              : ''}
                           </div>
                         </>
                       ) : null}

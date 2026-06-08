@@ -76,7 +76,7 @@ export default class DocumentIngestionService {
       createdAt: now,
     };
     const vectors = await this.embeddingService.embedTexts(
-      chunks.children.map((chunk) => chunk.content),
+      chunks.children.map((chunk) => chunk.contentForEmbedding ?? chunk.content),
     );
     const children = chunks.children.map((chunk, index) => ({
       ...chunk,

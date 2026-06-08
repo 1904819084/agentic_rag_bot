@@ -1,14 +1,15 @@
-import { Space } from 'antd';
+import { Button, Space } from 'antd';
+import { useState } from 'react';
 import {
   useDocuments,
   useImportFeishuDocxDocument,
   useImportLocalFileDocument,
 } from '../../hooks/useDocuments';
 import DocumentsTable from './components/DocumentsTable';
-import ImportDocumentCard from './components/ImportDocumentCard';
-import UploadLocalDocumentCard from './components/UploadLocalDocumentCard';
+import ImportDocumentModal from './components/ImportDocumentModal';
 
 export default function DocumentsPage() {
+  const [importModalOpen, setImportModalOpen] = useState(false);
   const documentsRequest = useDocuments();
   const importRequest = useImportFeishuDocxDocument(documentsRequest.refresh);
   const uploadRequest = useImportLocalFileDocument(documentsRequest.refresh);
@@ -16,18 +17,22 @@ export default function DocumentsPage() {
 
   return (
     <Space direction="vertical" size={16} style={{ width: '100%' }}>
-      <ImportDocumentCard
-        loading={importRequest.loading}
-        onSubmit={(url) => importRequest.runAsync({ url })}
-      />
-      <UploadLocalDocumentCard
-        loading={uploadRequest.loading}
-        onUpload={(documentFile) => uploadRequest.runAsync(documentFile)}
-      />
       <DocumentsTable
         documents={documents}
         loading={documentsRequest.loading}
-        onRefresh={documentsRequest.refresh}
+        extra={
+          <Button type="primary" onClick={() => setImportModalOpen(true)}>
+            导入文档
+          </Button>
+        }
+      />
+      <ImportDocumentModal
+        open={importModalOpen}
+        feishuLoading={importRequest.loading}
+        localFileLoading={uploadRequest.loading}
+        onClose={() => setImportModalOpen(false)}
+        onImportFeishu={(url) => importRequest.runAsync({ url })}
+        onUploadLocalFile={(documentFile) => uploadRequest.runAsync(documentFile)}
       />
     </Space>
   );

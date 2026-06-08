@@ -1,7 +1,7 @@
 import { InboxOutlined } from '@ant-design/icons';
 import { Card, Typography, Upload, type UploadProps } from 'antd';
 
-const ACCEPTED_FILE_TYPES = '.txt,.md,.markdown,.docx,.pdf';
+const ACCEPTED_FILE_TYPES = '.txt,.md,.markdown,.docx,.pdf,.html,.htm,.csv,.xlsx,.xml,.json';
 const MAX_FILE_SIZE_MB = 20;
 
 interface UploadLocalDocumentCardProps {
@@ -36,7 +36,7 @@ export default function UploadLocalDocumentCard({
       title="上传本地文档"
       extra={
         <Typography.Text type="secondary" style={{ fontSize: 12 }}>
-          支持 TXT / Markdown / DOCX / PDF，最大 {MAX_FILE_SIZE_MB}MB
+          支持 TXT / Markdown / DOCX / PDF / HTML / CSV / XLSX，最大 {MAX_FILE_SIZE_MB}MB
         </Typography.Text>
       }
     >

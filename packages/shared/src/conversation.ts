@@ -1,15 +1,4 @@
-export type QueryPlanIntent =
-  | 'factual'
-  | 'multi_hop'
-  | 'compare'
-  | 'summarize'
-  | 'diagnose'
-  | 'decision'
-  | 'ambiguous';
-
-export type QueryPlanTaskType = 'retrieve' | 'synthesize' | 'verify' | 'clarify';
-
-export type EvidenceStatus = 'none' | 'weak' | 'sufficient' | 'not_applicable';
+export type QueryPlanTaskType = 'retrieve' | 'reasoning';
 
 export interface AnswerVerification {
   isSupported: boolean;
@@ -21,7 +10,7 @@ export interface AnswerVerification {
 
 export interface ChatMessageMetadata {
   rewrittenQuery?: string;
-  queryPlanDag?: QueryPlanDag;
+  queryPlan?: QueryPlan;
   stepResults?: QueryPlanStepResult[];
   answerVerification?: AnswerVerification;
 }
@@ -59,24 +48,15 @@ export interface RetrievedContext {
   sourceUrl?: string;
 }
 
-export interface QueryPlanStep {
+export interface QueryPlanTask {
   id: number;
+  type: QueryPlanTaskType;
   query: string;
-  depends: number[];
-  taskType?: QueryPlanTaskType;
-  searchQuery?: string;
-  expectedEvidence?: string;
-  output?: string;
+  dependsOn: number[];
 }
 
-export interface QueryPlanDag {
-  isComplex: boolean;
-  intent?: QueryPlanIntent;
-  needClarification?: boolean;
-  clarificationQuestion?: string;
-  steps: QueryPlanStep[];
-  executionLevels: number[][];
-  finalAnswerPlan?: string;
+export interface QueryPlan {
+  tasks: QueryPlanTask[];
 }
 
 export interface QueryPlanStepResult {
@@ -87,9 +67,6 @@ export interface QueryPlanStepResult {
   contexts: RetrievedContext[];
   taskType?: QueryPlanTaskType;
   searchQuery?: string;
-  expectedEvidence?: string;
-  evidenceStatus?: EvidenceStatus;
-  missingEvidence?: string[];
 }
 
 export interface ChatAskResponse {
@@ -97,8 +74,7 @@ export interface ChatAskResponse {
   conversation?: Conversation;
   answer: string;
   rewrittenQuery?: string;
-  queryPlan?: string[];
-  queryPlanDag?: QueryPlanDag;
+  queryPlan?: QueryPlan;
   stepResults?: QueryPlanStepResult[];
   citations: Citation[];
   contexts?: RetrievedContext[];

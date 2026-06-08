@@ -3,7 +3,7 @@ import type {
   AnswerVerification,
   ChatMessage,
   Citation,
-  QueryPlanDag,
+  QueryPlan,
   QueryPlanStepResult,
   RetrievedContext,
 } from '@rag/shared';
@@ -17,8 +17,7 @@ export const RagGraphState = Annotation.Root({
   memories: Annotation<MemoryContext[] | undefined>,
   userId: Annotation<string | undefined>,
   rewrittenQuery: Annotation<string | undefined>,
-  queryPlan: Annotation<string[]>,
-  queryPlanDag: Annotation<QueryPlanDag | undefined>,
+  queryPlan: Annotation<QueryPlan | undefined>,
   stepResults: Annotation<QueryPlanStepResult[]>,
   contexts: Annotation<RetrievedContext[]>,
   formattedContexts: Annotation<string>,

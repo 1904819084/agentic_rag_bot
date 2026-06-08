@@ -1,13 +1,15 @@
 import type { Document } from '@rag/shared';
-import { Button, Card, Space, Table, Tag, Typography } from 'antd';
+import type { ReactNode } from 'react';
+import { Card, Space, Table, Tag, Tooltip, Typography } from 'antd';
 import EmptyState from '../../../components/EmptyState';
 import StatusTag from '../../../components/StatusTag';
 import { DOCUMENT_STATUS_COLOR, DOCUMENT_STATUS_LABEL } from '../../../constants';
+import { formatLocalDateTime } from '../../../utils/dateTime';
 
 interface DocumentsTableProps {
   documents: Document[];
   loading: boolean;
-  onRefresh: () => void;
+  extra?: ReactNode;
 }
 
 const SOURCE_LABEL: Record<Document['source'], string> = {
@@ -27,7 +29,25 @@ function formatFileSize(size?: number) {
   return `${(size / 1024 / 1024).toFixed(1)} MB`;
 }
 
-export default function DocumentsTable({ documents, loading, onRefresh }: DocumentsTableProps) {
+function EllipsisText({
+  children,
+  className,
+}: {
+  children?: string;
+  className?: string;
+}) {
+  if (!children) {
+    return <span>-</span>;
+  }
+
+  return (
+    <Typography.Text className={className} ellipsis={{ tooltip: children }}>
+      {children}
+    </Typography.Text>
+  );
+}
+
+export default function DocumentsTable({ documents, loading, extra }: DocumentsTableProps) {
   return (
     <Card
       className="page-card"
@@ -37,9 +57,7 @@ export default function DocumentsTable({ documents, loading, onRefresh }: Docume
           <Typography.Text type="secondary" style={{ fontSize: 12 }}>
             共 {documents.length} 篇
           </Typography.Text>
-          <Button onClick={onRefresh} loading={loading}>
-            刷新
-          </Button>
+          {extra}
         </Space>
       }
     >
@@ -47,7 +65,8 @@ export default function DocumentsTable({ documents, loading, onRefresh }: Docume
         rowKey="id"
         loading={loading}
         dataSource={documents}
-        scroll={{ x: 1200 }}
+        tableLayout="fixed"
+        scroll={{ x: 1320 }}
         locale={{
           emptyText: <EmptyState description="暂无文档，从上方导入飞书文档开始" />,
         }}
@@ -55,13 +74,16 @@ export default function DocumentsTable({ documents, loading, onRefresh }: Docume
           {
             title: '标题',
             dataIndex: 'title',
+            width: 280,
             render: (documentTitle, document) =>
               document.sourceUrl ? (
-                <a href={document.sourceUrl} target="_blank" rel="noreferrer">
-                  {documentTitle}
-                </a>
+                <Tooltip title={documentTitle}>
+                  <a className="table-ellipsis-link" href={document.sourceUrl} target="_blank" rel="noreferrer">
+                    {documentTitle}
+                  </a>
+                </Tooltip>
               ) : (
-                documentTitle
+                <EllipsisText>{documentTitle}</EllipsisText>
               ),
           },
           {
@@ -76,18 +98,16 @@ export default function DocumentsTable({ documents, loading, onRefresh }: Docume
             title: '来源标识',
             dataIndex: 'sourceDocId',
             width: 200,
-            ellipsis: true,
-            render: (sourceDocId) => <span className="mono">{sourceDocId}</span>,
+            render: (sourceDocId) => <EllipsisText className="mono">{sourceDocId}</EllipsisText>,
           },
           {
             title: '文件',
             dataIndex: 'fileName',
-            width: 220,
-            ellipsis: true,
+            width: 240,
             render: (fileName, document) =>
               fileName ? (
-                <Space direction="vertical" size={0}>
-                  <span>{fileName}</span>
+                <Space direction="vertical" size={0} style={{ width: '100%' }}>
+                  <EllipsisText>{fileName}</EllipsisText>
                   <Typography.Text type="secondary" style={{ fontSize: 12 }}>
                     {formatFileSize(document.fileSize)}
                   </Typography.Text>
@@ -99,7 +119,7 @@ export default function DocumentsTable({ documents, loading, onRefresh }: Docume
           {
             title: '状态',
             dataIndex: 'status',
-            width: 110,
+            width: 150,
             render: (documentStatus: string) => (
               <StatusTag
                 value={documentStatus}
@@ -111,34 +131,34 @@ export default function DocumentsTable({ documents, loading, onRefresh }: Docume
           {
             title: 'Parent',
             dataIndex: 'parentChunkCount',
-            width: 100,
+            width: 80,
             align: 'right',
             render: (parentChunkCount) => <span className="mono">{parentChunkCount ?? '-'}</span>,
           },
           {
             title: 'Child',
             dataIndex: 'childChunkCount',
-            width: 100,
+            width: 80,
             align: 'right',
             render: (childChunkCount) => <span className="mono">{childChunkCount ?? '-'}</span>,
           },
           {
             title: '更新时间',
             dataIndex: 'updatedAt',
-            width: 180,
+            width: 170,
             render: (updatedAt) => (
               <span className="muted-text" style={{ fontSize: 12 }}>
-                {updatedAt || '-'}
+                {formatLocalDateTime(updatedAt)}
               </span>
             ),
           },
           {
             title: '创建时间',
             dataIndex: 'createdAt',
-            width: 180,
+            width: 170,
             render: (createdAt) => (
               <span className="muted-text" style={{ fontSize: 12 }}>
-                {createdAt || '-'}
+                {formatLocalDateTime(createdAt)}
               </span>
             ),
           },

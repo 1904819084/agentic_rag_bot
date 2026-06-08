@@ -1,16 +1,18 @@
 # 基于 Agentic RAG 的业务研发知识库问答助手
 
-面向研发人员的 PRD/TRD 知识库问答系统。系统支持从飞书云文档 Docx 链接导入研发文档，基于多轮会话、用户记忆、查询改写、查询计划 DAG、混合检索和答案校验，帮助追溯业务背景、历史技术决策和行动点。
+面向研发人员的 PRD/TRD 知识库问答系统。系统支持从飞书云文档 Docx 链接和本地文件导入研发文档，基于多轮会话、用户记忆、查询改写、任务规划、分步执行、混合检索和答案校验，帮助追溯业务背景、历史技术决策和行动点。
 
 ## 当前能力
 
-- 文档导入：支持飞书 Docx 链接和本地 TXT / Markdown / DOCX / PDF 文件上传，切分 parent / child chunks，写入 PostgreSQL 和 pgvector。
+- 文档导入：支持飞书 Docx 链接和本地 TXT / Markdown / DOCX / PDF / HTML / CSV / XLSX / XML / JSON 文件上传，统一转为 Markdown 文本后切分 parent / child chunks，写入 PostgreSQL 和 pgvector。
 - 混合检索：支持 keyword、vector、hybrid 三种检索模式，默认 hybrid，并用 RRF 和 query overlap 做结果融合与重排。
-- Agentic RAG 问答：LangGraph 编排 `rewrite_query -> plan_query -> retrieve -> build_context -> generate_answer -> verify_answer`。
+- Agentic RAG 问答：LangGraph 编排 `rewrite_query -> plan_query -> execute_plan -> build_context -> generate_answer -> verify_answer`。
+- 任务规划：planning agent 只返回 `QueryPlan.tasks`，每个任务只包含 `id`、`type`、`query`、`dependsOn`；任务类型只有 `retrieve` 和 `reasoning`。
+- 分步执行：`retrieve` 任务只检索，不调用 LLM；`reasoning` 任务只基于依赖步骤结果和命中父块内容调用 Fornax 推理。
 - 多轮会话：前端支持会话侧栏、会话选择、新建会话、历史消息加载；用户没有会话时直接提问会由 `/chat/ask` 自动创建会话。
 - 会话上下文：后端会读取会话摘要和最近消息，作为后续问题的上下文。
 - 用户记忆：从用户问题中提取显式偏好/约束，后续按 `userId` 注入问答上下文；记忆只影响回答风格和偏好，不作为知识库事实证据。
-- 答案可解释性：回答返回引用、查询计划 DAG、分步检索结果和答案支撑性校验信息，前端在消息中展示计划步骤。
+- 答案可解释性：回答返回引用、任务计划、分步执行结果和答案支撑性校验信息，前端在消息中展示计划步骤。
 - 飞书事件入口：支持飞书 URL verification challenge 和文本消息事件回复。
 
 ## 技术栈
@@ -46,11 +48,14 @@ infra
 
 ### 文档入库
 
-1. 前端在文档页提交飞书 Docx 链接，或上传本地 TXT / Markdown / DOCX / PDF 文件。
+1. 前端在文档页打开统一导入弹窗，选择飞书链接导入或本地文件上传。
 2. 后端 `POST /documents/import/feishu-docx` 拉取飞书文档内容，或 `POST /documents/import/file` 解析上传文件。
-3. `DocumentIngestionService` 将解析后的正文切分为 parent / child chunks。
-4. `EmbeddingService` 为 child chunks 生成向量。
-5. `DocumentRepository` 写入 `documents`、`parent_chunks`、`child_chunks`。
+3. 本地文件优先使用 `markitdown-ts` 转为 Markdown；TXT / Markdown 直接清洗文本；DOCX / PDF 保留 mammoth / pdf-parse 兜底解析。
+4. 后端会提升常见编号标题为 Markdown 标题，再由 `DocumentIngestionService` 切分为 parent / child chunks。
+5. parent chunk 按 Markdown 标题组织，child chunk 按段落和句子递归切分，用于检索和 embedding。
+6. 检索命中 child chunk 后，会回表返回对应 parent chunk 的 `content` 给 LLM 生成答案。
+7. `EmbeddingService` 为 child chunks 生成向量。
+8. `DocumentRepository` 写入 `documents`、`parent_chunks`、`child_chunks`。
 
 ### 问答
 
@@ -58,9 +63,17 @@ infra
 2. `ConversationService.prepareConversation` 准备会话：没有 `conversationId` 时自动创建会话，标题使用首问前 32 个字符。
 3. 后端读取会话摘要、最近消息和用户记忆。
 4. `RagGraphService` 执行 LangGraph：
-   `rewrite_query -> plan_query -> retrieve -> build_context -> generate_answer -> verify_answer`。
-5. 后端追加用户消息和助手消息，更新会话摘要，并从问题中提取用户记忆。
-6. 前端保存返回的 `conversationId`，刷新会话列表和消息；新会话会即时出现在侧栏。
+   `rewrite_query -> plan_query -> execute_plan -> build_context -> generate_answer -> verify_answer`。
+5. `plan_query` 调用 `demo.agentic_rag_planing.prompt`，只生成最小任务计划：
+   `tasks: [{ id, type, query, dependsOn }]`。
+6. `execute_plan` 根据 `dependsOn` 推导执行层级：
+   - `retrieve`：执行检索，命中 child chunks 后返回对应 parent chunk 内容。
+   - `reasoning`：调用 `demo.agentic_rag_reasoning.prompt`，输入依赖步骤结果和依赖步骤命中的父块内容。
+7. `build_context` 将最终去重后的 parent chunk 内容格式化为 `[资料 N]`。
+8. `generate_answer` 调用 `demo.agentic_rag_answer.prompt`，基于资料上下文和 step results 生成最终答案。
+9. `verify_answer` 做规则型答案校验，并在必要时追加资料充分性提示。
+10. 后端追加用户消息和助手消息，更新会话摘要，并从问题中提取用户记忆。
+11. 前端保存返回的 `conversationId`，刷新会话列表和消息；新会话会即时出现在侧栏。
 
 ## 本地启动
 
@@ -93,12 +106,21 @@ cp apps/backend/.env.example apps/backend/.env
 
 `hash` embedding 只适合本地验证；生产环境应配置真实 embedding HTTP 服务。不要提交 `.env`。
 
+Fornax Prompt Hub 需要配置以下 prompt key：
+
+- `demo.agentic_rag_rewrite.prompt`：问题改写。
+- `demo.agentic_rag_planing.prompt`：任务规划，只输出 `steps` JSON。
+- `demo.agentic_rag_reasoning.prompt`：中间推理，只处理 `reasoning` 子任务。
+- `demo.agentic_rag_answer.prompt`：最终答案生成。
+
 4. 准备数据库表：
 
 ```bash
 psql "$DATABASE_URL" -f apps/backend/src/db/migrations/001_init.sql
 psql "$DATABASE_URL" -f apps/backend/src/db/migrations/002_multi_turn_qa.sql
 psql "$DATABASE_URL" -f apps/backend/src/db/migrations/003_local_file_documents.sql
+psql "$DATABASE_URL" -f apps/backend/src/db/migrations/004_query_plan_task_type_reasoning.sql
+psql "$DATABASE_URL" -f apps/backend/src/db/migrations/005_simplify_query_plan_metadata.sql
 ```
 
 如果没有 `DATABASE_URL`，按 `.env` 中的 PostgreSQL 配置连接本地库后执行这些迁移文件。
@@ -136,15 +158,14 @@ pnpm --filter @rag/frontend dev
 
 - `pnpm dev` 会先构建 `@rag/shared`，再同时启动 backend 和 frontend。
 - `pnpm build` 会依次构建 shared、检查 shared `dist` 是否与 `src` 对齐、构建 backend 和 frontend。
-- 根目录当前没有统一 `pnpm test` 脚本。
 - 后端测试文件位于 `apps/backend/test`，使用 Node test runner。
-- 前端新增的会话列表纯函数测试位于 `apps/frontend/src/pages/ChatPage/conversationList.test.ts`。
 
 可按需运行单个测试，例如：
 
 ```bash
-pnpm --filter @rag/backend exec tsx --test test/conversationService.test.ts
-pnpm --filter @rag/backend exec tsx --test ../../apps/frontend/src/pages/ChatPage/conversationList.test.ts
+pnpm --filter @rag/backend exec tsx --test test/queryPlan.test.ts
+pnpm --filter @rag/backend exec tsx --test test/executePlanNode.test.ts
+pnpm --filter @rag/backend exec tsx --test test/generateAnswerNode.test.ts
 ```
 
 ## API 概览
@@ -176,7 +197,7 @@ POST /api/chat/ask
 - `answer`
 - `citations`
 - `rewrittenQuery`
-- `queryPlanDag`
+- `queryPlan`
 - `stepResults`
 - `answerVerification`
 
@@ -199,7 +220,7 @@ POST /api/documents/import/file
 GET /api/documents/:id
 ```
 
-`POST /api/documents/import/file` 使用 `multipart/form-data`，字段名为 `file`。当前支持 `.txt`、`.md`、`.markdown`、`.docx`、`.pdf`，文件大小上限 20MB；上传原文件会保存到 `apps/backend/storage/uploads`，并用内容 hash 作为本地文档来源标识。
+`POST /api/documents/import/file` 使用 `multipart/form-data`，字段名为 `file`。当前支持 `.txt`、`.md`、`.markdown`、`.docx`、`.pdf`、`.html`、`.csv`、`.xlsx`、`.xml`、`.json`，文件大小上限 20MB；上传原文件会保存到 `apps/backend/storage/uploads`，并用内容 hash 作为本地文档来源标识。
 
 当前 `GET /api/documents/:id` 仍返回 501，文档详情页尚未实现。
 
@@ -246,10 +267,14 @@ curl -X POST http://localhost:3001/api/feishu/events \
 - `content_hash`
 - `import_error`
 
+`004_query_plan_task_type_reasoning.sql` 清理历史消息中的旧任务类型字段。
+
+`005_simplify_query_plan_metadata.sql` 将历史 `conversation_messages.metadata.queryPlanDag` 转为新的 `metadata.queryPlan`。
+
 ## 前端页面
 
-- `/chat`：研发问答。支持会话列表、自动建会话、历史消息加载、回答引用、查询计划和答案校验信息展示。
-- `/documents`：PRD / TRD 文档管理。支持查看文档列表、导入飞书 Docx 文档和上传本地文档。
+- `/chat`：研发问答。支持会话列表、新建/改名/删除会话、历史消息加载、回答引用、任务计划、分步执行结果和答案校验信息展示。
+- `/documents`：PRD / TRD 文档管理。支持查看文档列表，通过统一导入弹窗导入飞书 Docx 文档或上传本地文档。
 
 ## 注意事项
 

@@ -3,6 +3,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { Injectable } from '@gulux/gulux';
 import mammoth from 'mammoth';
+import { MarkItDown } from 'markitdown-ts';
 import { PDFParse } from 'pdf-parse';
 import type { ParsedDocumentInput } from '../types';
 import { AppError } from '../utils/appError';
@@ -14,10 +15,22 @@ export type UploadedLocalFile = {
 };
 
 const TEXT_EXTENSIONS = new Set(['.txt', '.md', '.markdown']);
-const SUPPORTED_EXTENSIONS = new Set([...TEXT_EXTENSIONS, '.docx', '.pdf']);
+const MARKITDOWN_EXTENSIONS = new Set([
+  '.docx',
+  '.pdf',
+  '.html',
+  '.htm',
+  '.csv',
+  '.xlsx',
+  '.xml',
+  '.json',
+]);
+const SUPPORTED_EXTENSIONS = new Set([...TEXT_EXTENSIONS, ...MARKITDOWN_EXTENSIONS]);
 const MAX_FILE_SIZE_BYTES = 20 * 1024 * 1024;
 const MIN_TEXT_CHARS = 20;
 const UPLOAD_ROOT = path.resolve(process.cwd(), 'storage/uploads');
+const SUPPORTED_FILE_TYPE_MESSAGE =
+  'Only txt, md, docx, pdf, html, csv, xlsx, xml and json files are supported';
 
 function getExtension(fileName: string) {
   return path.extname(fileName).toLowerCase();
@@ -32,13 +45,46 @@ function createContentHash(buffer: Buffer) {
 }
 
 function normalizeExtractedText(text: string) {
-  return text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
+  return text
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    .split('')
+    .filter((char) => {
+      const codePoint = char.charCodeAt(0);
+      return codePoint === 9 || codePoint === 10 || codePoint >= 32;
+    })
+    .join('')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
 }
 
 function sanitizeFileName(fileName: string) {
   const parsed = path.parse(fileName);
   const name = parsed.name.replace(/[^a-zA-Z0-9._-]+/g, '-').replace(/^-+|-+$/g, '') || 'document';
   return `${name}${parsed.ext.toLowerCase()}`;
+}
+
+/**
+ * 提升编号标题为Markdown标题
+ */
+function promoteNumberedHeadings(text: string) {
+  return text
+    .split('\n')
+    .map((line) => {
+      const trimmedLine = line.trim();
+      if (/^#{1,6}\s+/.test(trimmedLine)) {
+        return trimmedLine;
+      }
+
+      const numberedHeading = /^(\d+(?:\.\d+)*\.?)\s+(.{2,80})$/.exec(trimmedLine);
+      if (!numberedHeading) {
+        return line;
+      }
+
+      const level = Math.min(numberedHeading[1].split('.').filter(Boolean).length + 1, 6);
+      return `${'#'.repeat(level)} ${trimmedLine}`;
+    })
+    .join('\n');
 }
 
 @Injectable()
@@ -49,7 +95,7 @@ export default class LocalDocumentService {
       throw new AppError(
         'unsupported_file_type',
         400,
-        'Only txt, md, docx and pdf files are supported',
+        SUPPORTED_FILE_TYPE_MESSAGE,
       );
     }
 
@@ -62,8 +108,8 @@ export default class LocalDocumentService {
     }
 
     const contentHash = createContentHash(uploadedFile.buffer);
-    const extractedText = await this.extractText(uploadedFile.buffer, fileExtension);
-    if (extractedText.length < MIN_TEXT_CHARS) {
+    const markdown = await this.convertToMarkdown(uploadedFile, fileExtension);
+    if (markdown.length < MIN_TEXT_CHARS) {
       throw new AppError(
         'uploaded_file_text_too_short',
         400,
@@ -75,7 +121,7 @@ export default class LocalDocumentService {
       source: 'local_file',
       sourceDocId: `local_${contentHash}`,
       title: getTitle(uploadedFile.originalName),
-      content: extractedText,
+      content: markdown,
       metadata: {
         fileName: uploadedFile.originalName,
         mimeType: uploadedFile.mimeType,
@@ -106,7 +152,32 @@ export default class LocalDocumentService {
       }
     }
 
-    throw new AppError('unsupported_file_type', 400, 'Only txt, md, docx and pdf files are supported');
+    throw new AppError('unsupported_file_type', 400, SUPPORTED_FILE_TYPE_MESSAGE);
+  }
+
+  private async convertToMarkdown(uploadedFile: UploadedLocalFile, extension: string) {
+    if (TEXT_EXTENSIONS.has(extension)) {
+      return promoteNumberedHeadings(normalizeExtractedText(uploadedFile.buffer.toString('utf8')));
+    }
+
+    const convertedMarkdown = await this.tryConvertWithMarkItDownTs(uploadedFile, extension);
+    if (convertedMarkdown) {
+      return promoteNumberedHeadings(normalizeExtractedText(convertedMarkdown));
+    }
+
+    return promoteNumberedHeadings(await this.extractText(uploadedFile.buffer, extension));
+  }
+
+  private async tryConvertWithMarkItDownTs(uploadedFile: UploadedLocalFile, extension: string) {
+    try {
+      const converter = new MarkItDown();
+      const result = await converter.convertBuffer(uploadedFile.buffer, {
+        file_extension: extension,
+      });
+      return result?.markdown?.trim() || null;
+    } catch {
+      return null;
+    }
   }
 
   private async saveUploadedFile(uploadedFile: UploadedLocalFile, contentHash: string) {

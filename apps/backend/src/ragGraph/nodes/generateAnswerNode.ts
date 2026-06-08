@@ -1,3 +1,4 @@
+import type { QueryPlanStepResult, RetrievedContext } from '@rag/shared';
 import { fornaxExecute } from '../../fornax/llm';
 import type { RagGraphOutput } from '../../types';
 import {
@@ -7,9 +8,16 @@ import {
 } from '../../utils/contextBuilder';
 
 const PROMPT_KEY = 'demo.agentic_rag_answer.prompt';
+const EMPTY_CONTEXT_PATTERNS = [
+  '材料内容没有提供',
+  '检索的材料为空',
+  '检索材料的内容没有提供',
+  '没有提供相关材料内容',
+];
 
-function formatStepResults(state: Partial<RagGraphOutput>) {
-  const steps = state.stepResults ?? [];
+type AnswerExecutor = typeof fornaxExecute;
+
+export function formatStepResultsForFinalAnswer(steps: QueryPlanStepResult[] = []) {
   if (!steps.length) {
     return '';
   }
@@ -21,10 +29,7 @@ function formatStepResults(state: Partial<RagGraphOutput>) {
         `类型：${step.taskType ?? 'retrieve'}`,
         `子问题：${step.query}`,
         step.searchQuery ? `检索式：${step.searchQuery}` : undefined,
-        step.expectedEvidence ? `期望证据：${step.expectedEvidence}` : undefined,
         step.dependencyStepIds.length ? `依赖步骤：${step.dependencyStepIds.join(', ')}` : '依赖步骤：无',
-        step.evidenceStatus ? `证据状态：${step.evidenceStatus}` : undefined,
-        step.missingEvidence?.length ? `缺失证据：${step.missingEvidence.join('；')}` : undefined,
         step.answer ? `中间答案：${step.answer}` : undefined,
         step.contexts.length
           ? `命中资料：${step.contexts.map((context) => context.title).join('；')}`
@@ -36,38 +41,77 @@ function formatStepResults(state: Partial<RagGraphOutput>) {
     .join('\n\n');
 }
 
-// 生成答案节点
-export function createGenerateAnswerNode() {
-  return async (state: Partial<RagGraphOutput>) => {
-    if (state.queryPlanDag?.needClarification && state.queryPlanDag.clarificationQuestion) {
-      return { answer: state.queryPlanDag.clarificationQuestion };
-    }
+function looksLikeEmptyContextAnswer(answer: string) {
+  return EMPTY_CONTEXT_PATTERNS.some((pattern) => answer.includes(pattern));
+}
 
-    const result = await fornaxExecute({
+function extractRelevantSentences(content: string, query: string) {
+  const keywords = Array.from(new Set(query.match(/[\u4e00-\u9fa5A-Za-z0-9]{2,}/g) ?? []));
+  const sentences = content
+    .replace(/^#{1,6}\s+/gm, '')
+    .split(/(?<=[。！？!?；;])|\n+/)
+    .map((sentence) => sentence.trim())
+    .filter((sentence) => sentence.length >= 8);
+  const matched = sentences.filter((sentence) =>
+    keywords.some((keyword) => sentence.includes(keyword)),
+  );
+  return (matched.length ? matched : sentences).slice(0, 5);
+}
+
+export function buildAnswerFallback(input: {
+  question?: string;
+  rewrittenQuery?: string;
+  contexts?: RetrievedContext[];
+}) {
+  const contexts = input.contexts ?? [];
+  if (!contexts.length) {
+    return '当前知识库暂未检索到可用资料。请先上传相关文档，或调整问题后重试。';
+  }
+
+  const query = input.rewrittenQuery ?? input.question ?? '';
+  const contextLines = contexts.slice(0, 3).flatMap((context) =>
+    extractRelevantSentences(context.content, query),
+  );
+  const bullets = Array.from(new Set(contextLines)).slice(0, 6);
+
+  if (!bullets.length) {
+    return '已检索到相关资料，但当前大模型未能生成答案。请调整问题后重试。';
+  }
+
+  return [
+    '根据已检索到的资料，可以先得到以下信息：',
+    ...bullets.map((line) => `- ${line}`),
+    '',
+    '以上内容来自本次命中的知识库资料。',
+  ].join('\n');
+}
+
+// 生成最终答案节点：整理上下文和步骤结果，调用最终回答 prompt。
+export function createGenerateAnswerNode(executeAnswer: AnswerExecutor = fornaxExecute) {
+  return async (state: Partial<RagGraphOutput>) => {
+    const result = await executeAnswer({
       promptKey: PROMPT_KEY,
       variables: {
-        query: state.rewrittenQuery ?? state.question,
         original_query: state.question ?? '',
-        conversation_summary: state.conversationSummary ?? '',
+        rewrite_query: state.rewrittenQuery ?? '',
         recent_messages: formatRecentMessages(state.recentMessages ?? []),
-        memory_context: formatMemoryContexts(state.memories ?? []),
+        user_memory: formatMemoryContexts(state.memories ?? []),
         contexts: state.formattedContexts ?? '',
-        step_results: formatStepResults(state),
+        step_results: formatStepResultsForFinalAnswer(state.stepResults ?? []),
         citation_rules: formatCitationRules(),
-        insufficient_evidence_policy:
-          '如果资料或步骤证据不足，必须明确说明不足，不要把会话历史或记忆当作事实证据。',
       },
     });
 
-    if (result.ok && result.text) {
+    if (result.ok && result.text && !looksLikeEmptyContextAnswer(result.text)) {
       return { answer: result.text };
     }
 
-    const hasContexts = Boolean(state.contexts?.length);
     return {
-      answer: hasContexts
-        ? '已检索到相关资料，但当前 Fornax 大模型未配置或调用失败，暂时无法生成最终答案。请检查 Fornax 环境变量和 Prompt 发布状态。'
-        : '当前知识库暂未检索到可用资料。请先上传 PRD/TRD，或检查 pgvector/Embedding/关键词索引配置。',
+      answer: buildAnswerFallback({
+        question: state.question,
+        rewrittenQuery: state.rewrittenQuery,
+        contexts: state.contexts,
+      }),
     };
   };
 }

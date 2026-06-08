@@ -50,7 +50,7 @@ export default function ChatMessages({ messages, loading }: ChatMessagesProps) {
               {!isUser ? (
                 <PlanSteps
                   rewrittenQuery={item.metadata?.rewrittenQuery}
-                  queryPlanDag={item.metadata?.queryPlanDag}
+                  queryPlan={item.metadata?.queryPlan}
                   stepResults={item.metadata?.stepResults}
                   answerVerification={item.metadata?.answerVerification}
                 />

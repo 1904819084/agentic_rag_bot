@@ -151,7 +151,7 @@ export default function ChatPage() {
             citations: chatAnswer.citations,
             metadata: {
               rewrittenQuery: chatAnswer.rewrittenQuery,
-              queryPlanDag: chatAnswer.queryPlanDag,
+              queryPlan: chatAnswer.queryPlan,
               stepResults: chatAnswer.stepResults,
               answerVerification: chatAnswer.answerVerification,
             },
@@ -270,7 +270,6 @@ export default function ChatPage() {
         onSelectConversation={handleSelectConversation}
         onEditConversationTitle={handleEditConversationTitle}
         onDeleteConversation={handleDeleteConversation}
-        onRefresh={conversationsRequest.refresh}
       />
 
       <Card className={`page-card ${styles.card}`} title="研发问答" variant="borderless">

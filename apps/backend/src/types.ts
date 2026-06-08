@@ -3,7 +3,7 @@ import type {
   ChatMessage,
   Citation,
   Document,
-  QueryPlanDag,
+  QueryPlan,
   QueryPlanStepResult,
   RetrievedContext,
 } from '@rag/shared';
@@ -27,8 +27,7 @@ export type RagGraphInput = {
 
 export type RagGraphOutput = RagGraphInput & {
   rewrittenQuery?: string;
-  queryPlan: string[];
-  queryPlanDag?: QueryPlanDag;
+  queryPlan?: QueryPlan;
   stepResults: QueryPlanStepResult[];
   contexts: RetrievedContext[];
   formattedContexts: string;
@@ -53,6 +52,7 @@ export interface ParentChunk {
   id: string;
   docId: string;
   content: string;
+  sectionPath?: string[];
   createdAt?: string;
 }
 
@@ -62,6 +62,8 @@ export interface ChildChunk {
   parentId: string;
   docId: string;
   content: string;
+  contentForEmbedding?: string;
+  sectionPath?: string[];
   createdAt?: string;
 }
 
