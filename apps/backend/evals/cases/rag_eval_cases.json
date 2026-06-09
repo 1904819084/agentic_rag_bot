@@ -1,0 +1,98 @@
+[
+  {
+    "id": "case_01",
+    "question": "AI智能成片资源分配初版为什么要做？目标是什么？",
+    "expectedParentChunkIds": [
+      "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1"
+    ],
+    "expectedAnswerPoints": [
+      "AI智能成片使用量持续上涨",
+      "日均生成视频量约3.5万条",
+      "当前资源瓶颈导致高峰期生成排队",
+      "通过用户分级和双队列并发控制保障核心用户体验",
+      "升级生成中状态的预估耗时表达"
+    ],
+    "forbiddenClaims": [
+      "新增 GPU 自动扩容",
+      "用户可以手动选择高优队列",
+      "本期目标是降低视频生成成本"
+    ]
+  },
+  {
+    "id": "case_02",
+    "question": "这次前端改造覆盖哪些生成中预计耗时展示场景？",
+    "expectedParentChunkIds": [
+      "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1"
+    ],
+    "expectedAnswerPoints": [
+      "覆盖生成记录批次标题预计耗时文案升级",
+      "覆盖视频管理列表生成中状态描述预计耗时文案升级",
+      "覆盖移动端视频生成 Sheet 的生成中状态描述预计耗时文案升级",
+      "基于接口返回的 estimatedSeconds 生成分段文案",
+      "大于一小时在建议稍后查看类文案旁新增提示 icon"
+    ],
+    "forbiddenClaims": [
+      "新增入口或权益展示",
+      "前台展示高优队列和低优队列身份",
+      "用户可以配置预计耗时"
+    ]
+  },
+  {
+    "id": "case_03",
+    "question": "AI智能成片资源分配初版明确不做什么？",
+    "expectedParentChunkIds": [
+      "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2"
+    ],
+    "expectedAnswerPoints": ["不新增入口", "不新增权益展示", "仅改造既有生成中预计耗时表达"],
+    "forbiddenClaims": ["新增权益中心入口", "展示高优队列身份", "展示低优队列身份"]
+  },
+  {
+    "id": "case_04",
+    "question": "接口没有返回 estimatedSeconds 或返回异常时，预计耗时文案怎么兜底？",
+    "expectedParentChunkIds": [
+      "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3"
+    ],
+    "expectedAnswerPoints": [
+      "优先回退为现有 taskStyleConfig.estimatedGenerateTime 文案",
+      "保持线上已有展示能力",
+      "如果仍为空则统一兜底为预计需要10分钟"
+    ],
+    "forbiddenClaims": ["直接隐藏预计耗时", "默认兜底为预计需要1小时", "由前端重新计算队列排队人数"]
+  },
+  {
+    "id": "case_05",
+    "question": "前端展示预计耗时依赖哪个接口字段？落地时需要同步什么类型定义？",
+    "expectedParentChunkIds": [
+      "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4"
+    ],
+    "expectedAnswerPoints": [
+      "依赖 /api/content/ai/video/get_shop_aivideo_list 接口",
+      "AIVideo 中新增 estimatedSeconds 字段",
+      "estimatedSeconds 单位是秒",
+      "字段缺失时按兜底策略回退为 taskStyleConfig.estimatedGenerateTime",
+      "需要同步更新 AIVideo 类型定义"
+    ],
+    "forbiddenClaims": [
+      "依赖前端本地计时器计算预计耗时",
+      "estimatedSeconds 单位是分钟",
+      "不需要更新类型定义"
+    ]
+  },
+  {
+    "id": "case_06",
+    "question": "如果队列相关字段只在实验组生效，兼容性上要注意什么？",
+    "expectedParentChunkIds": [
+      "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5"
+    ],
+    "expectedAnswerPoints": [
+      "需要保证对照组返回值兼容",
+      "对照组是单队列",
+      "字段缺失时按兜底策略回退"
+    ],
+    "forbiddenClaims": [
+      "对照组必须返回所有队列字段",
+      "字段缺失时直接报错",
+      "实验组和对照组都展示队列身份"
+    ]
+  }
+]

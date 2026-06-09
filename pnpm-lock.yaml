@@ -43,7 +43,7 @@ importers:
     dependencies:
       '@gulux/cli':
         specifier: ^1.25.16
-        version: 1.25.16(@types/node@22.19.19)(@types/validator@13.15.10)(pg@8.21.0)(picomatch@2.3.2)(sequelize@6.37.8(mysql2@3.22.4(@types/node@22.19.19))(pg@8.21.0))(typescript@5.9.3)
+        version: 1.25.16(@types/node@22.19.19)(@types/validator@13.15.10)(pg@8.21.0)(picomatch@2.3.2)(sequelize@6.37.8(pg@8.21.0))(typescript@5.9.3)
       '@gulux/gulux':
         specifier: ^4.1.0
         version: 4.1.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@types/node@22.19.19)(@types/validator@13.15.10)(handlebars@4.7.9)(lodash@4.18.1)(mongoose@9.6.3(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)))(mustache@4.2.0)(nunjucks@3.2.4(chokidar@3.6.0))(pg@8.21.0)(snappy@7.3.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(underscore@1.13.8)
@@ -59,6 +59,9 @@ importers:
       '@types/pdf-parse':
         specifier: 1.1.5
         version: 1.1.5
+      dayjs:
+        specifier: ^1.11.21
+        version: 1.11.21
       dotenv:
         specifier: ^16.6.1
         version: 16.6.1
@@ -8553,7 +8556,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@gulux/cli@1.25.16(@types/node@22.19.19)(@types/validator@13.15.10)(pg@8.21.0)(picomatch@2.3.2)(sequelize@6.37.8(mysql2@3.22.4(@types/node@22.19.19))(pg@8.21.0))(typescript@5.9.3)':
+  '@gulux/cli@1.25.16(@types/node@22.19.19)(@types/validator@13.15.10)(pg@8.21.0)(picomatch@2.3.2)(sequelize@6.37.8(pg@8.21.0))(typescript@5.9.3)':
     dependencies:
       '@byted-nodex/cli-framework': 1.2.0
       '@byted-nodex/doraemon': 1.0.7(@types/node@22.19.19)(typescript@5.9.3)

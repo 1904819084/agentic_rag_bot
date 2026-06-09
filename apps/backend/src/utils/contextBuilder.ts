@@ -7,7 +7,7 @@ function getCitationDocumentKey(context: RetrievedContext) {
 
 function buildReferenceDocuments(contexts: RetrievedContext[]) {
   const seen = new Set<string>();
-  const citations: Citation[] = [];
+  const referenceDocuments: Citation[] = [];
 
   for (const context of contexts) {
     const key = getCitationDocumentKey(context);
@@ -16,8 +16,8 @@ function buildReferenceDocuments(contexts: RetrievedContext[]) {
     }
 
     seen.add(key);
-    citations.push({
-      sourceId: `文档 ${citations.length + 1}`,
+    referenceDocuments.push({
+      sourceId: `文档 ${referenceDocuments.length + 1}`,
       docId: context.docId,
       title: context.title,
       sourceUrl: context.sourceUrl,
@@ -25,7 +25,7 @@ function buildReferenceDocuments(contexts: RetrievedContext[]) {
     });
   }
 
-  return citations;
+  return referenceDocuments;
 }
 
 export function buildReferenceDocumentContext(contexts: RetrievedContext[]) {
@@ -55,7 +55,8 @@ export function formatRetrievedContextsForPrompt(contexts: RetrievedContext[] = 
 export function formatRecentMessages(messages: Array<ChatMessage | ConversationMessage> = []) {
   return messages
     .map((message) => {
-      const role = message.role === 'assistant' ? '助手' : message.role === 'user' ? '用户' : '系统';
+      const role =
+        message.role === 'assistant' ? '助手' : message.role === 'user' ? '用户' : '系统';
       return `${role}：${message.content}`;
     })
     .join('\n');
