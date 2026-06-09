@@ -11,7 +11,7 @@ export interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
   createdAt: string;
-  citations?: Citation[];
+  referenceDocuments?: Citation[];
   metadata?: ChatMessageMetadata;
 }
 
@@ -67,7 +67,7 @@ export interface ChatAskResponse {
   rewrittenQuery?: string;
   queryPlan?: QueryPlan;
   stepResults?: QueryPlanStepResult[];
-  citations: Citation[];
+  referenceDocuments?: Citation[];
   contexts?: RetrievedContext[];
 }
 
@@ -85,7 +85,7 @@ export interface ConversationMessage {
   conversationId: string;
   role: ChatMessage['role'];
   content: string;
-  citations?: Citation[];
+  referenceDocuments?: Citation[];
   metadata?: ChatMessageMetadata;
   createdAt: string;
 }

@@ -142,6 +142,58 @@ export default class DocumentRepository {
     }
   }
 
+  public async getDocumentById(id: string): Promise<Document | null> {
+    const result = await this.postgres.query<{
+      id: string;
+      source: Document['source'];
+      source_doc_id: string;
+      title: string;
+      source_url: string | null;
+      status: Document['status'];
+      parent_chunk_count: number;
+      child_chunk_count: number;
+      file_name: string | null;
+      mime_type: string | null;
+      file_size: string | number | null;
+      storage_key: string | null;
+      content_hash: string | null;
+      import_error: string | null;
+      updated_at: Date | null;
+      created_at: Date;
+    }>(
+      `SELECT id, source, source_doc_id, title, source_url, status,
+              parent_chunk_count, child_chunk_count, file_name, mime_type,
+              file_size, storage_key, content_hash, import_error, updated_at, created_at
+       FROM documents
+       WHERE id = $1
+       LIMIT 1`,
+      [id],
+    );
+    const row = result.rows[0];
+    if (!row) {
+      return null;
+    }
+
+    return {
+      id: row.id,
+      source: row.source,
+      sourceDocId: row.source_doc_id,
+      title: row.title,
+      sourceUrl: row.source_url ?? undefined,
+      status: row.status,
+      parentChunkCount: row.parent_chunk_count,
+      childChunkCount: row.child_chunk_count,
+      fileName: row.file_name ?? undefined,
+      mimeType: row.mime_type ?? undefined,
+      fileSize: row.file_size === null ? undefined : Number(row.file_size),
+      storageKey: row.storage_key ?? undefined,
+      contentHash: row.content_hash ?? undefined,
+      importError: row.import_error ?? undefined,
+      updatedAt: row.updated_at?.toISOString(),
+      createdAt: row.created_at.toISOString(),
+    };
+  }
+
   public async searchKeyword(query: string, limit: number): Promise<RetrievedContext[]> {
     const result = await this.postgres.query<{
       id: string;

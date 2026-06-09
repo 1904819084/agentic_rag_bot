@@ -4,6 +4,7 @@ import { Card, Space, Table, Tag, Tooltip, Typography } from 'antd';
 import EmptyState from '../../../components/EmptyState';
 import StatusTag from '../../../components/StatusTag';
 import { DOCUMENT_STATUS_COLOR, DOCUMENT_STATUS_LABEL } from '../../../constants';
+import { getDocumentOriginalUrl } from '../../../services/documentService';
 import { formatLocalDateTime } from '../../../utils/dateTime';
 
 interface DocumentsTableProps {
@@ -47,6 +48,10 @@ function EllipsisText({
   );
 }
 
+function getDocumentHref(document: Document) {
+  return document.sourceUrl ?? (document.storageKey ? getDocumentOriginalUrl(document.id) : undefined);
+}
+
 export default function DocumentsTable({ documents, loading, extra }: DocumentsTableProps) {
   return (
     <Card
@@ -75,16 +80,18 @@ export default function DocumentsTable({ documents, loading, extra }: DocumentsT
             title: '标题',
             dataIndex: 'title',
             width: 280,
-            render: (documentTitle, document) =>
-              document.sourceUrl ? (
+            render: (documentTitle, document) => {
+              const documentHref = getDocumentHref(document);
+              return documentHref ? (
                 <Tooltip title={documentTitle}>
-                  <a className="table-ellipsis-link" href={document.sourceUrl} target="_blank" rel="noreferrer">
+                  <a className="table-ellipsis-link" href={documentHref} target="_blank" rel="noreferrer">
                     {documentTitle}
                   </a>
                 </Tooltip>
               ) : (
                 <EllipsisText>{documentTitle}</EllipsisText>
-              ),
+              );
+            },
           },
           {
             title: '来源',

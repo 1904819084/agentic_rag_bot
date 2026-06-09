@@ -6,6 +6,10 @@ import type {
 } from '@rag/shared';
 import { request } from './http';
 
+export function getDocumentOriginalUrl(documentId: string) {
+  return `/api/documents/${encodeURIComponent(documentId)}/original`;
+}
+
 export function listDocuments() {
   return request<{ items: Document[] }>('/documents');
 }

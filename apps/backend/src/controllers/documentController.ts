@@ -1,5 +1,5 @@
 import { Inject } from '@gulux/gulux';
-import { Body, Controller, Files, Get, Param, Post } from '@gulux/gulux/application-http';
+import { Body, Controller, Files, Get, Param, Post, Res, type HTTPResponse } from '@gulux/gulux/application-http';
 import type { ImportFeishuDocumentRequest } from '@rag/shared';
 import { readFile } from 'node:fs/promises';
 import DocumentIngestionService from '../services/documentIngestionService';
@@ -62,12 +62,11 @@ export default class DocumentController {
     });
   }
 
-  @Get('/:id')
-  public getDocument(@Param('id') id: string) {
-    throw new AppError(
-      'document_detail_not_implemented',
-      501,
-      `document detail is not implemented: ${id}`,
-    );
+  @Get('/:id/original')
+  public async getOriginalDocument(@Param('id') id: string, @Res() response: HTTPResponse) {
+    const originalFile = await this.documentService.getOriginalDocumentFile(id);
+    response.type = originalFile.mimeType ?? 'application/octet-stream';
+    response.set('Content-Disposition', `inline; filename="${encodeURIComponent(originalFile.fileName)}"`);
+    response.body = originalFile.buffer;
   }
 }

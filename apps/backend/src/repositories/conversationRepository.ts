@@ -21,7 +21,7 @@ type ConversationMessageRow = {
   conversation_id: string;
   role: ConversationMessage['role'];
   content: string;
-  citations: Citation[];
+  reference_documents: Citation[];
   metadata: ChatMessageMetadata | null;
   created_at: Date;
 };
@@ -42,7 +42,7 @@ export type AppendMessageInput = {
   conversationId: string;
   role: ConversationMessage['role'];
   content: string;
-  citations?: Citation[];
+  referenceDocuments?: Citation[];
   metadata?: ChatMessageMetadata;
   createdAt?: string;
 };
@@ -64,7 +64,7 @@ function mapMessage(row: ConversationMessageRow): ConversationMessage {
     conversationId: row.conversation_id,
     role: row.role,
     content: row.content,
-    citations: row.citations ?? [],
+    referenceDocuments: row.reference_documents ?? [],
     metadata: row.metadata ?? undefined,
     createdAt: row.created_at.toISOString(),
   };
@@ -146,7 +146,7 @@ export default class ConversationRepository {
   ): Promise<ConversationMessage[]> {
     try {
       const result = await this.postgres.query<ConversationMessageRow>(
-        `SELECT id, conversation_id, role, content, citations, metadata, created_at
+        `SELECT id, conversation_id, role, content, citations AS reference_documents, metadata, created_at
          FROM conversation_messages
          WHERE conversation_id = $1
          ORDER BY created_at DESC
@@ -162,7 +162,7 @@ export default class ConversationRepository {
 
   public async listMessages(conversationId: string): Promise<ConversationMessage[]> {
     const result = await this.postgres.query<ConversationMessageRow>(
-      `SELECT id, conversation_id, role, content, citations, metadata, created_at
+      `SELECT id, conversation_id, role, content, citations AS reference_documents, metadata, created_at
        FROM conversation_messages
        WHERE conversation_id = $1
        ORDER BY created_at ASC`,
@@ -206,13 +206,13 @@ export default class ConversationRepository {
         `INSERT INTO conversation_messages
            (id, conversation_id, role, content, citations, metadata, created_at)
          VALUES ($1, $2, $3, $4, $5, $6, $7)
-         RETURNING id, conversation_id, role, content, citations, metadata, created_at`,
+         RETURNING id, conversation_id, role, content, citations AS reference_documents, metadata, created_at`,
         [
           input.id,
           input.conversationId,
           input.role,
           input.content,
-          JSON.stringify(input.citations ?? []),
+          JSON.stringify(input.referenceDocuments ?? []),
           JSON.stringify(input.metadata ?? {}),
           createdAt,
         ],
@@ -242,7 +242,7 @@ export default class ConversationRepository {
           input.conversationId,
           input.userMessage.role,
           input.userMessage.content,
-          JSON.stringify(input.userMessage.citations ?? []),
+          JSON.stringify(input.userMessage.referenceDocuments ?? []),
           JSON.stringify(input.userMessage.metadata ?? {}),
           userCreatedAt,
         ]);
@@ -251,7 +251,7 @@ export default class ConversationRepository {
           input.conversationId,
           input.assistantMessage.role,
           input.assistantMessage.content,
-          JSON.stringify(input.assistantMessage.citations ?? []),
+          JSON.stringify(input.assistantMessage.referenceDocuments ?? []),
           JSON.stringify(input.assistantMessage.metadata ?? {}),
           assistantCreatedAt,
         ]);

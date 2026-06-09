@@ -24,14 +24,14 @@ import { mergeConversationList } from './utils/conversations';
 function createMessage(messageDraft: {
   role: ChatMessage['role'];
   content: string;
-  citations?: ChatMessage['citations'];
+  referenceDocuments?: ChatMessage['referenceDocuments'];
   metadata?: ChatMessage['metadata'];
 }): ChatMessage {
   return {
     id: `${messageDraft.role}-${Date.now()}-${Math.random().toString(16).slice(2)}`,
     role: messageDraft.role,
     content: messageDraft.content,
-    citations: messageDraft.citations,
+    referenceDocuments: messageDraft.referenceDocuments,
     metadata: messageDraft.metadata,
     createdAt: new Date().toISOString(),
   };
@@ -49,7 +49,7 @@ function toChatMessage(message: ConversationMessage): ChatMessage {
     id: message.id,
     role: message.role,
     content: message.content,
-    citations: message.citations,
+    referenceDocuments: message.referenceDocuments,
     metadata: message.metadata,
     createdAt: message.createdAt,
   };
@@ -148,7 +148,7 @@ export default function ChatPage() {
           createMessage({
             role: 'assistant',
             content: chatAnswer.answer,
-            citations: chatAnswer.citations,
+            referenceDocuments: chatAnswer.referenceDocuments,
             metadata: {
               rewrittenQuery: chatAnswer.rewrittenQuery,
               queryPlan: chatAnswer.queryPlan,

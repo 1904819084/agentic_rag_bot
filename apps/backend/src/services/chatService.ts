@@ -28,12 +28,12 @@ export default class ChatService {
       userId: chatRequest.userId,
     });
 
-    // Persist the full RAG trace so historical assistant messages can still show citations and plan steps.
+    // Persist the full RAG trace so historical assistant messages can still show references and plan steps.
     await this.conversationService.appendChatTurn({
       conversationId: conversationContext.conversationId,
       question: chatRequest.question,
       answer: ragAnswer.answer,
-      citations: ragAnswer.citations ?? [],
+      referenceDocuments: ragAnswer.referenceDocuments ?? [],
       assistantMetadata: {
         rewrittenQuery: ragAnswer.rewrittenQuery,
         queryPlan: ragAnswer.queryPlan,
@@ -63,7 +63,7 @@ export default class ChatService {
       rewrittenQuery: ragAnswer.rewrittenQuery,
       queryPlan: ragAnswer.queryPlan,
       stepResults: ragAnswer.stepResults ?? [],
-      citations: ragAnswer.citations ?? [],
+      referenceDocuments: ragAnswer.referenceDocuments ?? [],
       contexts: ragAnswer.contexts ?? [],
     };
   }

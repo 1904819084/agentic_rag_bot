@@ -19,7 +19,6 @@ export const RagGraphState = Annotation.Root({
   queryPlan: Annotation<QueryPlan | undefined>,
   stepResults: Annotation<QueryPlanStepResult[]>,
   contexts: Annotation<RetrievedContext[]>,
-  formattedContexts: Annotation<string>,
-  citations: Annotation<Citation[]>,
+  referenceDocuments: Annotation<Citation[] | undefined>,
   answer: Annotation<string>,
 });

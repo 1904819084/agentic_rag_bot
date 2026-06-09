@@ -5,7 +5,7 @@ function getCitationDocumentKey(context: RetrievedContext) {
   return context.docId ?? context.sourceUrl ?? context.title;
 }
 
-function buildDocumentCitations(contexts: RetrievedContext[]) {
+function buildReferenceDocuments(contexts: RetrievedContext[]) {
   const seen = new Set<string>();
   const citations: Citation[] = [];
 
@@ -28,12 +28,18 @@ function buildDocumentCitations(contexts: RetrievedContext[]) {
   return citations;
 }
 
-export function buildAnswerContext(contexts: RetrievedContext[]) {
-  const citations = buildDocumentCitations(contexts);
+export function buildReferenceDocumentContext(contexts: RetrievedContext[]) {
+  const referenceDocuments = buildReferenceDocuments(contexts);
 
-  const formattedContexts = contexts
-    .map((context, index) => {
-      return [
+  return {
+    referenceDocuments,
+  };
+}
+
+export function formatRetrievedContextsForPrompt(contexts: RetrievedContext[] = []) {
+  return contexts
+    .map((context, index) =>
+      [
         `[资料 ${index + 1}]`,
         `标题：${context.title}`,
         context.sourceUrl ? `来源：${context.sourceUrl}` : undefined,
@@ -41,11 +47,9 @@ export function buildAnswerContext(contexts: RetrievedContext[]) {
         context.content,
       ]
         .filter(Boolean)
-        .join('\n');
-    })
+        .join('\n'),
+    )
     .join('\n\n');
-
-  return { citations, formattedContexts };
 }
 
 export function formatRecentMessages(messages: Array<ChatMessage | ConversationMessage> = []) {

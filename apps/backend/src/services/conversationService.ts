@@ -81,7 +81,7 @@ export default class ConversationService {
     conversationId: string;
     question: string;
     answer: string;
-    citations: Citation[];
+    referenceDocuments: Citation[];
     assistantMetadata?: ChatMessageMetadata;
   }) {
     await this.conversationRepository.appendTurn({
@@ -97,7 +97,7 @@ export default class ConversationService {
         conversationId: chatTurn.conversationId,
         role: 'assistant',
         content: chatTurn.answer,
-        citations: chatTurn.citations,
+        referenceDocuments: chatTurn.referenceDocuments,
         metadata: chatTurn.assistantMetadata,
       },
     });

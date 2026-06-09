@@ -29,8 +29,7 @@ export type RagGraphOutput = RagGraphInput & {
   queryPlan?: QueryPlan;
   stepResults: QueryPlanStepResult[];
   contexts: RetrievedContext[];
-  formattedContexts: string;
-  citations: Citation[];
+  referenceDocuments?: Citation[];
   answer: string;
 };
 

@@ -4,6 +4,7 @@ import type { RagGraphOutput } from '../../types';
 import {
   formatCitationRules,
   formatMemoryContexts,
+  formatRetrievedContextsForPrompt,
   formatRecentMessages,
 } from '../../utils/contextBuilder';
 
@@ -96,7 +97,7 @@ export function createGenerateAnswerNode(executeAnswer: AnswerExecutor = fornaxE
         rewrite_query: state.rewrittenQuery ?? '',
         recent_messages: formatRecentMessages(state.recentMessages ?? []),
         user_memory: formatMemoryContexts(state.memories ?? []),
-        contexts: state.formattedContexts ?? '',
+        contexts: formatRetrievedContextsForPrompt(state.contexts),
         step_results: formatStepResultsForFinalAnswer(state.stepResults ?? []),
         citation_rules: formatCitationRules(),
       },

@@ -1,6 +1,7 @@
 import { RobotOutlined, UserOutlined } from '@ant-design/icons';
 import type { ChatMessage } from '@rag/shared';
 import { useEffect, useRef } from 'react';
+import { getDocumentOriginalUrl } from '../../../services/documentService';
 import styles from '../index.module.less';
 import PlanSteps from './PlanSteps';
 
@@ -28,20 +29,20 @@ export default function ChatMessages({ messages, loading }: ChatMessagesProps) {
             <div className={styles.body}>
               <div className={styles.role}>{isUser ? '我' : '助手'}</div>
               <div className={styles.bubble}>{item.content}</div>
-              {item.citations?.length ? (
+              {item.referenceDocuments?.length ? (
                 <div className={styles.references}>
                   <div className={styles.referencesTitle}>参考文档</div>
                   <div className={styles.referenceList}>
-                    {item.citations.map((citation) => (
+                    {item.referenceDocuments.map((referenceDocument) => (
                       <a
                         className={styles.referenceItem}
-                        href={citation.sourceUrl}
-                        key={`${item.id}-${citation.sourceId}`}
+                        href={referenceDocument.sourceUrl ?? (referenceDocument.docId ? getDocumentOriginalUrl(referenceDocument.docId) : undefined)}
+                        key={`${item.id}-${referenceDocument.sourceId}`}
                         rel="noreferrer"
-                        target={citation.sourceUrl ? '_blank' : undefined}
+                        target={referenceDocument.sourceUrl || referenceDocument.docId ? '_blank' : undefined}
                       >
-                        <span className={styles.referenceSource}>{citation.sourceId}</span>
-                        <span className={styles.referenceName}>{citation.title}</span>
+                        <span className={styles.referenceSource}>{referenceDocument.sourceId}</span>
+                        <span className={styles.referenceName}>{referenceDocument.title}</span>
                       </a>
                     ))}
                   </div>

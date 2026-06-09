@@ -22,8 +22,7 @@ export default class RagGraphService {
       queryPlan: undefined,
       stepResults: [],
       contexts: [],
-      formattedContexts: '',
-      citations: [],
+      referenceDocuments: [],
       answer: '',
     });
 
