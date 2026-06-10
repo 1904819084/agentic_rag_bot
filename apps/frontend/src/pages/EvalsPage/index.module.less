@@ -1,0 +1,77 @@
+@color-surface: #ffffff;
+@color-border-soft: #edf2f7;
+@color-text: #0f172a;
+@color-text-muted: #475569;
+@color-text-subtle: #64748b;
+@color-accent-soft: #f8fafc;
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.metricGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  gap: 12px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, minmax(160px, 1fr));
+  }
+}
+
+.metricCard {
+  border: 1px solid @color-border-soft;
+  background: @color-surface;
+}
+
+.metricLabel {
+  color: @color-text-subtle;
+  font-size: 12px;
+}
+
+.metricValue {
+  margin-top: 6px;
+  color: @color-text;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.resultToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.detailSection {
+  margin-bottom: 20px;
+}
+
+.detailTitle {
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: @color-text;
+}
+
+.listBlock {
+  margin: 0;
+  padding-left: 18px;
+  color: @color-text-muted;
+  line-height: 1.7;
+}
+
+.answerBlock {
+  padding: 12px;
+  border: 1px solid @color-border-soft;
+  background: @color-accent-soft;
+  white-space: pre-wrap;
+  line-height: 1.7;
+}
+
+.muted {
+  color: @color-text-subtle;
+}

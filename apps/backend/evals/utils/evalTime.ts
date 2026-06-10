@@ -7,10 +7,6 @@ export function createEvalGeneratedAt() {
   return dayjs().format(DISPLAY_TIME_FORMAT);
 }
 
-export function formatEvalDisplayTime(value: string) {
-  return dayjs(value).format(DISPLAY_TIME_FORMAT);
-}
-
 export function createEvalReportDirName(generatedAt: string) {
   return dayjs(generatedAt).format(REPORT_DIR_TIME_FORMAT);
 }

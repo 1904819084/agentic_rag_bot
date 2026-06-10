@@ -1,4 +1,3 @@
-import path from 'node:path';
 import { evaluateCase } from './evaluateCase';
 import { writeEvalReports } from './reportWriter';
 import { createEvalRagGraphService } from './serviceFactory';
@@ -9,7 +8,7 @@ import { createEvalSummary } from './utils/evalSummary';
 import { createEvalGeneratedAt } from './utils/evalTime';
 
 // 执行端到端的评测
-export async function runEndToEndEval() {
+export async function runEndToEndEval(reportDirName?: string) {
   const evalCases = await readEvalCases();
   const ragGraphService = createEvalRagGraphService();
   const results: RagEvalCaseResult[] = [];
@@ -25,16 +24,18 @@ export async function runEndToEndEval() {
     summary: createEvalSummary(results, EVAL_PARENT_RECALL_KEY),
     cases: results,
   };
-  await writeEvalReports(report);
+  await writeEvalReports(report, reportDirName);
   return report;
 }
 
-runEndToEndEval()
-  .then((report) => {
-    console.log(`RAG eval completed: ${report.totalCases} cases`);
-    console.log(`Report written under ${path.resolve(process.cwd(), 'evals/reports')}`);
-  })
-  .catch((error) => {
-    console.error(error instanceof Error ? (error.stack ?? error.message) : error);
-    process.exitCode = 1;
-  });
+if (process.argv[1]?.endsWith('runEndToEndEval.ts')) {
+  runEndToEndEval()
+    .then((report) => {
+      console.log(`RAG eval completed: ${report.totalCases} cases`);
+      console.log(`Report written under evals/reports`);
+    })
+    .catch((error) => {
+      console.error(error instanceof Error ? (error.stack ?? error.message) : error);
+      process.exitCode = 1;
+    });
+}

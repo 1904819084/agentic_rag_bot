@@ -1,0 +1,1588 @@
+{
+  "generatedAt": "2026-06-10 16:55:14",
+  "totalCases": 6,
+  "summary": {
+    "parentRecallAtK": {
+      "parentRecall@8": 0.5
+    },
+    "answerCorrectnessAvg": 0.45,
+    "answerFaithfulnessAvg": 1,
+    "answerCompletenessAvg": 0.5,
+    "failureCounts": {
+      "pass": 2,
+      "retrieval_failure": 3,
+      "faithfulness_failure": 0,
+      "generation_failure": 1,
+      "incomplete_answer": 0
+    }
+  },
+  "cases": [
+    {
+      "caseId": "case_01",
+      "question": "AI智能成片资源分配初版为什么要做？目标是什么？",
+      "answer": "### 一、AI智能成片资源分配初版的立项原因\n随着AI智能成片使用量持续上涨，日均生成视频量约3.5万条，已触达当前资源瓶颈。资源不足导致高峰期生成排队（可达数小时）频发，生成耗时显著高于产品早期预估，影响商家使用体验与成片发布率。[资料 4]\n\n### 二、AI智能成片资源分配初版的目标\n1. **资源分配优化**：通过“用户分级+双队列并发控制”的方式，在资源有限的前提下保障核心用户体验。[资料 4]\n2. **耗时体验升级**：对前台的“生成中”状态的预估耗时表达做同步升级，使商家对生成时长预期更明确、可解释。具体包括：\n   - 统一所有成片类型的预计耗时表达，基于接口返回的预计耗时生成分段文案。[资料 4][资料 6]\n   - 针对PC端生成记录批次标题、PC和移动端视频管理列表“生成中”状态描述、移动端视频生成Sheet“生成中”状态描述进行文案升级，当预计耗时大于一小时时新增提示icon，明确生成后的提醒渠道。[资料 6]\n3. **兼容性保障**：确保队列相关字段在实验组生效时，对照组（单队列）返回值可兼容，字段缺失时按兜底策略回退，保持线上已有展示能力。[资料 1][资料 2][资料 5]",
+      "rewrittenQuery": "AI智能成片资源分配初版为什么要做？目标是什么？",
+      "queryPlan": {
+        "tasks": [
+          {
+            "id": 1,
+            "type": "retrieve",
+            "query": "AI智能成片资源分配初版的立项原因是什么？",
+            "dependsOn": []
+          },
+          {
+            "id": 2,
+            "type": "retrieve",
+            "query": "AI智能成片资源分配初版的设定目标是什么？",
+            "dependsOn": []
+          }
+        ]
+      },
+      "stepResults": [
+        {
+          "stepId": 1,
+          "query": "AI智能成片资源分配初版的立项原因是什么？",
+          "searchQuery": "AI智能成片资源分配初版的立项原因是什么？",
+          "taskType": "retrieve",
+          "dependencyStepIds": [],
+          "answer": "已检索到 7 条相关资料。",
+          "contexts": [
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
+              "score": 1.0163934426229508
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
+              "score": 1.0161290322580645
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "260324【AI智能成⽚】资源分配初版技术⽅案\nPRD⽂档 \t AI智能成⽚-资源分配初版 \n后端技术⽂档 \t 202603-智能成⽚资源分配 \nMeego链接 \t [需求]【P0】AI智能成⽚资源分配初版 \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2208675/flow?\ndevops_space_type=server_fe&pipelineId=1128918360066",
+              "score": 1.0158730158730158
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 1. 需求背景与⽬标\nAI智能成⽚使⽤量持续上涨，⽇均⽣成视频量约3.5万条，已触达当前资源瓶颈。资源不⾜导致⾼峰\n期⽣成排队（可达数⼩时）频发，⽣成耗时显著⾼于产品早期预估，影响商家使⽤体验与成⽚发布\n率。\n本需求通过“⽤⼾分级+双队列并发控制”的⽅式，在资源有限前提下保障核⼼⽤⼾体验，并对前台\n的“⽣成中”状态的预估耗时表达做同步升级，使商家对⽣成时⻓预期更明确、可解释。",
+              "score": 1.015625
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 4. 接⼝解读与数据依赖\n接⼝ /api/content/ai/video/get_shop_aivideo_list （前端封装为\nVideoCenterAPI.GetShopAIVideoList ）返回的 AIVideo 中新增字段：\n•\t\nestimatedSeconds ：预计耗时，单位秒（由后端根据队列/资源模型计算）\n前端改造依赖该字段进⾏展⽰分段⽂案；当字段缺失时按兜底策略回退为\ntaskStyleConfig.estimatedGenerateTime 。\n实现落地时需要同步更新类型定义（ @ecom/bam-types /本仓库 packages/bam ⽣成的\nAIVideo 类型）以包含 estimatedSeconds 。",
+              "score": 1.0153846153846153
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "### 2.1 功能范围\n本期前端范围仅覆盖“⽣成中”场景的预计耗时展⽰升级（⽂案与交互），不新增或外化“⾼优/低优\n队列”⾝份/权益展⽰；队列分级与权益策略对商家不可控且可能动态调整，因此前台不展⽰分级。\n变更点1：⽣成记录（PC）―批次标题预计耗时⽂案升级\n⼊⼝⻚⾯： apps/creative/web/src/pages/ai-generate-video-v1 右侧「⽣成结果」\n区域。\n现状：⽣成中批次标题使⽤ taskStyleConfig.estimatedGenerateTime （按视频类型配置\n的静态字符串）拼接： …条视频⽣成中…预计需要XX 。\n改造：所有成⽚类型统⼀预计耗时表达，基于接⼝\n/api/content/ai/video/get_shop_aivideo_list 返回的 estimatedSeconds （预计\n耗时，单位秒）⽣成分段⽂案，如果⼤于⼀⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover\n⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、AI智能成⽚⼊⼝提醒”。\n•\t\n展⽰位置： BatchAIVideoList 的批次标题（ useBatchVideoTitle ）\n\n-- 1 of 3 --\n\n变更点2：视频管理列表（PCMobile同逻辑）―「⽣成中」状态描述预计耗时⽂\n案升级\n⼊⼝： ai-generate-video-v1 内「视频管理」抽屉（PCWeb），状态列下⽅描述信息\n（ VideoStatusMap[Generating].desc ）。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”\n变更点3：视频⽣成Sheet（Mobile）—「⽣成中」状态描述预计耗时⽂案升级\n⼊⼝： AIGeneratedVideo/components/VideoGeneratingSheets 内\n「 VideoGeneratingSheets 」弹窗。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”",
+              "score": 1.0151515151515151
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "### 2.2 不做范围\n•\t\n不新增⼊⼝/权益展⽰，仅改造既有“⽣成中”预计耗时表达。",
+              "score": 1.0149253731343284
+            }
+          ]
+        },
+        {
+          "stepId": 2,
+          "query": "AI智能成片资源分配初版的设定目标是什么？",
+          "searchQuery": "AI智能成片资源分配初版的设定目标是什么？",
+          "taskType": "retrieve",
+          "dependencyStepIds": [],
+          "answer": "已检索到 7 条相关资料。",
+          "contexts": [
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
+              "score": 1.0163934426229508
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
+              "score": 1.0161290322580645
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "260324【AI智能成⽚】资源分配初版技术⽅案\nPRD⽂档 \t AI智能成⽚-资源分配初版 \n后端技术⽂档 \t 202603-智能成⽚资源分配 \nMeego链接 \t [需求]【P0】AI智能成⽚资源分配初版 \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2208675/flow?\ndevops_space_type=server_fe&pipelineId=1128918360066",
+              "score": 1.0158730158730158
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 1. 需求背景与⽬标\nAI智能成⽚使⽤量持续上涨，⽇均⽣成视频量约3.5万条，已触达当前资源瓶颈。资源不⾜导致⾼峰\n期⽣成排队（可达数⼩时）频发，⽣成耗时显著⾼于产品早期预估，影响商家使⽤体验与成⽚发布\n率。\n本需求通过“⽤⼾分级+双队列并发控制”的⽅式，在资源有限前提下保障核⼼⽤⼾体验，并对前台\n的“⽣成中”状态的预估耗时表达做同步升级，使商家对⽣成时⻓预期更明确、可解释。",
+              "score": 1.015625
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 4. 接⼝解读与数据依赖\n接⼝ /api/content/ai/video/get_shop_aivideo_list （前端封装为\nVideoCenterAPI.GetShopAIVideoList ）返回的 AIVideo 中新增字段：\n•\t\nestimatedSeconds ：预计耗时，单位秒（由后端根据队列/资源模型计算）\n前端改造依赖该字段进⾏展⽰分段⽂案；当字段缺失时按兜底策略回退为\ntaskStyleConfig.estimatedGenerateTime 。\n实现落地时需要同步更新类型定义（ @ecom/bam-types /本仓库 packages/bam ⽣成的\nAIVideo 类型）以包含 estimatedSeconds 。",
+              "score": 1.0153846153846153
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "### 2.1 功能范围\n本期前端范围仅覆盖“⽣成中”场景的预计耗时展⽰升级（⽂案与交互），不新增或外化“⾼优/低优\n队列”⾝份/权益展⽰；队列分级与权益策略对商家不可控且可能动态调整，因此前台不展⽰分级。\n变更点1：⽣成记录（PC）―批次标题预计耗时⽂案升级\n⼊⼝⻚⾯： apps/creative/web/src/pages/ai-generate-video-v1 右侧「⽣成结果」\n区域。\n现状：⽣成中批次标题使⽤ taskStyleConfig.estimatedGenerateTime （按视频类型配置\n的静态字符串）拼接： …条视频⽣成中…预计需要XX 。\n改造：所有成⽚类型统⼀预计耗时表达，基于接⼝\n/api/content/ai/video/get_shop_aivideo_list 返回的 estimatedSeconds （预计\n耗时，单位秒）⽣成分段⽂案，如果⼤于⼀⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover\n⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、AI智能成⽚⼊⼝提醒”。\n•\t\n展⽰位置： BatchAIVideoList 的批次标题（ useBatchVideoTitle ）\n\n-- 1 of 3 --\n\n变更点2：视频管理列表（PCMobile同逻辑）―「⽣成中」状态描述预计耗时⽂\n案升级\n⼊⼝： ai-generate-video-v1 内「视频管理」抽屉（PCWeb），状态列下⽅描述信息\n（ VideoStatusMap[Generating].desc ）。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”\n变更点3：视频⽣成Sheet（Mobile）—「⽣成中」状态描述预计耗时⽂案升级\n⼊⼝： AIGeneratedVideo/components/VideoGeneratingSheets 内\n「 VideoGeneratingSheets 」弹窗。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”",
+              "score": 1.0151515151515151
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "### 2.2 不做范围\n•\t\n不新增⼊⼝/权益展⽰，仅改造既有“⽣成中”预计耗时表达。",
+              "score": 1.0149253731343284
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
+          "score": 1.0163934426229508
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
+          "score": 1.0161290322580645
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "260324【AI智能成⽚】资源分配初版技术⽅案\nPRD⽂档 \t AI智能成⽚-资源分配初版 \n后端技术⽂档 \t 202603-智能成⽚资源分配 \nMeego链接 \t [需求]【P0】AI智能成⽚资源分配初版 \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2208675/flow?\ndevops_space_type=server_fe&pipelineId=1128918360066",
+          "score": 1.0158730158730158
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 1. 需求背景与⽬标\nAI智能成⽚使⽤量持续上涨，⽇均⽣成视频量约3.5万条，已触达当前资源瓶颈。资源不⾜导致⾼峰\n期⽣成排队（可达数⼩时）频发，⽣成耗时显著⾼于产品早期预估，影响商家使⽤体验与成⽚发布\n率。\n本需求通过“⽤⼾分级+双队列并发控制”的⽅式，在资源有限前提下保障核⼼⽤⼾体验，并对前台\n的“⽣成中”状态的预估耗时表达做同步升级，使商家对⽣成时⻓预期更明确、可解释。",
+          "score": 1.015625
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 4. 接⼝解读与数据依赖\n接⼝ /api/content/ai/video/get_shop_aivideo_list （前端封装为\nVideoCenterAPI.GetShopAIVideoList ）返回的 AIVideo 中新增字段：\n•\t\nestimatedSeconds ：预计耗时，单位秒（由后端根据队列/资源模型计算）\n前端改造依赖该字段进⾏展⽰分段⽂案；当字段缺失时按兜底策略回退为\ntaskStyleConfig.estimatedGenerateTime 。\n实现落地时需要同步更新类型定义（ @ecom/bam-types /本仓库 packages/bam ⽣成的\nAIVideo 类型）以包含 estimatedSeconds 。",
+          "score": 1.0153846153846153
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "### 2.1 功能范围\n本期前端范围仅覆盖“⽣成中”场景的预计耗时展⽰升级（⽂案与交互），不新增或外化“⾼优/低优\n队列”⾝份/权益展⽰；队列分级与权益策略对商家不可控且可能动态调整，因此前台不展⽰分级。\n变更点1：⽣成记录（PC）―批次标题预计耗时⽂案升级\n⼊⼝⻚⾯： apps/creative/web/src/pages/ai-generate-video-v1 右侧「⽣成结果」\n区域。\n现状：⽣成中批次标题使⽤ taskStyleConfig.estimatedGenerateTime （按视频类型配置\n的静态字符串）拼接： …条视频⽣成中…预计需要XX 。\n改造：所有成⽚类型统⼀预计耗时表达，基于接⼝\n/api/content/ai/video/get_shop_aivideo_list 返回的 estimatedSeconds （预计\n耗时，单位秒）⽣成分段⽂案，如果⼤于⼀⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover\n⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、AI智能成⽚⼊⼝提醒”。\n•\t\n展⽰位置： BatchAIVideoList 的批次标题（ useBatchVideoTitle ）\n\n-- 1 of 3 --\n\n变更点2：视频管理列表（PCMobile同逻辑）―「⽣成中」状态描述预计耗时⽂\n案升级\n⼊⼝： ai-generate-video-v1 内「视频管理」抽屉（PCWeb），状态列下⽅描述信息\n（ VideoStatusMap[Generating].desc ）。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”\n变更点3：视频⽣成Sheet（Mobile）—「⽣成中」状态描述预计耗时⽂案升级\n⼊⼝： AIGeneratedVideo/components/VideoGeneratingSheets 内\n「 VideoGeneratingSheets 」弹窗。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”",
+          "score": 1.0151515151515151
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "### 2.2 不做范围\n•\t\n不新增⼊⼝/权益展⽰，仅改造既有“⽣成中”预计耗时表达。",
+          "score": 1.0149253731343284
+        }
+      ],
+      "retrievedParentIds": [
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2"
+      ],
+      "referenceDocuments": [
+        {
+          "sourceId": "文档 1",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "score": 1.0163934426229508
+        }
+      ],
+      "expectedParentChunkIds": [
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1"
+      ],
+      "expectedAnswerPoints": [
+        "AI智能成片使用量持续上涨",
+        "日均生成视频量约3.5万条",
+        "当前资源瓶颈导致高峰期生成排队",
+        "通过用户分级和双队列并发控制保障核心用户体验",
+        "升级生成中状态的预估耗时表达"
+      ],
+      "forbiddenClaims": [
+        "新增 GPU 自动扩容",
+        "用户可以手动选择高优队列",
+        "本期目标是降低视频生成成本"
+      ],
+      "metrics": {
+        "parentRecallAtK": {
+          "parentRecall@8": 1
+        },
+        "answerCorrectness": 1,
+        "answerFaithfulness": 1,
+        "answerCompleteness": 1,
+        "coveredAnswerPoints": [
+          "AI智能成片使用量持续上涨",
+          "日均生成视频量约3.5万条",
+          "当前资源瓶颈导致高峰期生成排队",
+          "通过用户分级和双队列并发控制保障核心用户体验",
+          "升级生成中状态的预估耗时表达"
+        ],
+        "missingAnswerPoints": [],
+        "unsupportedClaims": [],
+        "judgeReason": "答案正确覆盖了所有标准答案关键点，完整回答了AI智能成片资源分配初版的做的原因和目标，所有内容均能从检索到的资料中找到依据，未发现无依据内容和禁止说法。"
+      },
+      "likelyCause": "pass"
+    },
+    {
+      "caseId": "case_02",
+      "question": "这次前端改造覆盖哪些生成中预计耗时展示场景？",
+      "answer": "这次前端改造覆盖的“生成中”预计耗时展示场景包括以下三个：\n\n1. **PC端生成记录的批次标题**\n入口页面：`apps/creative/web/src/pages/ai-generate-video-v1`右侧「生成结果」区域，具体为`BatchAIVideoList`的批次标题（`useBatchVideoTitle`）。\n改造点：将原来基于视频类型配置的静态预计耗时文案，升级为基于接口返回的`estimatedSeconds`生成分段文案，当预计耗时大于一小时时新增提示icon及hover文案。[资料 6]\n\n2. **PC/移动端视频管理列表的状态描述**\n入口：`ai-generate-video-v1`内「视频管理」抽屉（PCWeb），对应`VideoStatusMap[Generating].desc`的状态列下方描述信息。\n改造点：将原有的`预计需要{estimatedGenerateTime}`静态文案，改为基于`estimatedSeconds`计算的分段文案，同样在耗时超一小时时增加提示icon及hover文案。[资料 6]\n\n3. **移动端视频生成Sheet的状态描述**\n入口：`AIGeneratedVideo/components/VideoGeneratingSheets`内的「VideoGeneratingSheets」弹窗。\n改造点：替换原有的静态预计耗时文案，改为基于`estimatedSeconds`的分段文案展示，耗时超一小时时增加提示icon及hover文案。[资料 6]\n\n所有场景的改造均基于后端接口返回的`estimatedSeconds`字段实现，当字段缺失时会按兜底策略回退为现有文案展示。[资料 2][资料 5]",
+      "rewrittenQuery": "这次前端改造覆盖哪些生成中预计耗时展示场景？",
+      "queryPlan": {
+        "tasks": [
+          {
+            "id": 1,
+            "type": "retrieve",
+            "query": "这次前端改造覆盖哪些生成中预计耗时展示场景？",
+            "dependsOn": []
+          }
+        ]
+      },
+      "stepResults": [
+        {
+          "stepId": 1,
+          "query": "这次前端改造覆盖哪些生成中预计耗时展示场景？",
+          "searchQuery": "这次前端改造覆盖哪些生成中预计耗时展示场景？",
+          "taskType": "retrieve",
+          "dependencyStepIds": [],
+          "answer": "已检索到 7 条相关资料。",
+          "contexts": [
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
+              "score": 0.01639344262295082
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "260324【AI智能成⽚】资源分配初版技术⽅案\nPRD⽂档 \t AI智能成⽚-资源分配初版 \n后端技术⽂档 \t 202603-智能成⽚资源分配 \nMeego链接 \t [需求]【P0】AI智能成⽚资源分配初版 \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2208675/flow?\ndevops_space_type=server_fe&pipelineId=1128918360066",
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 1. 需求背景与⽬标\nAI智能成⽚使⽤量持续上涨，⽇均⽣成视频量约3.5万条，已触达当前资源瓶颈。资源不⾜导致⾼峰\n期⽣成排队（可达数⼩时）频发，⽣成耗时显著⾼于产品早期预估，影响商家使⽤体验与成⽚发布\n率。\n本需求通过“⽤⼾分级+双队列并发控制”的⽅式，在资源有限前提下保障核⼼⽤⼾体验，并对前台\n的“⽣成中”状态的预估耗时表达做同步升级，使商家对⽣成时⻓预期更明确、可解释。",
+              "score": 0.015625
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 4. 接⼝解读与数据依赖\n接⼝ /api/content/ai/video/get_shop_aivideo_list （前端封装为\nVideoCenterAPI.GetShopAIVideoList ）返回的 AIVideo 中新增字段：\n•\t\nestimatedSeconds ：预计耗时，单位秒（由后端根据队列/资源模型计算）\n前端改造依赖该字段进⾏展⽰分段⽂案；当字段缺失时按兜底策略回退为\ntaskStyleConfig.estimatedGenerateTime 。\n实现落地时需要同步更新类型定义（ @ecom/bam-types /本仓库 packages/bam ⽣成的\nAIVideo 类型）以包含 estimatedSeconds 。",
+              "score": 0.015384615384615385
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "### 2.1 功能范围\n本期前端范围仅覆盖“⽣成中”场景的预计耗时展⽰升级（⽂案与交互），不新增或外化“⾼优/低优\n队列”⾝份/权益展⽰；队列分级与权益策略对商家不可控且可能动态调整，因此前台不展⽰分级。\n变更点1：⽣成记录（PC）―批次标题预计耗时⽂案升级\n⼊⼝⻚⾯： apps/creative/web/src/pages/ai-generate-video-v1 右侧「⽣成结果」\n区域。\n现状：⽣成中批次标题使⽤ taskStyleConfig.estimatedGenerateTime （按视频类型配置\n的静态字符串）拼接： …条视频⽣成中…预计需要XX 。\n改造：所有成⽚类型统⼀预计耗时表达，基于接⼝\n/api/content/ai/video/get_shop_aivideo_list 返回的 estimatedSeconds （预计\n耗时，单位秒）⽣成分段⽂案，如果⼤于⼀⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover\n⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、AI智能成⽚⼊⼝提醒”。\n•\t\n展⽰位置： BatchAIVideoList 的批次标题（ useBatchVideoTitle ）\n\n-- 1 of 3 --\n\n变更点2：视频管理列表（PCMobile同逻辑）―「⽣成中」状态描述预计耗时⽂\n案升级\n⼊⼝： ai-generate-video-v1 内「视频管理」抽屉（PCWeb），状态列下⽅描述信息\n（ VideoStatusMap[Generating].desc ）。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”\n变更点3：视频⽣成Sheet（Mobile）—「⽣成中」状态描述预计耗时⽂案升级\n⼊⼝： AIGeneratedVideo/components/VideoGeneratingSheets 内\n「 VideoGeneratingSheets 」弹窗。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”",
+              "score": 0.015151515151515152
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "### 2.2 不做范围\n•\t\n不新增⼊⼝/权益展⽰，仅改造既有“⽣成中”预计耗时表达。",
+              "score": 0.014925373134328358
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
+          "score": 0.01639344262295082
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
+          "score": 0.016129032258064516
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "260324【AI智能成⽚】资源分配初版技术⽅案\nPRD⽂档 \t AI智能成⽚-资源分配初版 \n后端技术⽂档 \t 202603-智能成⽚资源分配 \nMeego链接 \t [需求]【P0】AI智能成⽚资源分配初版 \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2208675/flow?\ndevops_space_type=server_fe&pipelineId=1128918360066",
+          "score": 0.015873015873015872
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 1. 需求背景与⽬标\nAI智能成⽚使⽤量持续上涨，⽇均⽣成视频量约3.5万条，已触达当前资源瓶颈。资源不⾜导致⾼峰\n期⽣成排队（可达数⼩时）频发，⽣成耗时显著⾼于产品早期预估，影响商家使⽤体验与成⽚发布\n率。\n本需求通过“⽤⼾分级+双队列并发控制”的⽅式，在资源有限前提下保障核⼼⽤⼾体验，并对前台\n的“⽣成中”状态的预估耗时表达做同步升级，使商家对⽣成时⻓预期更明确、可解释。",
+          "score": 0.015625
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 4. 接⼝解读与数据依赖\n接⼝ /api/content/ai/video/get_shop_aivideo_list （前端封装为\nVideoCenterAPI.GetShopAIVideoList ）返回的 AIVideo 中新增字段：\n•\t\nestimatedSeconds ：预计耗时，单位秒（由后端根据队列/资源模型计算）\n前端改造依赖该字段进⾏展⽰分段⽂案；当字段缺失时按兜底策略回退为\ntaskStyleConfig.estimatedGenerateTime 。\n实现落地时需要同步更新类型定义（ @ecom/bam-types /本仓库 packages/bam ⽣成的\nAIVideo 类型）以包含 estimatedSeconds 。",
+          "score": 0.015384615384615385
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "### 2.1 功能范围\n本期前端范围仅覆盖“⽣成中”场景的预计耗时展⽰升级（⽂案与交互），不新增或外化“⾼优/低优\n队列”⾝份/权益展⽰；队列分级与权益策略对商家不可控且可能动态调整，因此前台不展⽰分级。\n变更点1：⽣成记录（PC）―批次标题预计耗时⽂案升级\n⼊⼝⻚⾯： apps/creative/web/src/pages/ai-generate-video-v1 右侧「⽣成结果」\n区域。\n现状：⽣成中批次标题使⽤ taskStyleConfig.estimatedGenerateTime （按视频类型配置\n的静态字符串）拼接： …条视频⽣成中…预计需要XX 。\n改造：所有成⽚类型统⼀预计耗时表达，基于接⼝\n/api/content/ai/video/get_shop_aivideo_list 返回的 estimatedSeconds （预计\n耗时，单位秒）⽣成分段⽂案，如果⼤于⼀⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover\n⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、AI智能成⽚⼊⼝提醒”。\n•\t\n展⽰位置： BatchAIVideoList 的批次标题（ useBatchVideoTitle ）\n\n-- 1 of 3 --\n\n变更点2：视频管理列表（PCMobile同逻辑）―「⽣成中」状态描述预计耗时⽂\n案升级\n⼊⼝： ai-generate-video-v1 内「视频管理」抽屉（PCWeb），状态列下⽅描述信息\n（ VideoStatusMap[Generating].desc ）。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”\n变更点3：视频⽣成Sheet（Mobile）—「⽣成中」状态描述预计耗时⽂案升级\n⼊⼝： AIGeneratedVideo/components/VideoGeneratingSheets 内\n「 VideoGeneratingSheets 」弹窗。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”",
+          "score": 0.015151515151515152
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "### 2.2 不做范围\n•\t\n不新增⼊⼝/权益展⽰，仅改造既有“⽣成中”预计耗时表达。",
+          "score": 0.014925373134328358
+        }
+      ],
+      "retrievedParentIds": [
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2"
+      ],
+      "referenceDocuments": [
+        {
+          "sourceId": "文档 1",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "score": 0.01639344262295082
+        }
+      ],
+      "expectedParentChunkIds": [
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1"
+      ],
+      "expectedAnswerPoints": [
+        "覆盖生成记录批次标题预计耗时文案升级",
+        "覆盖视频管理列表生成中状态描述预计耗时文案升级",
+        "覆盖移动端视频生成 Sheet 的生成中状态描述预计耗时文案升级",
+        "基于接口返回的 estimatedSeconds 生成分段文案",
+        "大于一小时在建议稍后查看类文案旁新增提示 icon"
+      ],
+      "forbiddenClaims": [
+        "新增入口或权益展示",
+        "前台展示高优队列和低优队列身份",
+        "用户可以配置预计耗时"
+      ],
+      "metrics": {
+        "parentRecallAtK": {
+          "parentRecall@8": 1
+        },
+        "answerCorrectness": 1,
+        "answerFaithfulness": 1,
+        "answerCompleteness": 1,
+        "coveredAnswerPoints": [
+          "覆盖生成记录批次标题预计耗时文案升级",
+          "覆盖视频管理列表生成中状态描述预计耗时文案升级",
+          "覆盖移动端视频生成 Sheet 的生成中状态描述预计耗时文案升级",
+          "基于接口返回的 estimatedSeconds 生成分段文案",
+          "大于一小时在建议稍后查看类文案旁新增提示 icon"
+        ],
+        "missingAnswerPoints": [],
+        "unsupportedClaims": [],
+        "judgeReason": "答案完整覆盖了所有标准答案关键点，所有内容均能从检索到的资料中找到依据，未出现禁止的说法，回答正确且可信。"
+      },
+      "likelyCause": "pass"
+    },
+    {
+      "caseId": "case_03",
+      "question": "AI智能成片资源分配初版明确不做什么？",
+      "answer": "当前提供的资料均为【AI 智能成片】无模特商品成片的技术方案内容，主要涉及模特上身流程的触发、任务提交、结果展示、代码改造等实现细节，未提及任何关于\"AI智能成片资源分配初版\"相关的规划或明确不做的事项。因此无法回答该问题，建议补充与AI智能成片资源分配初版规划相关的资料。",
+      "rewrittenQuery": "AI智能成片资源分配初版明确不做什么？",
+      "queryPlan": {
+        "tasks": [
+          {
+            "id": 1,
+            "type": "retrieve",
+            "query": "AI智能成片资源分配初版明确不做什么？",
+            "dependsOn": []
+          }
+        ]
+      },
+      "stepResults": [
+        {
+          "stepId": 1,
+          "query": "AI智能成片资源分配初版明确不做什么？",
+          "searchQuery": "AI智能成片资源分配初版明确不做什么？",
+          "taskType": "retrieve",
+          "dependencyStepIds": [],
+          "answer": "已检索到 8 条相关资料。",
+          "contexts": [
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_20_2-CheckMaterial-SelectMaterial-apiProductMateria",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_20_2-CheckMaterial-SelectMaterial-apiProductMateria",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 2. [CheckMaterial]`SelectMaterial`组件触发`apiProductMaterialCheck`。\n◦\t\n`isNoModelProduct=false`→[SelectFlow]流程结束，进⼊标准素材选择流程。\n◦\t\n`isNoModelProduct=true`且命中实验组→[TryOnFlow]进⼊模特上⾝流程（原素材选择区\n保留，在下⽅追加tryon区块）。\n\n-- 10 of 12 --",
+              "score": 1.0163934426229508
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_13_5",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_13_5",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 5. 结果展⽰与选择：\n◦\t\n轮询成功后，界⾯展⽰4张AI⽣成的模特上⾝图。\n◦\t\n⽤⼾根据当前素材上限要求，判断是否可以选择1张图⽚（只能单选）。",
+              "score": 1.0161290322580645
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_2_1-apiSubmitModelTryOnTask",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_2_1-apiSubmitModelTryOnTask",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 1. 触发⽣成：组件加载后，⾃动调⽤`apiSubmitModelTryOnTask`⽅法，向\n`/api/content/ai/video/model_tryon/submit`接⼝提交⼀个异步⽣成任务，请求中包含商品\nID、视频类型和期望⽣成的图⽚数量（固定为4张）。",
+              "score": 1.0158730158730158
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_18_4-utils-tsx",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_18_4-utils-tsx",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 4. 接⼝⼯具(`utils.tsx`)\n•\t\n职责：封装新增的后端接⼝调⽤。\n3\n4\n5\n\n-- 7 of 12 --\n\n•\t改造点：\n◦\t\n在 apiProductMaterialCheck 函数中，修改返回值，使其能同时返回 materials 和\nisNoModelProduct 。\n◦\t\n新增 apiSubmitModelTryOnTask 函数，封装对 /model_tryon/submit 接⼝的\nPOST请求。\n◦\t\n新增 apiQueryModelTryOnTaskResult 函数，封装对\n/model_tryon/result/query 接⼝的POST请求。\n◦\t\n在 apiCreateAIVideoTask 函数中，增加 isNoModelProduct 参数，并在请求体中\n传递。",
+              "score": 1.015625
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_15_1-SelectMaterial-components-SelectMaterial-index",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_15_1-SelectMaterial-components-SelectMaterial-index",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 1. `SelectMaterial`组件(`components/SelectMaterial/index.tsx`)\n•\t\n职责变更：作为流程的“分发器”，根据`isNoModelProduct`的值决定渲染普通素材选择逻辑还\n是`ModelTryOn`组件。\n•\t\n改造点：\n在 useRequest 调⽤ apiProductMaterialCheck 的 onSuccess 回调中，获取\nisNoModelProduct 并存⼊ZustandStore。\n在组件的渲染逻辑中，增加判断：\n代码块\nif (isNoModelProduct && enableTryOnGroup) {\nreturn <ModelTryOn />;\n1\n2\n\n-- 6 of 12 --\n\n} else {\n// 渲染原有的素材选择、上传逻辑\n}\n从 use-ab-test.ts 中引⼊ AiVideoClothingModelTryOn 和\nAiVideoShoesOptimizeShow 枚举，并调⽤ useABTest hook来判断\nenableTryOnGroup 。",
+              "score": 1.0153846153846153
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_14_6",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_14_6",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 6. 后续步骤：⽤⼾继续进⾏“选择主题/场景”等后续操作。\n5.代码落点与复⽤⽅案\n5.1.现有代码结构分析\n本次改造的核⼼⻚⾯位于 content_pc_repo/apps/creative/web/src/pages/ai-\ngenerate-video-v1/ 。该⻚⾯是⼀个功能完善的单⻚应⽤，其结构和关键⽂件如下：\n•\t\n⼊⼝⽂件：`index.tsx`\n\n-- 5 of 12 --\n\n职责：作为⻚⾯的主容器，负责整体布局（左侧配置区，右侧结果预览区），并编排\n`ProductSelect`,`VideoTypeSelect`,`SelectMaterial`,`SelectTheme`等核⼼配置组件。它通过\n`useInitStore`hook初始化⻚⾯所需的状态和实验参数。\n•\t\n核⼼组件：\n◦\t\ncomponents/ProductSelect/index.tsx ：商品选择组件。\n◦\t\ncomponents/VideoTypeSelect/index.tsx ：成⽚范式（如单品展⽰、穿搭展⽰）选\n择组件。\n◦\t\ncomponents/SelectMaterial/index.tsx ：（本次改造重点）素材选择组件，负责\n处理图⽚素材的获取、展⽰、上传和删除。\n◦\t\ncomponents/SelectTheme/index.tsx ：（本次改造重点）视频主题/场景选择组件。\n◦\t\n components/ModelTryOn/index.tsx ：（本次改造重点）本次新增的核⼼组件，⽤于\n处理“模特上⾝”的全流程交互。\n•\t\n状态管理：`src/store/ai-generate-video.ts`\n职责：使⽤`Zustand`创建了⼀个Store，⽤于管理整个⻚⾯的共享状态，如`productInfo`(商品\n信息),`productMaterials`(已选素材),`videoType`(视频范式),以及本次新增的\n`isNoModelProduct`(是否⽆模特商品)等。\n•\t\n⼯具与Hooks：\n◦\t\n`utils.tsx`：（本次改造重点）包含⼤量的辅助函数和⾃定义Hooks，如\n`apiProductMaterialCheck`(封装素材校验接⼝调⽤),`apiSubmitModelTryOnTask`(封装\n提交任务接⼝),`apiQueryModelTryOnTaskResult`(封装轮询查询接⼝)等。\n◦\t\n hooks/use-ab-test.ts ：封装了AB实验的逻辑，通过 useABTest Hook可以⽅便\n地获取⽤⼾所在的实验分组信息。\n5.2.代码落点与模块职责划分",
+              "score": 1.0151515151515151
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 2. 获取任务ID：从提交接⼝的响应中获取`taskId`，并将其存⼊组件状态。\n\n-- 3 of 12 --",
+              "score": 1.0149253731343284
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 4. 状态展⽰与进度模拟：\n◦\t\n在轮询过程中，根据接⼝返回的 taskStatus ( Generating , GenerateFailed ,\nGenerateSuccess )更新界⾯状态。\n◦\t\n在 Generating 状态下，前端通过 useEffect 启动⼀个定时器，模拟⼀个从10%到\n90%平滑增⻓的进度条，并根据进度百分⽐切换提⽰⽂案（如“正在⽣成模特形象”、“正在\n⽣成服装搭配”），以优化⽤⼾的等待体验。\n◦\t\n当 taskStatus 变为 GenerateSuccess 或 GenerateFailed 时，停⽌轮询和进度\n条动画。",
+              "score": 1.0147058823529411
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_20_2-CheckMaterial-SelectMaterial-apiProductMateria",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_20_2-CheckMaterial-SelectMaterial-apiProductMateria",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 2. [CheckMaterial]`SelectMaterial`组件触发`apiProductMaterialCheck`。\n◦\t\n`isNoModelProduct=false`→[SelectFlow]流程结束，进⼊标准素材选择流程。\n◦\t\n`isNoModelProduct=true`且命中实验组→[TryOnFlow]进⼊模特上⾝流程（原素材选择区\n保留，在下⽅追加tryon区块）。\n\n-- 10 of 12 --",
+          "score": 1.0163934426229508
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_13_5",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_13_5",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 5. 结果展⽰与选择：\n◦\t\n轮询成功后，界⾯展⽰4张AI⽣成的模特上⾝图。\n◦\t\n⽤⼾根据当前素材上限要求，判断是否可以选择1张图⽚（只能单选）。",
+          "score": 1.0161290322580645
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_2_1-apiSubmitModelTryOnTask",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_2_1-apiSubmitModelTryOnTask",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 1. 触发⽣成：组件加载后，⾃动调⽤`apiSubmitModelTryOnTask`⽅法，向\n`/api/content/ai/video/model_tryon/submit`接⼝提交⼀个异步⽣成任务，请求中包含商品\nID、视频类型和期望⽣成的图⽚数量（固定为4张）。",
+          "score": 1.0158730158730158
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_18_4-utils-tsx",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_18_4-utils-tsx",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 4. 接⼝⼯具(`utils.tsx`)\n•\t\n职责：封装新增的后端接⼝调⽤。\n3\n4\n5\n\n-- 7 of 12 --\n\n•\t改造点：\n◦\t\n在 apiProductMaterialCheck 函数中，修改返回值，使其能同时返回 materials 和\nisNoModelProduct 。\n◦\t\n新增 apiSubmitModelTryOnTask 函数，封装对 /model_tryon/submit 接⼝的\nPOST请求。\n◦\t\n新增 apiQueryModelTryOnTaskResult 函数，封装对\n/model_tryon/result/query 接⼝的POST请求。\n◦\t\n在 apiCreateAIVideoTask 函数中，增加 isNoModelProduct 参数，并在请求体中\n传递。",
+          "score": 1.015625
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_15_1-SelectMaterial-components-SelectMaterial-index",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_15_1-SelectMaterial-components-SelectMaterial-index",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 1. `SelectMaterial`组件(`components/SelectMaterial/index.tsx`)\n•\t\n职责变更：作为流程的“分发器”，根据`isNoModelProduct`的值决定渲染普通素材选择逻辑还\n是`ModelTryOn`组件。\n•\t\n改造点：\n在 useRequest 调⽤ apiProductMaterialCheck 的 onSuccess 回调中，获取\nisNoModelProduct 并存⼊ZustandStore。\n在组件的渲染逻辑中，增加判断：\n代码块\nif (isNoModelProduct && enableTryOnGroup) {\nreturn <ModelTryOn />;\n1\n2\n\n-- 6 of 12 --\n\n} else {\n// 渲染原有的素材选择、上传逻辑\n}\n从 use-ab-test.ts 中引⼊ AiVideoClothingModelTryOn 和\nAiVideoShoesOptimizeShow 枚举，并调⽤ useABTest hook来判断\nenableTryOnGroup 。",
+          "score": 1.0153846153846153
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_14_6",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_14_6",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 6. 后续步骤：⽤⼾继续进⾏“选择主题/场景”等后续操作。\n5.代码落点与复⽤⽅案\n5.1.现有代码结构分析\n本次改造的核⼼⻚⾯位于 content_pc_repo/apps/creative/web/src/pages/ai-\ngenerate-video-v1/ 。该⻚⾯是⼀个功能完善的单⻚应⽤，其结构和关键⽂件如下：\n•\t\n⼊⼝⽂件：`index.tsx`\n\n-- 5 of 12 --\n\n职责：作为⻚⾯的主容器，负责整体布局（左侧配置区，右侧结果预览区），并编排\n`ProductSelect`,`VideoTypeSelect`,`SelectMaterial`,`SelectTheme`等核⼼配置组件。它通过\n`useInitStore`hook初始化⻚⾯所需的状态和实验参数。\n•\t\n核⼼组件：\n◦\t\ncomponents/ProductSelect/index.tsx ：商品选择组件。\n◦\t\ncomponents/VideoTypeSelect/index.tsx ：成⽚范式（如单品展⽰、穿搭展⽰）选\n择组件。\n◦\t\ncomponents/SelectMaterial/index.tsx ：（本次改造重点）素材选择组件，负责\n处理图⽚素材的获取、展⽰、上传和删除。\n◦\t\ncomponents/SelectTheme/index.tsx ：（本次改造重点）视频主题/场景选择组件。\n◦\t\n components/ModelTryOn/index.tsx ：（本次改造重点）本次新增的核⼼组件，⽤于\n处理“模特上⾝”的全流程交互。\n•\t\n状态管理：`src/store/ai-generate-video.ts`\n职责：使⽤`Zustand`创建了⼀个Store，⽤于管理整个⻚⾯的共享状态，如`productInfo`(商品\n信息),`productMaterials`(已选素材),`videoType`(视频范式),以及本次新增的\n`isNoModelProduct`(是否⽆模特商品)等。\n•\t\n⼯具与Hooks：\n◦\t\n`utils.tsx`：（本次改造重点）包含⼤量的辅助函数和⾃定义Hooks，如\n`apiProductMaterialCheck`(封装素材校验接⼝调⽤),`apiSubmitModelTryOnTask`(封装\n提交任务接⼝),`apiQueryModelTryOnTaskResult`(封装轮询查询接⼝)等。\n◦\t\n hooks/use-ab-test.ts ：封装了AB实验的逻辑，通过 useABTest Hook可以⽅便\n地获取⽤⼾所在的实验分组信息。\n5.2.代码落点与模块职责划分",
+          "score": 1.0151515151515151
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 2. 获取任务ID：从提交接⼝的响应中获取`taskId`，并将其存⼊组件状态。\n\n-- 3 of 12 --",
+          "score": 1.0149253731343284
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 4. 状态展⽰与进度模拟：\n◦\t\n在轮询过程中，根据接⼝返回的 taskStatus ( Generating , GenerateFailed ,\nGenerateSuccess )更新界⾯状态。\n◦\t\n在 Generating 状态下，前端通过 useEffect 启动⼀个定时器，模拟⼀个从10%到\n90%平滑增⻓的进度条，并根据进度百分⽐切换提⽰⽂案（如“正在⽣成模特形象”、“正在\n⽣成服装搭配”），以优化⽤⼾的等待体验。\n◦\t\n当 taskStatus 变为 GenerateSuccess 或 GenerateFailed 时，停⽌轮询和进度\n条动画。",
+          "score": 1.0147058823529411
+        }
+      ],
+      "retrievedParentIds": [
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_20_2-CheckMaterial-SelectMaterial-apiProductMateria",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_13_5",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_2_1-apiSubmitModelTryOnTask",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_18_4-utils-tsx",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_15_1-SelectMaterial-components-SelectMaterial-index",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_14_6",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4"
+      ],
+      "referenceDocuments": [
+        {
+          "sourceId": "文档 1",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "score": 1.0163934426229508
+        }
+      ],
+      "expectedParentChunkIds": [
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2"
+      ],
+      "expectedAnswerPoints": ["不新增入口", "不新增权益展示", "仅改造既有生成中预计耗时表达"],
+      "forbiddenClaims": ["新增权益中心入口", "展示高优队列身份", "展示低优队列身份"],
+      "metrics": {
+        "parentRecallAtK": {
+          "parentRecall@8": 0
+        },
+        "answerCorrectness": 0,
+        "answerFaithfulness": 1,
+        "answerCompleteness": 0,
+        "coveredAnswerPoints": [],
+        "missingAnswerPoints": ["不新增入口", "不新增权益展示", "仅改造既有生成中预计耗时表达"],
+        "unsupportedClaims": [],
+        "judgeReason": "检索到的资料未涉及AI智能成片资源分配初版的相关内容，模型生成的答案无法回答用户问题，未覆盖任何标准答案关键点，内容均有依据，未发现无依据内容。"
+      },
+      "likelyCause": "retrieval_failure"
+    },
+    {
+      "caseId": "case_04",
+      "question": "接口没有返回 estimatedSeconds 或返回异常时，预计耗时文案怎么兜底？",
+      "answer": "当前提供的资料中未提及接口没有返回estimatedSeconds或返回异常时，预计耗时文案的兜底处理规则，无法给出对应方案。\n\n建议补充以下相关信息：\n1. 接口文档中关于estimatedSeconds字段的异常处理定义\n2. 产品层面对于耗时预估文案的兜底设计规范\n3. 同类型功能中耗时文案的兜底实现案例",
+      "rewrittenQuery": "接口没有返回estimatedSeconds或返回异常时，预计耗时文案该如何做兜底处理？",
+      "queryPlan": {
+        "tasks": [
+          {
+            "id": 1,
+            "type": "retrieve",
+            "query": "当接口未返回estimatedSeconds字段或返回异常时，预计耗时文案的兜底处理规则是什么？",
+            "dependsOn": []
+          }
+        ]
+      },
+      "stepResults": [
+        {
+          "stepId": 1,
+          "query": "当接口未返回estimatedSeconds字段或返回异常时，预计耗时文案的兜底处理规则是什么？",
+          "searchQuery": "当接口未返回estimatedSeconds字段或返回异常时，预计耗时文案的兜底处理规则是什么？",
+          "taskType": "retrieve",
+          "dependencyStepIds": [],
+          "answer": "已检索到 8 条相关资料。",
+          "contexts": [
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_0_260203-AI-PRD-AI-20260115---Meego-P0-AI-Bits-htt",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_0_260203-AI-PRD-AI-20260115---Meego-P0-AI-Bits-htt",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "260203【AI智能成⽚】⽆模特商品成⽚技术⽅\n案\nPRD⽂档 \t 【AI智能成⽚】⽀持服饰类⽆模特图商品成⽚ \n后端技术⽂档 \t 20260115智能成⽚-服饰类⽆模特图上⾝ \nMeego链接 \t [需求]P0【AI智能成⽚】⽀持服饰类⽆模特图商品成⽚ \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2060005?\ndevops_space_type=server_fe&stage=dev_develop_stage&task=dev_develop_stage_\nchange_task\n1.需求背景与⽬标\n1.1.需求背景\n当前“AI智能成⽚”在服饰类和鞋靴类商品⾯临⼀个核⼼瓶颈：仅⽀持包含模特图的商品进⾏视频\n化，⽽平台上近半数的服饰商品（尤其是鞋靴、童装、男装类⽬）缺乏合格的模特图素材，这批商家\n及商品⽆法享受AI带来的内容⽣产提效红利。数据显⽰，这些⽆模特图的商家有明确的AI成⽚需求，\n且其商品即便⽆专业模特图，通过短视频挂⻋仍能产⽣有效GMV。\n同时，⽬前的鞋靴类商品，没有开放主题选择功能，存在功能缺失（如换背景）、体验不佳（选图意\n义不明）等问题，不利于平台的统⼀迭代与维护。\n1.2.需求⽬标\n本次前端改造旨在打通服饰类和和鞋靴类商品从“⽆模特图”到“⽣成⾼质量商品视频”的全链路，\n核⼼⽬标如下：\n•\t\n对商家：\na. 扩⼤服务范围：⽀持仅有商品平铺图/静物图的服饰/鞋靴类商家，通过“模特上⾝”功能，⽣成\n带模特的图⽚素材，并进⼀步制作成AI短视频。\nb. 提升操作体验：为鞋靴类商品带来与服饰类⼀致的“场景选择”等⾼级成⽚功能，统⼀并优化\n整体操作流程。\n•\t\n对平台：\na. 统⼀技术栈：整合服饰类与鞋靴类的前端交互与底层成⽚逻辑，降低维护成本，提⾼迭代效\n率。\n\n-- 1 of 12 --\n\nb. 提升核⼼指标：通过扩⼤服务商家范围，预期将显著提升“AI智能成⽚”功能的访问⽣成率，\n并为平台带来可观的发布量与GMV增量。\n2.范围与边界\n2.1.功能范围\n•\t\n素材校验与识别：在⽤⼾选择商品后，前端需调⽤接⼝，增加对“是否⽆模特商品”的判断标识\n`isNoModelProduct`的处理。\n•\t\n⽆模特图处理引导：当`isNoModelProduct`为`true`时，前端界⾯主动触发“模特上⾝”流\n程，替代原有的素材选择界⾯。\n•\t\n模特上⾝图异步⽣成与轮询：\n◦\t\n触发异步任务提交接⼝( /model_tryon/submit )。\n◦\t\n前端展⽰加载状态（进度条），并轮询查询接⼝( /model_tryon/result/query )获取⽣\n成结果。\n•\t\n处理⽣成成功、失败、加载中等多种状态的UI展⽰与交互。\n•\t\n⽣成结果选择：将异步⽣成的模特图（通常为4张）展⽰给⽤⼾，⽀持⽤⼾对图⽚单选，点击图⽚\n进⾏状态切换选择或者取消选择，⿏标悬浮图⽚有tooltip点击tooltip⽀持图⽚预览\n•\t\n鞋靴类流程对⻬：\n◦\t\n复⽤现有场景选择能⼒，使其兼容鞋靴类⽬。\n◦\t\n改造鞋靴素材的打标与筛选逻辑，与服饰类⽬拉⻬。\n•\t\n实验与灰度⽀持：前端需接⼊并处理`ai_video_clothing_model_tryon`和\n`ai_video_shoes_optimize_show`两个灰度实验标识，以实现对照组与实验组的⾏为区隔。\n2.2.不做范围\n•\t\n模特形象定制：本期不⽀持⽤⼾⾃定义或选择特定模特脸型、⻛格，由算法⾃动⽣成多种⻛格供选\n择。\n•\t\n⾃动⽣成范围扩⼤：本期“模特上⾝”功能仅对⽤⼾⼿动操作⽣效，不改变现有“⾃动⽣成”任务\n的商品范围（即⾃动⽣成仍需商品本⾝有模特图）。\n•\t\n接⼝同步改造：本次为纯前端改造，不涉及对后端接⼝协议的修改，仅作为现有接⼝的调⽤⽅。\n•\t\n质检流程介⼊：前端不介⼊商家选择的模特图是否符合商品预期的质检环节，默认⽤⼾已确认。\n3.⼯程约束\n•\t\nReacthooks规则硬约束：禁⽌在普通函数/条件/回调内调⽤hooks，尤其禁⽌在\n`useRequest(async()=>...)`的async回调⾥再调⽤hooks。\n\n-- 2 of 12 --\n\n•\t请求与三态：⻚⾯侧数据请求以`ahooks/useRequest`管理loading/error/data；API调⽤优先\n通过`src/api/*`与能⼒域`utils.tsx`的封装，不在⻚⾯内散落⼿写请求。\n•\t\n轮询必须可取消：使⽤`pollingInterval`时必须能`cancel()`，并在切换商品/切换范式/卸载时\n停⽌，避免残留请求与卸载后setState。\n•\t\n浮层样式注意：Tooltip/Popoveroverlay可能Portal到body，浮层样式不要依赖⽗级嵌套选择器\n结构。\n•\t\n⼯程验证：实现完成后⾄少通过`pnpmrunlint`与`pnpmrunbuild`。\n4.功能说明与覆盖\n4.1.核⼼功能点\n4.1.1.⽆模特商品⾃动识别与流程切换\n当⽤⼾在AI成⽚⻚⾯选择⼀个商品后，前端⽴即调⽤\n/api/content/ai/video/product_material_check 接⼝。\n前端职责：",
+              "score": 0.01639344262295082
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_4_3-taskId-useRequest-pollingInterval-3",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_4_3-taskId-useRequest-pollingInterval-3",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 3. 启动轮询：以`taskId`为依据，使⽤`useRequest`的`pollingInterval`功能，每隔3秒调⽤\n`apiQueryModelTryOnTaskResult`⽅法，轮询\n`/api/content/ai/video/model_tryon/result/query`接⼝。",
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_16_2-ModelTryOn-components-ModelTryOn-index-tsx",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_16_2-ModelTryOn-components-ModelTryOn-index-tsx",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 2. `ModelTryOn`组件(`components/ModelTryOn/index.tsx`新增组件)\n•\t\n职责：全新增组件，完整封装“模特上⾝”的所有交互逻辑，包括任务提交、状态轮询、进度展\n⽰、结果选择等。\n•\t\n内部实现：\n◦\t\n状态(State)：使⽤`useState`管理`tryOnTaskId`(任务ID),`tryOnTaskStatus`(任务状\n态),`tryOnMaterials`(⽣成的模特图列表)和`tryOnProgress`(模拟进度)。\n◦\t\n副作⽤(Effect&ahooks)：\n▪\t\n使⽤ useRequest 提交 apiSubmitModelTryOnTask 任务，在 onSuccess 中设\n置 tryOnTaskId 。\n▪\t\n使⽤另⼀个 useRequest ，并配置 { pollingInterval: 3000 } 来轮询\napiQueryModelTryOnTaskResult 接⼝，根据返回结果更新 tryOnTaskStatus \n和 tryOnMaterials ，并在成功或失败后调⽤ cancel() 停⽌轮询。\n▪\t\n使⽤ useEffect 启动和管理⼀个 setInterval 来模拟进度条的增⻓。\n◦\t\n视图(View)：根据`tryOnTaskStatus`渲染不同的UI：\n▪\t\nGenerating :显⽰进度条和提⽰⽂案。\n▪\t\nGenerateFailed :显⽰失败信息和重试按钮。\n▪\t\nGenerateSuccess :渲染 tryOnMaterials 列表，每张图⽚包含⼀个 Radio 或\nCheckbox ⽤于选择。",
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_24_6-End",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_24_6-End",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 6. [End]素材选择流程结束。\n7.实验设计\n本次改造涉及两个独⽴的Libra实验，前端需通过 use-ab-test Hook获取⽤⼾分组信息，并据此\n实现差异化逻辑。",
+              "score": 0.015625
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 4. 状态展⽰与进度模拟：\n◦\t\n在轮询过程中，根据接⼝返回的 taskStatus ( Generating , GenerateFailed ,\nGenerateSuccess )更新界⾯状态。\n◦\t\n在 Generating 状态下，前端通过 useEffect 启动⼀个定时器，模拟⼀个从10%到\n90%平滑增⻓的进度条，并根据进度百分⽐切换提⽰⽂案（如“正在⽣成模特形象”、“正在\n⽣成服装搭配”），以优化⽤⼾的等待体验。\n◦\t\n当 taskStatus 变为 GenerateSuccess 或 GenerateFailed 时，停⽌轮询和进度\n条动画。",
+              "score": 0.015384615384615385
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 2. 获取任务ID：从提交接⼝的响应中获取`taskId`，并将其存⼊组件状态。\n\n-- 3 of 12 --",
+              "score": 0.015151515151515152
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_9_1-SelectTheme",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_9_1-SelectTheme",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 1. 场景选择复⽤：移除针对鞋靴类⽬禁⽤“选择展⽰场景”（`SelectTheme`组件）的逻辑。\n`SelectTheme`组件现在会对`TaskScriptType.ShoesExplain`和\n`TaskScriptType.ShoesBgmShow`类型⽣效，前提是⽤⼾在\n`ai_video_shoes_optimize_show`实验组内。",
+              "score": 0.014925373134328358
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_6_5",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_6_5",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 5. 结果处理：\n◦\t\n成功：将返回的`modelTryOnResultVOs`(模特上⾝图列表)渲染到界⾯上，供⽤⼾选择。\n◦\t\n失败：展⽰失败提⽰和“点击重试”按钮，允许⽤⼾⼿动重新触发\n`apiSubmitModelTryOnTask`流程。\n4.1.3.⽣成素材的选择与管理\n⽤⼾在 ModelTryOn 组件中看到4张AI⽣成的模特图后，可以进⾏交互。\n前端职责：",
+              "score": 0.014705882352941176
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_0_260203-AI-PRD-AI-20260115---Meego-P0-AI-Bits-htt",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_0_260203-AI-PRD-AI-20260115---Meego-P0-AI-Bits-htt",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "260203【AI智能成⽚】⽆模特商品成⽚技术⽅\n案\nPRD⽂档 \t 【AI智能成⽚】⽀持服饰类⽆模特图商品成⽚ \n后端技术⽂档 \t 20260115智能成⽚-服饰类⽆模特图上⾝ \nMeego链接 \t [需求]P0【AI智能成⽚】⽀持服饰类⽆模特图商品成⽚ \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2060005?\ndevops_space_type=server_fe&stage=dev_develop_stage&task=dev_develop_stage_\nchange_task\n1.需求背景与⽬标\n1.1.需求背景\n当前“AI智能成⽚”在服饰类和鞋靴类商品⾯临⼀个核⼼瓶颈：仅⽀持包含模特图的商品进⾏视频\n化，⽽平台上近半数的服饰商品（尤其是鞋靴、童装、男装类⽬）缺乏合格的模特图素材，这批商家\n及商品⽆法享受AI带来的内容⽣产提效红利。数据显⽰，这些⽆模特图的商家有明确的AI成⽚需求，\n且其商品即便⽆专业模特图，通过短视频挂⻋仍能产⽣有效GMV。\n同时，⽬前的鞋靴类商品，没有开放主题选择功能，存在功能缺失（如换背景）、体验不佳（选图意\n义不明）等问题，不利于平台的统⼀迭代与维护。\n1.2.需求⽬标\n本次前端改造旨在打通服饰类和和鞋靴类商品从“⽆模特图”到“⽣成⾼质量商品视频”的全链路，\n核⼼⽬标如下：\n•\t\n对商家：\na. 扩⼤服务范围：⽀持仅有商品平铺图/静物图的服饰/鞋靴类商家，通过“模特上⾝”功能，⽣成\n带模特的图⽚素材，并进⼀步制作成AI短视频。\nb. 提升操作体验：为鞋靴类商品带来与服饰类⼀致的“场景选择”等⾼级成⽚功能，统⼀并优化\n整体操作流程。\n•\t\n对平台：\na. 统⼀技术栈：整合服饰类与鞋靴类的前端交互与底层成⽚逻辑，降低维护成本，提⾼迭代效\n率。\n\n-- 1 of 12 --\n\nb. 提升核⼼指标：通过扩⼤服务商家范围，预期将显著提升“AI智能成⽚”功能的访问⽣成率，\n并为平台带来可观的发布量与GMV增量。\n2.范围与边界\n2.1.功能范围\n•\t\n素材校验与识别：在⽤⼾选择商品后，前端需调⽤接⼝，增加对“是否⽆模特商品”的判断标识\n`isNoModelProduct`的处理。\n•\t\n⽆模特图处理引导：当`isNoModelProduct`为`true`时，前端界⾯主动触发“模特上⾝”流\n程，替代原有的素材选择界⾯。\n•\t\n模特上⾝图异步⽣成与轮询：\n◦\t\n触发异步任务提交接⼝( /model_tryon/submit )。\n◦\t\n前端展⽰加载状态（进度条），并轮询查询接⼝( /model_tryon/result/query )获取⽣\n成结果。\n•\t\n处理⽣成成功、失败、加载中等多种状态的UI展⽰与交互。\n•\t\n⽣成结果选择：将异步⽣成的模特图（通常为4张）展⽰给⽤⼾，⽀持⽤⼾对图⽚单选，点击图⽚\n进⾏状态切换选择或者取消选择，⿏标悬浮图⽚有tooltip点击tooltip⽀持图⽚预览\n•\t\n鞋靴类流程对⻬：\n◦\t\n复⽤现有场景选择能⼒，使其兼容鞋靴类⽬。\n◦\t\n改造鞋靴素材的打标与筛选逻辑，与服饰类⽬拉⻬。\n•\t\n实验与灰度⽀持：前端需接⼊并处理`ai_video_clothing_model_tryon`和\n`ai_video_shoes_optimize_show`两个灰度实验标识，以实现对照组与实验组的⾏为区隔。\n2.2.不做范围\n•\t\n模特形象定制：本期不⽀持⽤⼾⾃定义或选择特定模特脸型、⻛格，由算法⾃动⽣成多种⻛格供选\n择。\n•\t\n⾃动⽣成范围扩⼤：本期“模特上⾝”功能仅对⽤⼾⼿动操作⽣效，不改变现有“⾃动⽣成”任务\n的商品范围（即⾃动⽣成仍需商品本⾝有模特图）。\n•\t\n接⼝同步改造：本次为纯前端改造，不涉及对后端接⼝协议的修改，仅作为现有接⼝的调⽤⽅。\n•\t\n质检流程介⼊：前端不介⼊商家选择的模特图是否符合商品预期的质检环节，默认⽤⼾已确认。\n3.⼯程约束\n•\t\nReacthooks规则硬约束：禁⽌在普通函数/条件/回调内调⽤hooks，尤其禁⽌在\n`useRequest(async()=>...)`的async回调⾥再调⽤hooks。\n\n-- 2 of 12 --\n\n•\t请求与三态：⻚⾯侧数据请求以`ahooks/useRequest`管理loading/error/data；API调⽤优先\n通过`src/api/*`与能⼒域`utils.tsx`的封装，不在⻚⾯内散落⼿写请求。\n•\t\n轮询必须可取消：使⽤`pollingInterval`时必须能`cancel()`，并在切换商品/切换范式/卸载时\n停⽌，避免残留请求与卸载后setState。\n•\t\n浮层样式注意：Tooltip/Popoveroverlay可能Portal到body，浮层样式不要依赖⽗级嵌套选择器\n结构。\n•\t\n⼯程验证：实现完成后⾄少通过`pnpmrunlint`与`pnpmrunbuild`。\n4.功能说明与覆盖\n4.1.核⼼功能点\n4.1.1.⽆模特商品⾃动识别与流程切换\n当⽤⼾在AI成⽚⻚⾯选择⼀个商品后，前端⽴即调⽤\n/api/content/ai/video/product_material_check 接⼝。\n前端职责：",
+          "score": 0.01639344262295082
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_4_3-taskId-useRequest-pollingInterval-3",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_4_3-taskId-useRequest-pollingInterval-3",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 3. 启动轮询：以`taskId`为依据，使⽤`useRequest`的`pollingInterval`功能，每隔3秒调⽤\n`apiQueryModelTryOnTaskResult`⽅法，轮询\n`/api/content/ai/video/model_tryon/result/query`接⼝。",
+          "score": 0.016129032258064516
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_16_2-ModelTryOn-components-ModelTryOn-index-tsx",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_16_2-ModelTryOn-components-ModelTryOn-index-tsx",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 2. `ModelTryOn`组件(`components/ModelTryOn/index.tsx`新增组件)\n•\t\n职责：全新增组件，完整封装“模特上⾝”的所有交互逻辑，包括任务提交、状态轮询、进度展\n⽰、结果选择等。\n•\t\n内部实现：\n◦\t\n状态(State)：使⽤`useState`管理`tryOnTaskId`(任务ID),`tryOnTaskStatus`(任务状\n态),`tryOnMaterials`(⽣成的模特图列表)和`tryOnProgress`(模拟进度)。\n◦\t\n副作⽤(Effect&ahooks)：\n▪\t\n使⽤ useRequest 提交 apiSubmitModelTryOnTask 任务，在 onSuccess 中设\n置 tryOnTaskId 。\n▪\t\n使⽤另⼀个 useRequest ，并配置 { pollingInterval: 3000 } 来轮询\napiQueryModelTryOnTaskResult 接⼝，根据返回结果更新 tryOnTaskStatus \n和 tryOnMaterials ，并在成功或失败后调⽤ cancel() 停⽌轮询。\n▪\t\n使⽤ useEffect 启动和管理⼀个 setInterval 来模拟进度条的增⻓。\n◦\t\n视图(View)：根据`tryOnTaskStatus`渲染不同的UI：\n▪\t\nGenerating :显⽰进度条和提⽰⽂案。\n▪\t\nGenerateFailed :显⽰失败信息和重试按钮。\n▪\t\nGenerateSuccess :渲染 tryOnMaterials 列表，每张图⽚包含⼀个 Radio 或\nCheckbox ⽤于选择。",
+          "score": 0.015873015873015872
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_24_6-End",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_24_6-End",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 6. [End]素材选择流程结束。\n7.实验设计\n本次改造涉及两个独⽴的Libra实验，前端需通过 use-ab-test Hook获取⽤⼾分组信息，并据此\n实现差异化逻辑。",
+          "score": 0.015625
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 4. 状态展⽰与进度模拟：\n◦\t\n在轮询过程中，根据接⼝返回的 taskStatus ( Generating , GenerateFailed ,\nGenerateSuccess )更新界⾯状态。\n◦\t\n在 Generating 状态下，前端通过 useEffect 启动⼀个定时器，模拟⼀个从10%到\n90%平滑增⻓的进度条，并根据进度百分⽐切换提⽰⽂案（如“正在⽣成模特形象”、“正在\n⽣成服装搭配”），以优化⽤⼾的等待体验。\n◦\t\n当 taskStatus 变为 GenerateSuccess 或 GenerateFailed 时，停⽌轮询和进度\n条动画。",
+          "score": 0.015384615384615385
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 2. 获取任务ID：从提交接⼝的响应中获取`taskId`，并将其存⼊组件状态。\n\n-- 3 of 12 --",
+          "score": 0.015151515151515152
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_9_1-SelectTheme",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_9_1-SelectTheme",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 1. 场景选择复⽤：移除针对鞋靴类⽬禁⽤“选择展⽰场景”（`SelectTheme`组件）的逻辑。\n`SelectTheme`组件现在会对`TaskScriptType.ShoesExplain`和\n`TaskScriptType.ShoesBgmShow`类型⽣效，前提是⽤⼾在\n`ai_video_shoes_optimize_show`实验组内。",
+          "score": 0.014925373134328358
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_6_5",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_6_5",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 5. 结果处理：\n◦\t\n成功：将返回的`modelTryOnResultVOs`(模特上⾝图列表)渲染到界⾯上，供⽤⼾选择。\n◦\t\n失败：展⽰失败提⽰和“点击重试”按钮，允许⽤⼾⼿动重新触发\n`apiSubmitModelTryOnTask`流程。\n4.1.3.⽣成素材的选择与管理\n⽤⼾在 ModelTryOn 组件中看到4张AI⽣成的模特图后，可以进⾏交互。\n前端职责：",
+          "score": 0.014705882352941176
+        }
+      ],
+      "retrievedParentIds": [
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_0_260203-AI-PRD-AI-20260115---Meego-P0-AI-Bits-htt",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_4_3-taskId-useRequest-pollingInterval-3",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_16_2-ModelTryOn-components-ModelTryOn-index-tsx",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_24_6-End",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_9_1-SelectTheme",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_6_5"
+      ],
+      "referenceDocuments": [
+        {
+          "sourceId": "文档 1",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "score": 0.01639344262295082
+        }
+      ],
+      "expectedParentChunkIds": [
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3"
+      ],
+      "expectedAnswerPoints": [
+        "优先回退为现有 taskStyleConfig.estimatedGenerateTime 文案",
+        "保持线上已有展示能力",
+        "如果仍为空则统一兜底为预计需要10分钟"
+      ],
+      "forbiddenClaims": [
+        "直接隐藏预计耗时",
+        "默认兜底为预计需要1小时",
+        "由前端重新计算队列排队人数"
+      ],
+      "metrics": {
+        "parentRecallAtK": {
+          "parentRecall@8": 0
+        },
+        "answerCorrectness": 0,
+        "answerFaithfulness": 1,
+        "answerCompleteness": 0,
+        "coveredAnswerPoints": [],
+        "missingAnswerPoints": [
+          "优先回退为现有 taskStyleConfig.estimatedGenerateTime 文案",
+          "保持线上已有展示能力",
+          "如果仍为空则统一兜底为预计需要10分钟"
+        ],
+        "unsupportedClaims": [],
+        "judgeReason": "答案未回答用户问题，未覆盖任何标准答案关键点，属于答非所问；但答案内容符合检索资料情况，无无依据内容。"
+      },
+      "likelyCause": "retrieval_failure"
+    },
+    {
+      "caseId": "case_05",
+      "question": "前端展示预计耗时依赖哪个接口字段？落地时需要同步什么类型定义？",
+      "answer": "当前提供的资料中，没有关于前端展示预计耗时依赖的接口字段，以及落地时需要同步的类型定义的相关内容，暂时无法为你解答这两个问题。\n\n建议补充以下方向的资料：\n1. 接口文档中关于任务预计耗时的返回字段定义\n2. 前端展示预计耗时功能的具体技术实现方案\n3. 类型定义同步的相关规范或要求",
+      "rewrittenQuery": "前端展示预计耗时依赖哪个接口字段？落地时需要同步什么类型定义？",
+      "queryPlan": {
+        "tasks": [
+          {
+            "id": 1,
+            "type": "retrieve",
+            "query": "前端展示预计耗时依赖的接口字段是什么？",
+            "dependsOn": []
+          },
+          {
+            "id": 2,
+            "type": "retrieve",
+            "query": "前端展示预计耗时功能落地时需要同步的类型定义有哪些？",
+            "dependsOn": []
+          }
+        ]
+      },
+      "stepResults": [
+        {
+          "stepId": 1,
+          "query": "前端展示预计耗时依赖的接口字段是什么？",
+          "searchQuery": "前端展示预计耗时依赖的接口字段是什么？",
+          "taskType": "retrieve",
+          "dependencyStepIds": [],
+          "answer": "已检索到 8 条相关资料。",
+          "contexts": [
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_6_5",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_6_5",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 5. 结果处理：\n◦\t\n成功：将返回的`modelTryOnResultVOs`(模特上⾝图列表)渲染到界⾯上，供⽤⼾选择。\n◦\t\n失败：展⽰失败提⽰和“点击重试”按钮，允许⽤⼾⼿动重新触发\n`apiSubmitModelTryOnTask`流程。\n4.1.3.⽣成素材的选择与管理\n⽤⼾在 ModelTryOn 组件中看到4张AI⽣成的模特图后，可以进⾏交互。\n前端职责：",
+              "score": 0.01639344262295082
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_4_3-taskId-useRequest-pollingInterval-3",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_4_3-taskId-useRequest-pollingInterval-3",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 3. 启动轮询：以`taskId`为依据，使⽤`useRequest`的`pollingInterval`功能，每隔3秒调⽤\n`apiQueryModelTryOnTaskResult`⽅法，轮询\n`/api/content/ai/video/model_tryon/result/query`接⼝。",
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_9_1-SelectTheme",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_9_1-SelectTheme",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 1. 场景选择复⽤：移除针对鞋靴类⽬禁⽤“选择展⽰场景”（`SelectTheme`组件）的逻辑。\n`SelectTheme`组件现在会对`TaskScriptType.ShoesExplain`和\n`TaskScriptType.ShoesBgmShow`类型⽣效，前提是⽤⼾在\n`ai_video_shoes_optimize_show`实验组内。",
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_24_6-End",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_24_6-End",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 6. [End]素材选择流程结束。\n7.实验设计\n本次改造涉及两个独⽴的Libra实验，前端需通过 use-ab-test Hook获取⽤⼾分组信息，并据此\n实现差异化逻辑。",
+              "score": 0.015625
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 4. 状态展⽰与进度模拟：\n◦\t\n在轮询过程中，根据接⼝返回的 taskStatus ( Generating , GenerateFailed ,\nGenerateSuccess )更新界⾯状态。\n◦\t\n在 Generating 状态下，前端通过 useEffect 启动⼀个定时器，模拟⼀个从10%到\n90%平滑增⻓的进度条，并根据进度百分⽐切换提⽰⽂案（如“正在⽣成模特形象”、“正在\n⽣成服装搭配”），以优化⽤⼾的等待体验。\n◦\t\n当 taskStatus 变为 GenerateSuccess 或 GenerateFailed 时，停⽌轮询和进度\n条动画。",
+              "score": 0.015384615384615385
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 2. 获取任务ID：从提交接⼝的响应中获取`taskId`，并将其存⼊组件状态。\n\n-- 3 of 12 --",
+              "score": 0.015151515151515152
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_16_2-ModelTryOn-components-ModelTryOn-index-tsx",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_16_2-ModelTryOn-components-ModelTryOn-index-tsx",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 2. `ModelTryOn`组件(`components/ModelTryOn/index.tsx`新增组件)\n•\t\n职责：全新增组件，完整封装“模特上⾝”的所有交互逻辑，包括任务提交、状态轮询、进度展\n⽰、结果选择等。\n•\t\n内部实现：\n◦\t\n状态(State)：使⽤`useState`管理`tryOnTaskId`(任务ID),`tryOnTaskStatus`(任务状\n态),`tryOnMaterials`(⽣成的模特图列表)和`tryOnProgress`(模拟进度)。\n◦\t\n副作⽤(Effect&ahooks)：\n▪\t\n使⽤ useRequest 提交 apiSubmitModelTryOnTask 任务，在 onSuccess 中设\n置 tryOnTaskId 。\n▪\t\n使⽤另⼀个 useRequest ，并配置 { pollingInterval: 3000 } 来轮询\napiQueryModelTryOnTaskResult 接⼝，根据返回结果更新 tryOnTaskStatus \n和 tryOnMaterials ，并在成功或失败后调⽤ cancel() 停⽌轮询。\n▪\t\n使⽤ useEffect 启动和管理⼀个 setInterval 来模拟进度条的增⻓。\n◦\t\n视图(View)：根据`tryOnTaskStatus`渲染不同的UI：\n▪\t\nGenerating :显⽰进度条和提⽰⽂案。\n▪\t\nGenerateFailed :显⽰失败信息和重试按钮。\n▪\t\nGenerateSuccess :渲染 tryOnMaterials 列表，每张图⽚包含⼀个 Radio 或\nCheckbox ⽤于选择。",
+              "score": 0.014925373134328358
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
+              "score": 0.014705882352941176
+            }
+          ]
+        },
+        {
+          "stepId": 2,
+          "query": "前端展示预计耗时功能落地时需要同步的类型定义有哪些？",
+          "searchQuery": "前端展示预计耗时功能落地时需要同步的类型定义有哪些？",
+          "taskType": "retrieve",
+          "dependencyStepIds": [],
+          "answer": "已检索到 8 条相关资料。",
+          "contexts": [
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_6_5",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_6_5",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 5. 结果处理：\n◦\t\n成功：将返回的`modelTryOnResultVOs`(模特上⾝图列表)渲染到界⾯上，供⽤⼾选择。\n◦\t\n失败：展⽰失败提⽰和“点击重试”按钮，允许⽤⼾⼿动重新触发\n`apiSubmitModelTryOnTask`流程。\n4.1.3.⽣成素材的选择与管理\n⽤⼾在 ModelTryOn 组件中看到4张AI⽣成的模特图后，可以进⾏交互。\n前端职责：",
+              "score": 0.01639344262295082
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_4_3-taskId-useRequest-pollingInterval-3",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_4_3-taskId-useRequest-pollingInterval-3",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 3. 启动轮询：以`taskId`为依据，使⽤`useRequest`的`pollingInterval`功能，每隔3秒调⽤\n`apiQueryModelTryOnTaskResult`⽅法，轮询\n`/api/content/ai/video/model_tryon/result/query`接⼝。",
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_9_1-SelectTheme",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_9_1-SelectTheme",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 1. 场景选择复⽤：移除针对鞋靴类⽬禁⽤“选择展⽰场景”（`SelectTheme`组件）的逻辑。\n`SelectTheme`组件现在会对`TaskScriptType.ShoesExplain`和\n`TaskScriptType.ShoesBgmShow`类型⽣效，前提是⽤⼾在\n`ai_video_shoes_optimize_show`实验组内。",
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_24_6-End",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_24_6-End",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 6. [End]素材选择流程结束。\n7.实验设计\n本次改造涉及两个独⽴的Libra实验，前端需通过 use-ab-test Hook获取⽤⼾分组信息，并据此\n实现差异化逻辑。",
+              "score": 0.015625
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 4. 状态展⽰与进度模拟：\n◦\t\n在轮询过程中，根据接⼝返回的 taskStatus ( Generating , GenerateFailed ,\nGenerateSuccess )更新界⾯状态。\n◦\t\n在 Generating 状态下，前端通过 useEffect 启动⼀个定时器，模拟⼀个从10%到\n90%平滑增⻓的进度条，并根据进度百分⽐切换提⽰⽂案（如“正在⽣成模特形象”、“正在\n⽣成服装搭配”），以优化⽤⼾的等待体验。\n◦\t\n当 taskStatus 变为 GenerateSuccess 或 GenerateFailed 时，停⽌轮询和进度\n条动画。",
+              "score": 0.015384615384615385
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 2. 获取任务ID：从提交接⼝的响应中获取`taskId`，并将其存⼊组件状态。\n\n-- 3 of 12 --",
+              "score": 0.015151515151515152
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_16_2-ModelTryOn-components-ModelTryOn-index-tsx",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_16_2-ModelTryOn-components-ModelTryOn-index-tsx",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 2. `ModelTryOn`组件(`components/ModelTryOn/index.tsx`新增组件)\n•\t\n职责：全新增组件，完整封装“模特上⾝”的所有交互逻辑，包括任务提交、状态轮询、进度展\n⽰、结果选择等。\n•\t\n内部实现：\n◦\t\n状态(State)：使⽤`useState`管理`tryOnTaskId`(任务ID),`tryOnTaskStatus`(任务状\n态),`tryOnMaterials`(⽣成的模特图列表)和`tryOnProgress`(模拟进度)。\n◦\t\n副作⽤(Effect&ahooks)：\n▪\t\n使⽤ useRequest 提交 apiSubmitModelTryOnTask 任务，在 onSuccess 中设\n置 tryOnTaskId 。\n▪\t\n使⽤另⼀个 useRequest ，并配置 { pollingInterval: 3000 } 来轮询\napiQueryModelTryOnTaskResult 接⼝，根据返回结果更新 tryOnTaskStatus \n和 tryOnMaterials ，并在成功或失败后调⽤ cancel() 停⽌轮询。\n▪\t\n使⽤ useEffect 启动和管理⼀个 setInterval 来模拟进度条的增⻓。\n◦\t\n视图(View)：根据`tryOnTaskStatus`渲染不同的UI：\n▪\t\nGenerating :显⽰进度条和提⽰⽂案。\n▪\t\nGenerateFailed :显⽰失败信息和重试按钮。\n▪\t\nGenerateSuccess :渲染 tryOnMaterials 列表，每张图⽚包含⼀个 Radio 或\nCheckbox ⽤于选择。",
+              "score": 0.014925373134328358
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
+              "score": 0.014705882352941176
+            }
+          ]
+        }
+      ],
+      "contexts": [
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_6_5",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_6_5",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 5. 结果处理：\n◦\t\n成功：将返回的`modelTryOnResultVOs`(模特上⾝图列表)渲染到界⾯上，供⽤⼾选择。\n◦\t\n失败：展⽰失败提⽰和“点击重试”按钮，允许⽤⼾⼿动重新触发\n`apiSubmitModelTryOnTask`流程。\n4.1.3.⽣成素材的选择与管理\n⽤⼾在 ModelTryOn 组件中看到4张AI⽣成的模特图后，可以进⾏交互。\n前端职责：",
+          "score": 0.01639344262295082
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_4_3-taskId-useRequest-pollingInterval-3",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_4_3-taskId-useRequest-pollingInterval-3",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 3. 启动轮询：以`taskId`为依据，使⽤`useRequest`的`pollingInterval`功能，每隔3秒调⽤\n`apiQueryModelTryOnTaskResult`⽅法，轮询\n`/api/content/ai/video/model_tryon/result/query`接⼝。",
+          "score": 0.016129032258064516
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_9_1-SelectTheme",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_9_1-SelectTheme",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 1. 场景选择复⽤：移除针对鞋靴类⽬禁⽤“选择展⽰场景”（`SelectTheme`组件）的逻辑。\n`SelectTheme`组件现在会对`TaskScriptType.ShoesExplain`和\n`TaskScriptType.ShoesBgmShow`类型⽣效，前提是⽤⼾在\n`ai_video_shoes_optimize_show`实验组内。",
+          "score": 0.015873015873015872
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_24_6-End",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_24_6-End",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 6. [End]素材选择流程结束。\n7.实验设计\n本次改造涉及两个独⽴的Libra实验，前端需通过 use-ab-test Hook获取⽤⼾分组信息，并据此\n实现差异化逻辑。",
+          "score": 0.015625
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 4. 状态展⽰与进度模拟：\n◦\t\n在轮询过程中，根据接⼝返回的 taskStatus ( Generating , GenerateFailed ,\nGenerateSuccess )更新界⾯状态。\n◦\t\n在 Generating 状态下，前端通过 useEffect 启动⼀个定时器，模拟⼀个从10%到\n90%平滑增⻓的进度条，并根据进度百分⽐切换提⽰⽂案（如“正在⽣成模特形象”、“正在\n⽣成服装搭配”），以优化⽤⼾的等待体验。\n◦\t\n当 taskStatus 变为 GenerateSuccess 或 GenerateFailed 时，停⽌轮询和进度\n条动画。",
+          "score": 0.015384615384615385
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 2. 获取任务ID：从提交接⼝的响应中获取`taskId`，并将其存⼊组件状态。\n\n-- 3 of 12 --",
+          "score": 0.015151515151515152
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_16_2-ModelTryOn-components-ModelTryOn-index-tsx",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_16_2-ModelTryOn-components-ModelTryOn-index-tsx",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 2. `ModelTryOn`组件(`components/ModelTryOn/index.tsx`新增组件)\n•\t\n职责：全新增组件，完整封装“模特上⾝”的所有交互逻辑，包括任务提交、状态轮询、进度展\n⽰、结果选择等。\n•\t\n内部实现：\n◦\t\n状态(State)：使⽤`useState`管理`tryOnTaskId`(任务ID),`tryOnTaskStatus`(任务状\n态),`tryOnMaterials`(⽣成的模特图列表)和`tryOnProgress`(模拟进度)。\n◦\t\n副作⽤(Effect&ahooks)：\n▪\t\n使⽤ useRequest 提交 apiSubmitModelTryOnTask 任务，在 onSuccess 中设\n置 tryOnTaskId 。\n▪\t\n使⽤另⼀个 useRequest ，并配置 { pollingInterval: 3000 } 来轮询\napiQueryModelTryOnTaskResult 接⼝，根据返回结果更新 tryOnTaskStatus \n和 tryOnMaterials ，并在成功或失败后调⽤ cancel() 停⽌轮询。\n▪\t\n使⽤ useEffect 启动和管理⼀个 setInterval 来模拟进度条的增⻓。\n◦\t\n视图(View)：根据`tryOnTaskStatus`渲染不同的UI：\n▪\t\nGenerating :显⽰进度条和提⽰⽂案。\n▪\t\nGenerateFailed :显⽰失败信息和重试按钮。\n▪\t\nGenerateSuccess :渲染 tryOnMaterials 列表，每张图⽚包含⼀个 Radio 或\nCheckbox ⽤于选择。",
+          "score": 0.014925373134328358
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
+          "score": 0.014705882352941176
+        }
+      ],
+      "retrievedParentIds": [
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_6_5",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_4_3-taskId-useRequest-pollingInterval-3",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_9_1-SelectTheme",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_24_6-End",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_5_4",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_3_2-ID-taskId",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_16_2-ModelTryOn-components-ModelTryOn-index-tsx",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5"
+      ],
+      "referenceDocuments": [
+        {
+          "sourceId": "文档 1",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "score": 0.01639344262295082
+        },
+        {
+          "sourceId": "文档 2",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "score": 0.014705882352941176
+        }
+      ],
+      "expectedParentChunkIds": [
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4"
+      ],
+      "expectedAnswerPoints": [
+        "依赖 /api/content/ai/video/get_shop_aivideo_list 接口",
+        "AIVideo 中新增 estimatedSeconds 字段",
+        "estimatedSeconds 单位是秒",
+        "字段缺失时按兜底策略回退为 taskStyleConfig.estimatedGenerateTime",
+        "需要同步更新 AIVideo 类型定义"
+      ],
+      "forbiddenClaims": [
+        "依赖前端本地计时器计算预计耗时",
+        "estimatedSeconds 单位是分钟",
+        "不需要更新类型定义"
+      ],
+      "metrics": {
+        "parentRecallAtK": {
+          "parentRecall@8": 0
+        },
+        "answerCorrectness": 0,
+        "answerFaithfulness": 1,
+        "answerCompleteness": 0,
+        "coveredAnswerPoints": [],
+        "missingAnswerPoints": [
+          "依赖 /api/content/ai/video/get_shop_aivideo_list 接口",
+          "AIVideo 中新增 estimatedSeconds 字段",
+          "estimatedSeconds 单位是秒",
+          "字段缺失时按兜底策略回退为 taskStyleConfig.estimatedGenerateTime",
+          "需要同步更新 AIVideo 类型定义"
+        ],
+        "unsupportedClaims": [],
+        "judgeReason": "检索到的资料中未包含与问题相关的内容，模型生成的答案表示无法解答，但标准答案存在相关关键点，因此答案正确性为0.0，完整性为0.0；答案内容均基于检索资料，无无依据内容，可信性为1.0。"
+      },
+      "likelyCause": "retrieval_failure"
+    },
+    {
+      "caseId": "case_06",
+      "question": "如果队列相关字段只在实验组生效，兼容性上要注意什么？",
+      "answer": "如果队列相关字段只在实验组生效，兼容性上需要注意以下事项：\n1. **对照组返回值兼容**：需保证对照组（单队列）返回值兼容，当队列相关字段缺失时，要按兜底策略进行回退，避免旧版本系统或非实验组用户出现功能异常。[资料 6]\n2. **字段缺失或异常的兜底处理**：针对新增的队列相关字段（如estimatedSeconds），当接口未返回该字段或返回异常时，优先回退为现有taskStyleConfig.estimatedGenerateTime文案；若该文案也为空，则统一兜底为“预计需要10分钟”。[资料 5]\n3. **类型定义同步更新**：实现落地时需要同步更新对应的类型定义，包含新增的队列相关字段。[资料 8]\n4. **业务交互逻辑一致性**：仅基于队列相关字段改造既有“生成中”状态的预计耗时表达，不新增入口或权益展示，确保实验组与对照组的交互逻辑差异仅限定在预计耗时展示部分，维持整体业务交互的一致性。[资料 9][资料 10]",
+      "rewrittenQuery": "如果队列相关字段只在实验组生效，兼容性上要注意什么？",
+      "queryPlan": {
+        "tasks": [
+          {
+            "id": 1,
+            "type": "retrieve",
+            "query": "队列相关字段仅在实验组生效时，兼容旧版本系统或非实验组用户的常见注意事项有哪些？",
+            "dependsOn": []
+          },
+          {
+            "id": 2,
+            "type": "retrieve",
+            "query": "队列相关字段仅在实验组生效场景下，数据传输、存储层面的兼容性风险及应对方法是什么？",
+            "dependsOn": []
+          },
+          {
+            "id": 3,
+            "type": "retrieve",
+            "query": "队列相关字段仅在实验组生效时，业务逻辑交互层面的兼容性问题及解决方案有哪些？",
+            "dependsOn": []
+          },
+          {
+            "id": 4,
+            "type": "reasoning",
+            "query": "综合旧版本兼容、数据层面、业务逻辑层面的信息，总结队列相关字段仅在实验组生效时的兼容性注意事项。",
+            "dependsOn": [1, 2, 3]
+          }
+        ]
+      },
+      "stepResults": [
+        {
+          "stepId": 1,
+          "query": "队列相关字段仅在实验组生效时，兼容旧版本系统或非实验组用户的常见注意事项有哪些？",
+          "searchQuery": "队列相关字段仅在实验组生效时，兼容旧版本系统或非实验组用户的常见注意事项有哪些？",
+          "taskType": "retrieve",
+          "dependencyStepIds": [],
+          "answer": "已检索到 8 条相关资料。",
+          "contexts": [
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_22_4-TryOnFlow-Polling-apiQueryModelTryOnTaskResult",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_22_4-TryOnFlow-Polling-apiQueryModelTryOnTaskResult",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 4. [TryOnFlow.Polling]前端开始轮询`apiQueryModelTryOnTaskResult`。\n◦\t\n若 taskStatus 持续为 Generating ，UI保持加载状态。\n◦\t\n若`taskStatus`变为`GenerateFailed`，UI进⼊`Failed`状态，点击失败区块可重试。⽤\n⼾点击重试后，返回[TryOnFlow.Submit]。\n◦\t\n若 taskStatus 变为 GenerateSuccess ，UI进⼊ Success 状态，渲染\nmodelTryOnResultVOs 列表。",
+              "score": 0.01639344262295082
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_1_3",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_1_3",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 3. 流程判断：\n◦\t\n若 isNoModelProduct 为 false ，则维持现有逻辑，展⽰从 data 字段返回的合格模\n特图素材，供⽤⼾选择。\n◦\t\n若`isNoModelProduct`为`true`，且⽤⼾在`ai_video_clothing_model_tryon`或\n`ai_video_shoes_optimize_show`实验组内，则前端隐藏常规的素材选择区域，转⽽渲染\n“模特上⾝（ModelTryOn）”组件，启动新的交互流程。\n4.1.2.“模特上⾝”异步⽣成与交互\n“模特上⾝”是本次改造的核⼼交互界⾯，由 ModelTryOn 组件承载，负责处理从触发⽣成到结果\n展⽰的全过程。\n前端职责：",
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 1. 需求背景与⽬标\nAI智能成⽚使⽤量持续上涨，⽇均⽣成视频量约3.5万条，已触达当前资源瓶颈。资源不⾜导致⾼峰\n期⽣成排队（可达数⼩时）频发，⽣成耗时显著⾼于产品早期预估，影响商家使⽤体验与成⽚发布\n率。\n本需求通过“⽤⼾分级+双队列并发控制”的⽅式，在资源有限前提下保障核⼼⽤⼾体验，并对前台\n的“⽣成中”状态的预估耗时表达做同步升级，使商家对⽣成时⻓预期更明确、可解释。",
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "260324【AI智能成⽚】资源分配初版技术⽅案\nPRD⽂档 \t AI智能成⽚-资源分配初版 \n后端技术⽂档 \t 202603-智能成⽚资源分配 \nMeego链接 \t [需求]【P0】AI智能成⽚资源分配初版 \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2208675/flow?\ndevops_space_type=server_fe&pipelineId=1128918360066",
+              "score": 0.015625
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
+              "score": 0.015384615384615385
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
+              "score": 0.015151515151515152
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_28_2-Given-ai_video_shoes_optimize_show-When",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_28_2-Given-ai_video_shoes_optimize_show-When",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 2. Given⼀个主营类⽬为“男鞋”的商家（在`ai_video_shoes_optimize_show`实验组）When\n他选择了⼀个⽆模特图的鞋⼦商品Then⻚⾯应⾃动进⼊“模特上⾝”加载流程，并最终展⽰4张\n可供选择的模特图，并且⻚⾯下⽅应出现“选择展⽰场景”模块。",
+              "score": 0.014925373134328358
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 4. 接⼝解读与数据依赖\n接⼝ /api/content/ai/video/get_shop_aivideo_list （前端封装为\nVideoCenterAPI.GetShopAIVideoList ）返回的 AIVideo 中新增字段：\n•\t\nestimatedSeconds ：预计耗时，单位秒（由后端根据队列/资源模型计算）\n前端改造依赖该字段进⾏展⽰分段⽂案；当字段缺失时按兜底策略回退为\ntaskStyleConfig.estimatedGenerateTime 。\n实现落地时需要同步更新类型定义（ @ecom/bam-types /本仓库 packages/bam ⽣成的\nAIVideo 类型）以包含 estimatedSeconds 。",
+              "score": 0.014705882352941176
+            }
+          ]
+        },
+        {
+          "stepId": 2,
+          "query": "队列相关字段仅在实验组生效场景下，数据传输、存储层面的兼容性风险及应对方法是什么？",
+          "searchQuery": "队列相关字段仅在实验组生效场景下，数据传输、存储层面的兼容性风险及应对方法是什么？",
+          "taskType": "retrieve",
+          "dependencyStepIds": [],
+          "answer": "已检索到 8 条相关资料。",
+          "contexts": [
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
+              "score": 0.01639344262295082
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "### 2.1 功能范围\n本期前端范围仅覆盖“⽣成中”场景的预计耗时展⽰升级（⽂案与交互），不新增或外化“⾼优/低优\n队列”⾝份/权益展⽰；队列分级与权益策略对商家不可控且可能动态调整，因此前台不展⽰分级。\n变更点1：⽣成记录（PC）―批次标题预计耗时⽂案升级\n⼊⼝⻚⾯： apps/creative/web/src/pages/ai-generate-video-v1 右侧「⽣成结果」\n区域。\n现状：⽣成中批次标题使⽤ taskStyleConfig.estimatedGenerateTime （按视频类型配置\n的静态字符串）拼接： …条视频⽣成中…预计需要XX 。\n改造：所有成⽚类型统⼀预计耗时表达，基于接⼝\n/api/content/ai/video/get_shop_aivideo_list 返回的 estimatedSeconds （预计\n耗时，单位秒）⽣成分段⽂案，如果⼤于⼀⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover\n⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、AI智能成⽚⼊⼝提醒”。\n•\t\n展⽰位置： BatchAIVideoList 的批次标题（ useBatchVideoTitle ）\n\n-- 1 of 3 --\n\n变更点2：视频管理列表（PCMobile同逻辑）―「⽣成中」状态描述预计耗时⽂\n案升级\n⼊⼝： ai-generate-video-v1 内「视频管理」抽屉（PCWeb），状态列下⽅描述信息\n（ VideoStatusMap[Generating].desc ）。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”\n变更点3：视频⽣成Sheet（Mobile）—「⽣成中」状态描述预计耗时⽂案升级\n⼊⼝： AIGeneratedVideo/components/VideoGeneratingSheets 内\n「 VideoGeneratingSheets 」弹窗。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”",
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 4. 接⼝解读与数据依赖\n接⼝ /api/content/ai/video/get_shop_aivideo_list （前端封装为\nVideoCenterAPI.GetShopAIVideoList ）返回的 AIVideo 中新增字段：\n•\t\nestimatedSeconds ：预计耗时，单位秒（由后端根据队列/资源模型计算）\n前端改造依赖该字段进⾏展⽰分段⽂案；当字段缺失时按兜底策略回退为\ntaskStyleConfig.estimatedGenerateTime 。\n实现落地时需要同步更新类型定义（ @ecom/bam-types /本仓库 packages/bam ⽣成的\nAIVideo 类型）以包含 estimatedSeconds 。",
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "### 2.2 不做范围\n•\t\n不新增⼊⼝/权益展⽰，仅改造既有“⽣成中”预计耗时表达。",
+              "score": 0.015625
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 1. 需求背景与⽬标\nAI智能成⽚使⽤量持续上涨，⽇均⽣成视频量约3.5万条，已触达当前资源瓶颈。资源不⾜导致⾼峰\n期⽣成排队（可达数⼩时）频发，⽣成耗时显著⾼于产品早期预估，影响商家使⽤体验与成⽚发布\n率。\n本需求通过“⽤⼾分级+双队列并发控制”的⽅式，在资源有限前提下保障核⼼⽤⼾体验，并对前台\n的“⽣成中”状态的预估耗时表达做同步升级，使商家对⽣成时⻓预期更明确、可解释。",
+              "score": 0.015384615384615385
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
+              "score": 0.015151515151515152
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_28_2-Given-ai_video_shoes_optimize_show-When",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_28_2-Given-ai_video_shoes_optimize_show-When",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 2. Given⼀个主营类⽬为“男鞋”的商家（在`ai_video_shoes_optimize_show`实验组）When\n他选择了⼀个⽆模特图的鞋⼦商品Then⻚⾯应⾃动进⼊“模特上⾝”加载流程，并最终展⽰4张\n可供选择的模特图，并且⻚⾯下⽅应出现“选择展⽰场景”模块。",
+              "score": 0.014925373134328358
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_14_6",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_14_6",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 6. 后续步骤：⽤⼾继续进⾏“选择主题/场景”等后续操作。\n5.代码落点与复⽤⽅案\n5.1.现有代码结构分析\n本次改造的核⼼⻚⾯位于 content_pc_repo/apps/creative/web/src/pages/ai-\ngenerate-video-v1/ 。该⻚⾯是⼀个功能完善的单⻚应⽤，其结构和关键⽂件如下：\n•\t\n⼊⼝⽂件：`index.tsx`\n\n-- 5 of 12 --\n\n职责：作为⻚⾯的主容器，负责整体布局（左侧配置区，右侧结果预览区），并编排\n`ProductSelect`,`VideoTypeSelect`,`SelectMaterial`,`SelectTheme`等核⼼配置组件。它通过\n`useInitStore`hook初始化⻚⾯所需的状态和实验参数。\n•\t\n核⼼组件：\n◦\t\ncomponents/ProductSelect/index.tsx ：商品选择组件。\n◦\t\ncomponents/VideoTypeSelect/index.tsx ：成⽚范式（如单品展⽰、穿搭展⽰）选\n择组件。\n◦\t\ncomponents/SelectMaterial/index.tsx ：（本次改造重点）素材选择组件，负责\n处理图⽚素材的获取、展⽰、上传和删除。\n◦\t\ncomponents/SelectTheme/index.tsx ：（本次改造重点）视频主题/场景选择组件。\n◦\t\n components/ModelTryOn/index.tsx ：（本次改造重点）本次新增的核⼼组件，⽤于\n处理“模特上⾝”的全流程交互。\n•\t\n状态管理：`src/store/ai-generate-video.ts`\n职责：使⽤`Zustand`创建了⼀个Store，⽤于管理整个⻚⾯的共享状态，如`productInfo`(商品\n信息),`productMaterials`(已选素材),`videoType`(视频范式),以及本次新增的\n`isNoModelProduct`(是否⽆模特商品)等。\n•\t\n⼯具与Hooks：\n◦\t\n`utils.tsx`：（本次改造重点）包含⼤量的辅助函数和⾃定义Hooks，如\n`apiProductMaterialCheck`(封装素材校验接⼝调⽤),`apiSubmitModelTryOnTask`(封装\n提交任务接⼝),`apiQueryModelTryOnTaskResult`(封装轮询查询接⼝)等。\n◦\t\n hooks/use-ab-test.ts ：封装了AB实验的逻辑，通过 useABTest Hook可以⽅便\n地获取⽤⼾所在的实验分组信息。\n5.2.代码落点与模块职责划分",
+              "score": 0.014705882352941176
+            }
+          ]
+        },
+        {
+          "stepId": 3,
+          "query": "队列相关字段仅在实验组生效时，业务逻辑交互层面的兼容性问题及解决方案有哪些？",
+          "searchQuery": "队列相关字段仅在实验组生效时，业务逻辑交互层面的兼容性问题及解决方案有哪些？",
+          "taskType": "retrieve",
+          "dependencyStepIds": [],
+          "answer": "已检索到 8 条相关资料。",
+          "contexts": [
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "### 2.2 不做范围\n•\t\n不新增⼊⼝/权益展⽰，仅改造既有“⽣成中”预计耗时表达。",
+              "score": 0.01639344262295082
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 1. 需求背景与⽬标\nAI智能成⽚使⽤量持续上涨，⽇均⽣成视频量约3.5万条，已触达当前资源瓶颈。资源不⾜导致⾼峰\n期⽣成排队（可达数⼩时）频发，⽣成耗时显著⾼于产品早期预估，影响商家使⽤体验与成⽚发布\n率。\n本需求通过“⽤⼾分级+双队列并发控制”的⽅式，在资源有限前提下保障核⼼⽤⼾体验，并对前台\n的“⽣成中”状态的预估耗时表达做同步升级，使商家对⽣成时⻓预期更明确、可解释。",
+              "score": 0.016129032258064516
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 4. 接⼝解读与数据依赖\n接⼝ /api/content/ai/video/get_shop_aivideo_list （前端封装为\nVideoCenterAPI.GetShopAIVideoList ）返回的 AIVideo 中新增字段：\n•\t\nestimatedSeconds ：预计耗时，单位秒（由后端根据队列/资源模型计算）\n前端改造依赖该字段进⾏展⽰分段⽂案；当字段缺失时按兜底策略回退为\ntaskStyleConfig.estimatedGenerateTime 。\n实现落地时需要同步更新类型定义（ @ecom/bam-types /本仓库 packages/bam ⽣成的\nAIVideo 类型）以包含 estimatedSeconds 。",
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "260324【AI智能成⽚】资源分配初版技术⽅案\nPRD⽂档 \t AI智能成⽚-资源分配初版 \n后端技术⽂档 \t 202603-智能成⽚资源分配 \nMeego链接 \t [需求]【P0】AI智能成⽚资源分配初版 \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2208675/flow?\ndevops_space_type=server_fe&pipelineId=1128918360066",
+              "score": 0.015625
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
+              "score": 0.015384615384615385
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
+              "score": 0.015151515151515152
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_28_2-Given-ai_video_shoes_optimize_show-When",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_28_2-Given-ai_video_shoes_optimize_show-When",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 2. Given⼀个主营类⽬为“男鞋”的商家（在`ai_video_shoes_optimize_show`实验组）When\n他选择了⼀个⽆模特图的鞋⼦商品Then⻚⾯应⾃动进⼊“模特上⾝”加载流程，并最终展⽰4张\n可供选择的模特图，并且⻚⾯下⽅应出现“选择展⽰场景”模块。",
+              "score": 0.014925373134328358
+            },
+            {
+              "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_14_6",
+              "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_14_6",
+              "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+              "title": "260203【AI 智能成片】无模特商品成片技术方案",
+              "content": "## 6. 后续步骤：⽤⼾继续进⾏“选择主题/场景”等后续操作。\n5.代码落点与复⽤⽅案\n5.1.现有代码结构分析\n本次改造的核⼼⻚⾯位于 content_pc_repo/apps/creative/web/src/pages/ai-\ngenerate-video-v1/ 。该⻚⾯是⼀个功能完善的单⻚应⽤，其结构和关键⽂件如下：\n•\t\n⼊⼝⽂件：`index.tsx`\n\n-- 5 of 12 --\n\n职责：作为⻚⾯的主容器，负责整体布局（左侧配置区，右侧结果预览区），并编排\n`ProductSelect`,`VideoTypeSelect`,`SelectMaterial`,`SelectTheme`等核⼼配置组件。它通过\n`useInitStore`hook初始化⻚⾯所需的状态和实验参数。\n•\t\n核⼼组件：\n◦\t\ncomponents/ProductSelect/index.tsx ：商品选择组件。\n◦\t\ncomponents/VideoTypeSelect/index.tsx ：成⽚范式（如单品展⽰、穿搭展⽰）选\n择组件。\n◦\t\ncomponents/SelectMaterial/index.tsx ：（本次改造重点）素材选择组件，负责\n处理图⽚素材的获取、展⽰、上传和删除。\n◦\t\ncomponents/SelectTheme/index.tsx ：（本次改造重点）视频主题/场景选择组件。\n◦\t\n components/ModelTryOn/index.tsx ：（本次改造重点）本次新增的核⼼组件，⽤于\n处理“模特上⾝”的全流程交互。\n•\t\n状态管理：`src/store/ai-generate-video.ts`\n职责：使⽤`Zustand`创建了⼀个Store，⽤于管理整个⻚⾯的共享状态，如`productInfo`(商品\n信息),`productMaterials`(已选素材),`videoType`(视频范式),以及本次新增的\n`isNoModelProduct`(是否⽆模特商品)等。\n•\t\n⼯具与Hooks：\n◦\t\n`utils.tsx`：（本次改造重点）包含⼤量的辅助函数和⾃定义Hooks，如\n`apiProductMaterialCheck`(封装素材校验接⼝调⽤),`apiSubmitModelTryOnTask`(封装\n提交任务接⼝),`apiQueryModelTryOnTaskResult`(封装轮询查询接⼝)等。\n◦\t\n hooks/use-ab-test.ts ：封装了AB实验的逻辑，通过 useABTest Hook可以⽅便\n地获取⽤⼾所在的实验分组信息。\n5.2.代码落点与模块职责划分",
+              "score": 0.014705882352941176
+            }
+          ]
+        },
+        {
+          "stepId": 4,
+          "query": "综合旧版本兼容、数据层面、业务逻辑层面的信息，总结队列相关字段仅在实验组生效时的兼容性注意事项。",
+          "taskType": "reasoning",
+          "dependencyStepIds": [1, 2, 3],
+          "answer": "队列相关字段仅在实验组生效时的兼容性注意事项如下：\n1. 旧版本兼容层面：需保证对照组（单队列）返回值兼容，当队列相关字段缺失时，要按兜底策略进行回退，避免旧版本系统或非实验组用户出现功能异常。\n2. 数据层面：针对新增的队列相关字段（如estimatedSeconds），当接口未返回该字段或返回异常时，优先回退为现有taskStyleConfig.estimatedGenerateTime文案；若该文案也为空，则统一兜底为“预计需要10分钟”。同时实现落地时需要同步更新对应的类型定义，包含新增的队列相关字段。\n3. 业务逻辑交互层面：仅基于队列相关字段改造既有“生成中”状态的预计耗时表达，不新增入口或权益展示，确保实验组与对照组的交互逻辑差异仅限定在预计耗时展示部分，维持整体业务交互的一致性。",
+          "contexts": []
+        }
+      ],
+      "contexts": [
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_22_4-TryOnFlow-Polling-apiQueryModelTryOnTaskResult",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_22_4-TryOnFlow-Polling-apiQueryModelTryOnTaskResult",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 4. [TryOnFlow.Polling]前端开始轮询`apiQueryModelTryOnTaskResult`。\n◦\t\n若 taskStatus 持续为 Generating ，UI保持加载状态。\n◦\t\n若`taskStatus`变为`GenerateFailed`，UI进⼊`Failed`状态，点击失败区块可重试。⽤\n⼾点击重试后，返回[TryOnFlow.Submit]。\n◦\t\n若 taskStatus 变为 GenerateSuccess ，UI进⼊ Success 状态，渲染\nmodelTryOnResultVOs 列表。",
+          "score": 0.01639344262295082
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_1_3",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_1_3",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 3. 流程判断：\n◦\t\n若 isNoModelProduct 为 false ，则维持现有逻辑，展⽰从 data 字段返回的合格模\n特图素材，供⽤⼾选择。\n◦\t\n若`isNoModelProduct`为`true`，且⽤⼾在`ai_video_clothing_model_tryon`或\n`ai_video_shoes_optimize_show`实验组内，则前端隐藏常规的素材选择区域，转⽽渲染\n“模特上⾝（ModelTryOn）”组件，启动新的交互流程。\n4.1.2.“模特上⾝”异步⽣成与交互\n“模特上⾝”是本次改造的核⼼交互界⾯，由 ModelTryOn 组件承载，负责处理从触发⽣成到结果\n展⽰的全过程。\n前端职责：",
+          "score": 0.016129032258064516
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 1. 需求背景与⽬标\nAI智能成⽚使⽤量持续上涨，⽇均⽣成视频量约3.5万条，已触达当前资源瓶颈。资源不⾜导致⾼峰\n期⽣成排队（可达数⼩时）频发，⽣成耗时显著⾼于产品早期预估，影响商家使⽤体验与成⽚发布\n率。\n本需求通过“⽤⼾分级+双队列并发控制”的⽅式，在资源有限前提下保障核⼼⽤⼾体验，并对前台\n的“⽣成中”状态的预估耗时表达做同步升级，使商家对⽣成时⻓预期更明确、可解释。",
+          "score": 0.015873015873015872
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "260324【AI智能成⽚】资源分配初版技术⽅案\nPRD⽂档 \t AI智能成⽚-资源分配初版 \n后端技术⽂档 \t 202603-智能成⽚资源分配 \nMeego链接 \t [需求]【P0】AI智能成⽚资源分配初版 \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2208675/flow?\ndevops_space_type=server_fe&pipelineId=1128918360066",
+          "score": 0.015625
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
+          "score": 0.015384615384615385
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
+          "score": 0.015151515151515152
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_28_2-Given-ai_video_shoes_optimize_show-When",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_28_2-Given-ai_video_shoes_optimize_show-When",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 2. Given⼀个主营类⽬为“男鞋”的商家（在`ai_video_shoes_optimize_show`实验组）When\n他选择了⼀个⽆模特图的鞋⼦商品Then⻚⾯应⾃动进⼊“模特上⾝”加载流程，并最终展⽰4张\n可供选择的模特图，并且⻚⾯下⽅应出现“选择展⽰场景”模块。",
+          "score": 0.014925373134328358
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 4. 接⼝解读与数据依赖\n接⼝ /api/content/ai/video/get_shop_aivideo_list （前端封装为\nVideoCenterAPI.GetShopAIVideoList ）返回的 AIVideo 中新增字段：\n•\t\nestimatedSeconds ：预计耗时，单位秒（由后端根据队列/资源模型计算）\n前端改造依赖该字段进⾏展⽰分段⽂案；当字段缺失时按兜底策略回退为\ntaskStyleConfig.estimatedGenerateTime 。\n实现落地时需要同步更新类型定义（ @ecom/bam-types /本仓库 packages/bam ⽣成的\nAIVideo 类型）以包含 estimatedSeconds 。",
+          "score": 0.014705882352941176
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "### 2.1 功能范围\n本期前端范围仅覆盖“⽣成中”场景的预计耗时展⽰升级（⽂案与交互），不新增或外化“⾼优/低优\n队列”⾝份/权益展⽰；队列分级与权益策略对商家不可控且可能动态调整，因此前台不展⽰分级。\n变更点1：⽣成记录（PC）―批次标题预计耗时⽂案升级\n⼊⼝⻚⾯： apps/creative/web/src/pages/ai-generate-video-v1 右侧「⽣成结果」\n区域。\n现状：⽣成中批次标题使⽤ taskStyleConfig.estimatedGenerateTime （按视频类型配置\n的静态字符串）拼接： …条视频⽣成中…预计需要XX 。\n改造：所有成⽚类型统⼀预计耗时表达，基于接⼝\n/api/content/ai/video/get_shop_aivideo_list 返回的 estimatedSeconds （预计\n耗时，单位秒）⽣成分段⽂案，如果⼤于⼀⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover\n⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、AI智能成⽚⼊⼝提醒”。\n•\t\n展⽰位置： BatchAIVideoList 的批次标题（ useBatchVideoTitle ）\n\n-- 1 of 3 --\n\n变更点2：视频管理列表（PCMobile同逻辑）―「⽣成中」状态描述预计耗时⽂\n案升级\n⼊⼝： ai-generate-video-v1 内「视频管理」抽屉（PCWeb），状态列下⽅描述信息\n（ VideoStatusMap[Generating].desc ）。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”\n变更点3：视频⽣成Sheet（Mobile）—「⽣成中」状态描述预计耗时⽂案升级\n⼊⼝： AIGeneratedVideo/components/VideoGeneratingSheets 内\n「 VideoGeneratingSheets 」弹窗。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”",
+          "score": 0.016129032258064516
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "### 2.2 不做范围\n•\t\n不新增⼊⼝/权益展⽰，仅改造既有“⽣成中”预计耗时表达。",
+          "score": 0.015625
+        },
+        {
+          "id": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_14_6",
+          "parentId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_14_6",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "content": "## 6. 后续步骤：⽤⼾继续进⾏“选择主题/场景”等后续操作。\n5.代码落点与复⽤⽅案\n5.1.现有代码结构分析\n本次改造的核⼼⻚⾯位于 content_pc_repo/apps/creative/web/src/pages/ai-\ngenerate-video-v1/ 。该⻚⾯是⼀个功能完善的单⻚应⽤，其结构和关键⽂件如下：\n•\t\n⼊⼝⽂件：`index.tsx`\n\n-- 5 of 12 --\n\n职责：作为⻚⾯的主容器，负责整体布局（左侧配置区，右侧结果预览区），并编排\n`ProductSelect`,`VideoTypeSelect`,`SelectMaterial`,`SelectTheme`等核⼼配置组件。它通过\n`useInitStore`hook初始化⻚⾯所需的状态和实验参数。\n•\t\n核⼼组件：\n◦\t\ncomponents/ProductSelect/index.tsx ：商品选择组件。\n◦\t\ncomponents/VideoTypeSelect/index.tsx ：成⽚范式（如单品展⽰、穿搭展⽰）选\n择组件。\n◦\t\ncomponents/SelectMaterial/index.tsx ：（本次改造重点）素材选择组件，负责\n处理图⽚素材的获取、展⽰、上传和删除。\n◦\t\ncomponents/SelectTheme/index.tsx ：（本次改造重点）视频主题/场景选择组件。\n◦\t\n components/ModelTryOn/index.tsx ：（本次改造重点）本次新增的核⼼组件，⽤于\n处理“模特上⾝”的全流程交互。\n•\t\n状态管理：`src/store/ai-generate-video.ts`\n职责：使⽤`Zustand`创建了⼀个Store，⽤于管理整个⻚⾯的共享状态，如`productInfo`(商品\n信息),`productMaterials`(已选素材),`videoType`(视频范式),以及本次新增的\n`isNoModelProduct`(是否⽆模特商品)等。\n•\t\n⼯具与Hooks：\n◦\t\n`utils.tsx`：（本次改造重点）包含⼤量的辅助函数和⾃定义Hooks，如\n`apiProductMaterialCheck`(封装素材校验接⼝调⽤),`apiSubmitModelTryOnTask`(封装\n提交任务接⼝),`apiQueryModelTryOnTaskResult`(封装轮询查询接⼝)等。\n◦\t\n hooks/use-ab-test.ts ：封装了AB实验的逻辑，通过 useABTest Hook可以⽅便\n地获取⽤⼾所在的实验分组信息。\n5.2.代码落点与模块职责划分",
+          "score": 0.014705882352941176
+        }
+      ],
+      "retrievedParentIds": [
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_22_4-TryOnFlow-Polling-apiQueryModelTryOnTaskResult",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_1_3",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_28_2-Given-ai_video_shoes_optimize_show-When",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+        "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203_p_14_6"
+      ],
+      "referenceDocuments": [
+        {
+          "sourceId": "文档 1",
+          "docId": "local_29b44da7a5e077b1ba93c6a0ea6421f19f787e7bbff0992253e0555d184f9203",
+          "title": "260203【AI 智能成片】无模特商品成片技术方案",
+          "score": 0.01639344262295082
+        },
+        {
+          "sourceId": "文档 2",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "score": 0.015873015873015872
+        }
+      ],
+      "expectedParentChunkIds": [
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5"
+      ],
+      "expectedAnswerPoints": [
+        "需要保证对照组返回值兼容",
+        "对照组是单队列",
+        "字段缺失时按兜底策略回退"
+      ],
+      "forbiddenClaims": [
+        "对照组必须返回所有队列字段",
+        "字段缺失时直接报错",
+        "实验组和对照组都展示队列身份"
+      ],
+      "metrics": {
+        "parentRecallAtK": {
+          "parentRecall@8": 1
+        },
+        "answerCorrectness": 0.7,
+        "answerFaithfulness": 1,
+        "answerCompleteness": 1,
+        "coveredAnswerPoints": [
+          "需要保证对照组返回值兼容",
+          "对照组是单队列",
+          "字段缺失时按兜底策略回退"
+        ],
+        "missingAnswerPoints": [],
+        "unsupportedClaims": [],
+        "judgeReason": "答案完整覆盖了所有标准答案关键点，且所有内容均能从检索资料中找到依据。但额外补充了字段缺失或异常的具体兜底文案、类型定义更新、业务交互逻辑一致性等内容，这些内容虽有资料支持，但超出了标准答案关键点范围，不过核心结论正确，因此正确性评分为0.7，可信性为1.0，完整性为1.0。"
+      },
+      "likelyCause": "generation_failure"
+    }
+  ]
+}

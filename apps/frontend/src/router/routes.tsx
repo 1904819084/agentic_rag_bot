@@ -1,12 +1,13 @@
-import { CommentOutlined, FileTextOutlined } from '@ant-design/icons';
+import { BarChartOutlined, CommentOutlined, FileTextOutlined } from '@ant-design/icons';
 import type { ReactNode } from 'react';
 import ChatPage from '../pages/ChatPage';
 import DocumentsPage from '../pages/DocumentsPage';
+import EvalsPage from '../pages/EvalsPage';
 
 /**
  * 应用导航分组 key，仅用于 sider 中分组展示。
  */
-export type RouteGroup = '工作台' | '知识管理';
+export type RouteGroup = '工作台' | '知识管理' | '评测台';
 
 export interface AppRoute {
   /** 导航 key，路径首段，唯一标识 */
@@ -47,6 +48,15 @@ export const ROUTES: AppRoute[] = [
     icon: <FileTextOutlined />,
     group: '知识管理',
     element: <DocumentsPage />,
+  },
+  {
+    key: 'evals',
+    path: '/evals',
+    label: 'Agentic RAG 评测',
+    description: '创建评测任务并查看评测结果',
+    icon: <BarChartOutlined />,
+    group: '评测台',
+    element: <EvalsPage />,
   },
 ];
 

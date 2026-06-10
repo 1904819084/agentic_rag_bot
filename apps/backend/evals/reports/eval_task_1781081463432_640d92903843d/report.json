@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-09 19:50:39",
+  "generatedAt": "2026-06-10 16:53:04",
   "totalCases": 6,
   "summary": {
     "parentRecallAtK": {
@@ -7,7 +7,7 @@
     },
     "answerCorrectnessAvg": 1,
     "answerFaithfulnessAvg": 1,
-    "answerCompletenessAvg": 1,
+    "answerCompletenessAvg": 0.9666666666666667,
     "failureCounts": {
       "pass": 6,
       "retrieval_failure": 0,
@@ -20,20 +20,20 @@
     {
       "caseId": "case_01",
       "question": "AI智能成片资源分配初版为什么要做？目标是什么？",
-      "answer": "### 一、AI智能成片资源分配初版的立项原因\nAI智能成片使用量持续上涨，日均生成视频量约3.5万条，已触达当前资源瓶颈。资源不足导致高峰期生成排队（可达数小时）频发，生成耗时显著高于产品早期预估，影响商家使用体验与成片发布率。[资料 4]\n\n### 二、AI智能成片资源分配初版的目标\n1. **资源优化分配**：通过“用户分级+双队列并发控制”的方式，在资源有限前提下保障核心用户体验。[资料 4]\n2. **升级耗时展示**：对前台的“生成中”状态的预估耗时表达做同步升级，使商家对生成时长预期更明确、可解释。具体包括：\n   - 生成记录（PC）批次标题预计耗时文案升级；\n   - 视频管理列表（PC/Mobile同逻辑）「生成中」状态描述预计耗时文案升级；\n   - 视频生成Sheet（Mobile）「生成中」状态描述预计耗时文案升级。[资料 4][资料 6]\n3. **兼容性保障**：确保队列相关字段在实验组生效时，对照组（单队列）返回值兼容，字段缺失时按兜底策略回退。[资料 1]",
+      "answer": "### 一、AI智能成片资源分配初版的研发原因\n当前AI智能成片使用量持续上涨，日均生成视频量约3.5万条，已触达现有资源瓶颈。资源不足导致高峰期生成排队现象频发，最长可达数小时，实际生成耗时显著高于产品早期预估，这一问题直接影响了商家的使用体验，同时也对成片发布率造成了负面影响。[资料 4]\n\n### 二、AI智能成片资源分配初版的目标\n1. **资源分配优化**：通过“用户分级+双队列并发控制”的方式，在有限的资源条件下，保障核心用户的使用体验。[资料 4]\n2. **用户预期管理**：同步升级前台“生成中”状态的预估耗时表达，使商家对视频生成时长的预期更明确、可解释。具体改造覆盖PC端生成记录批次标题、PC和Mobile端视频管理列表、Mobile端视频生成Sheet的“生成中”状态预计耗时文案展示，基于接口返回的预计耗时生成分段文案，并在特定场景增加提示交互。[资料 4][资料 6]\n3. **兼容性保障**：确保新方案与现有系统兼容，当队列相关字段仅在实验组生效时，保证对照组（单队列）返回值兼容，字段缺失时按兜底策略回退；接口未返回预计耗时或返回异常时，优先回退为现有文案，保障线上已有展示能力。[资料 1][资料 2][资料 5]",
       "rewrittenQuery": "AI智能成片资源分配初版为什么要做？目标是什么？",
       "queryPlan": {
         "tasks": [
           {
             "id": 1,
             "type": "retrieve",
-            "query": "AI智能成片资源分配初版的立项原因是什么？",
+            "query": "AI智能成片资源分配初版的研发背景和原因是什么？",
             "dependsOn": []
           },
           {
             "id": 2,
             "type": "retrieve",
-            "query": "AI智能成片资源分配初版的设定目标是什么？",
+            "query": "AI智能成片资源分配初版设定的目标是什么？",
             "dependsOn": []
           }
         ]
@@ -41,8 +41,8 @@
       "stepResults": [
         {
           "stepId": 1,
-          "query": "AI智能成片资源分配初版的立项原因是什么？",
-          "searchQuery": "AI智能成片资源分配初版的立项原因是什么？",
+          "query": "AI智能成片资源分配初版的研发背景和原因是什么？",
+          "searchQuery": "AI智能成片资源分配初版的研发背景和原因是什么？",
           "taskType": "retrieve",
           "dependencyStepIds": [],
           "answer": "已检索到 7 条相关资料。",
@@ -107,8 +107,8 @@
         },
         {
           "stepId": 2,
-          "query": "AI智能成片资源分配初版的设定目标是什么？",
-          "searchQuery": "AI智能成片资源分配初版的设定目标是什么？",
+          "query": "AI智能成片资源分配初版设定的目标是什么？",
+          "searchQuery": "AI智能成片资源分配初版设定的目标是什么？",
           "taskType": "retrieve",
           "dependencyStepIds": [],
           "answer": "已检索到 7 条相关资料。",
@@ -278,14 +278,14 @@
         ],
         "missingAnswerPoints": [],
         "unsupportedClaims": [],
-        "judgeReason": "答案正确覆盖了所有标准答案关键点，立项原因部分准确对应了资源瓶颈的背景，目标部分涵盖了资源分配优化、耗时展示升级的内容，兼容性保障内容也符合检索资料，所有内容均有检索资料作为依据，未发现无依据内容和禁止说法。"
+        "judgeReason": "答案正确覆盖了所有标准答案关键点，完整回答了AI智能成片资源分配初版的研发原因和目标，所有内容均能从检索到的资料中找到依据，未发现无依据内容和禁止说法。"
       },
       "likelyCause": "pass"
     },
     {
       "caseId": "case_02",
       "question": "这次前端改造覆盖哪些生成中预计耗时展示场景？",
-      "answer": "这次前端改造覆盖的生成中预计耗时展示场景如下：\n\n### 1. PC端生成记录页面的批次标题\n入口页面：`apps/creative/web/src/pages/ai-generate-video-v1`右侧「生成结果」区域，具体展示位置为`BatchAIVideoList`的批次标题（`useBatchVideoTitle`）。\n改造内容：将原有的基于视频类型配置的静态预计耗时文案，升级为基于接口返回的`estimatedSeconds`生成的分段文案；若预计耗时大于一小时，在文案旁新增提示icon，hover时显示固定提醒文案。[资料 6]\n\n### 2. 多端视频管理列表的「生成中」状态描述\n入口：PCWeb端`ai-generate-video-v1`内的「视频管理」抽屉，移动端对应页面的状态列下方描述信息（`VideoStatusMap[Generating].desc`）。\n改造内容：将原有的`预计需要{estimatedGenerateTime}`静态文案，改为基于接口返回的`estimatedSeconds`计算出的分段文案；若预计耗时大于一小时，新增提示icon并显示固定hover提醒文案。[资料 6]\n\n### 3. 移动端视频生成Sheet弹窗的「生成中」状态描述\n入口：`AIGeneratedVideo/components/VideoGeneratingSheets`内的「VideoGeneratingSheets」弹窗。\n改造内容：将原有的`预计需要{estimatedGenerateTime}`静态文案，改为基于接口返回的`estimatedSeconds`计算出的分段文案；若预计耗时大于一小时，新增提示icon并显示固定hover提醒文案。[资料 6]\n\n本次改造仅覆盖以上「生成中」场景的预计耗时展示（文案与交互）升级，不新增或外化“高优/低优队列”相关的身份或权益展示。[资料 6]",
+      "answer": "这次前端改造覆盖以下3个生成中预计耗时展示场景：\n1. **PC端生成记录的批次标题**：入口为apps/creative/web/src/pages/ai-generate-video-v1右侧「生成结果」区域的BatchAIVideoList批次标题，基于estimatedSeconds生成分段文案，超时新增提示icon及hover文案。[资料 6]\n2. **PCMobile端视频管理列表**：入口为ai-generate-video-v1内「视频管理」抽屉的状态列下方描述信息，将原静态文案改造为基于estimatedSeconds的分段文案，超时新增提示icon及hover文案。[资料 6]\n3. **Mobile端视频生成Sheet弹窗**：入口为AIGeneratedVideo/components/VideoGeneratingSheets内弹窗的「生成中」状态描述，同样改造为基于estimatedSeconds的分段文案，超时新增提示icon及hover文案。[资料 6]\n\n本次改造仅优化既有场景的耗时展示文案与交互，不新增队列分级相关的入口或权益展示。[资料 6]",
       "rewrittenQuery": "这次前端改造覆盖哪些生成中预计耗时展示场景？",
       "queryPlan": {
         "tasks": [
@@ -461,7 +461,7 @@
         },
         "answerCorrectness": 1,
         "answerFaithfulness": 1,
-        "answerCompleteness": 1,
+        "answerCompleteness": 0.8,
         "coveredAnswerPoints": [
           "覆盖生成记录批次标题预计耗时文案升级",
           "覆盖视频管理列表生成中状态描述预计耗时文案升级",
@@ -471,7 +471,7 @@
         ],
         "missingAnswerPoints": [],
         "unsupportedClaims": [],
-        "judgeReason": "答案正确覆盖了所有标准答案关键点，所有内容均能从检索到的资料中找到依据，未出现禁止的说法，回答完整且准确。"
+        "judgeReason": "答案正确覆盖了所有标准答案关键点，所有内容均能从检索资料中找到依据，未出现禁止说法，且明确说明不新增队列分级相关的入口或权益展示，符合要求。"
       },
       "likelyCause": "pass"
     },
@@ -655,14 +655,14 @@
     {
       "caseId": "case_04",
       "question": "接口没有返回 estimatedSeconds 或返回异常时，预计耗时文案怎么兜底？",
-      "answer": "当接口没有返回estimatedSeconds或返回异常时，预计耗时文案需按以下两级兜底策略处理：\n1. **优先回退**：使用现有`taskStyleConfig.estimatedGenerateTime`文案，保持当前线上已有的展示能力。[资料 1][资料 2]\n2. **终极兜底**：如果`taskStyleConfig.estimatedGenerateTime`也为空，则统一使用文案：**预计需要10分钟**。[资料 1]",
-      "rewrittenQuery": "接口没有返回estimatedSeconds或返回异常时，预计耗时文案该如何做兜底处理？",
+      "answer": "当接口未返回estimatedSeconds或返回异常时，预计耗时文案的兜底策略按以下优先级执行：\n1. 优先回退为现有`taskStyleConfig.estimatedGenerateTime`文案，保持线上已有展示能力。[资料 1][资料 2]\n2. 若`taskStyleConfig.estimatedGenerateTime`仍为空，统一兜底为：**预计需要10分钟**。[资料 1]",
+      "rewrittenQuery": "接口没有返回estimatedSeconds或返回异常时，预计耗时文案该怎么兜底？",
       "queryPlan": {
         "tasks": [
           {
             "id": 1,
             "type": "retrieve",
-            "query": "接口未返回estimatedSeconds或返回异常时，预计耗时文案的兜底处理规则是什么？",
+            "query": "当接口未返回estimatedSeconds字段或接口返回异常时，预计耗时文案的兜底规则是什么？",
             "dependsOn": []
           }
         ]
@@ -670,8 +670,8 @@
       "stepResults": [
         {
           "stepId": 1,
-          "query": "接口未返回estimatedSeconds或返回异常时，预计耗时文案的兜底处理规则是什么？",
-          "searchQuery": "接口未返回estimatedSeconds或返回异常时，预计耗时文案的兜底处理规则是什么？",
+          "query": "当接口未返回estimatedSeconds字段或接口返回异常时，预计耗时文案的兜底规则是什么？",
+          "searchQuery": "当接口未返回estimatedSeconds字段或接口返回异常时，预计耗时文案的兜底规则是什么？",
           "taskType": "retrieve",
           "dependencyStepIds": [],
           "answer": "已检索到 7 条相关资料。",
@@ -682,7 +682,7 @@
               "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
               "title": "260324【AI智能成片】资源分配初版技术方案",
               "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
-              "score": 1.0161290322580645
+              "score": 1.0163934426229508
             },
             {
               "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
@@ -701,12 +701,12 @@
               "score": 1.0151515151515151
             },
             {
-              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
-              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
               "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
               "title": "260324【AI智能成片】资源分配初版技术方案",
-              "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
-              "score": 0.01639344262295082
+              "content": "### 2.2 不做范围\n•\t\n不新增⼊⼝/权益展⽰，仅改造既有“⽣成中”预计耗时表达。",
+              "score": 0.016129032258064516
             },
             {
               "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
@@ -717,19 +717,19 @@
               "score": 0.015873015873015872
             },
             {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
+              "score": 0.015625
+            },
+            {
               "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
               "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
               "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
               "title": "260324【AI智能成片】资源分配初版技术方案",
               "content": "## 1. 需求背景与⽬标\nAI智能成⽚使⽤量持续上涨，⽇均⽣成视频量约3.5万条，已触达当前资源瓶颈。资源不⾜导致⾼峰\n期⽣成排队（可达数⼩时）频发，⽣成耗时显著⾼于产品早期预估，影响商家使⽤体验与成⽚发布\n率。\n本需求通过“⽤⼾分级+双队列并发控制”的⽅式，在资源有限前提下保障核⼼⽤⼾体验，并对前台\n的“⽣成中”状态的预估耗时表达做同步升级，使商家对⽣成时⻓预期更明确、可解释。",
-              "score": 0.015625
-            },
-            {
-              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
-              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
-              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
-              "title": "260324【AI智能成片】资源分配初版技术方案",
-              "content": "### 2.2 不做范围\n•\t\n不新增⼊⼝/权益展⽰，仅改造既有“⽣成中”预计耗时表达。",
               "score": 0.014925373134328358
             }
           ]
@@ -742,7 +742,7 @@
           "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
           "title": "260324【AI智能成片】资源分配初版技术方案",
           "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
-          "score": 1.0161290322580645
+          "score": 1.0163934426229508
         },
         {
           "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
@@ -761,12 +761,12 @@
           "score": 1.0151515151515151
         },
         {
-          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
-          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
           "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
           "title": "260324【AI智能成片】资源分配初版技术方案",
-          "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
-          "score": 0.01639344262295082
+          "content": "### 2.2 不做范围\n•\t\n不新增⼊⼝/权益展⽰，仅改造既有“⽣成中”预计耗时表达。",
+          "score": 0.016129032258064516
         },
         {
           "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
@@ -777,19 +777,19 @@
           "score": 0.015873015873015872
         },
         {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
+          "score": 0.015625
+        },
+        {
           "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
           "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
           "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
           "title": "260324【AI智能成片】资源分配初版技术方案",
           "content": "## 1. 需求背景与⽬标\nAI智能成⽚使⽤量持续上涨，⽇均⽣成视频量约3.5万条，已触达当前资源瓶颈。资源不⾜导致⾼峰\n期⽣成排队（可达数⼩时）频发，⽣成耗时显著⾼于产品早期预估，影响商家使⽤体验与成⽚发布\n率。\n本需求通过“⽤⼾分级+双队列并发控制”的⽅式，在资源有限前提下保障核⼼⽤⼾体验，并对前台\n的“⽣成中”状态的预估耗时表达做同步升级，使商家对⽣成时⻓预期更明确、可解释。",
-          "score": 0.015625
-        },
-        {
-          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
-          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
-          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
-          "title": "260324【AI智能成片】资源分配初版技术方案",
-          "content": "### 2.2 不做范围\n•\t\n不新增⼊⼝/权益展⽰，仅改造既有“⽣成中”预计耗时表达。",
           "score": 0.014925373134328358
         }
       ],
@@ -797,17 +797,17 @@
         "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
         "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
         "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
-        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
         "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
-        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
-        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2"
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1"
       ],
       "referenceDocuments": [
         {
           "sourceId": "文档 1",
           "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
           "title": "260324【AI智能成片】资源分配初版技术方案",
-          "score": 1.0161290322580645
+          "score": 1.0163934426229508
         }
       ],
       "expectedParentChunkIds": [
@@ -837,21 +837,21 @@
         ],
         "missingAnswerPoints": [],
         "unsupportedClaims": [],
-        "judgeReason": "答案正确覆盖了所有关键点，内容均能从检索资料中找到依据，未发现无依据内容和禁止说法。"
+        "judgeReason": "答案正确覆盖了所有标准答案关键点，内容均能从检索到的资料中找到依据，未发现无依据内容和禁止说法。"
       },
       "likelyCause": "pass"
     },
     {
       "caseId": "case_05",
       "question": "前端展示预计耗时依赖哪个接口字段？落地时需要同步什么类型定义？",
-      "answer": "### 前端展示预计耗时依赖的接口字段：\n依赖接口`/api/content/ai/video/get_shop_aivideo_list`返回的`AIVideo`对象中的`estimatedSeconds`字段（单位为秒，由后端根据队列/资源模型计算得出）。当该字段缺失或返回异常时，会按兜底策略回退使用`taskStyleConfig.estimatedGenerateTime`。[资料 2][资料 5][资料 6]\n\n### 落地时需要同步的类型定义：\n需要同步更新`@ecom/bam-types`或本仓库`packages/bam`生成的`AIVideo`类型定义，将`estimatedSeconds`字段包含其中。[资料 5]",
+      "answer": "### 前端展示预计耗时依赖的接口字段：\n前端展示预计耗时依赖`/api/content/ai/video/get_shop_aivideo_list`接口返回的`AIVideo`对象中的`estimatedSeconds`字段（单位为秒，由后端根据队列/资源模型计算得出）。当该字段缺失或返回异常时，会按兜底策略回退为`taskStyleConfig.estimatedGenerateTime`字段的文案进行展示。[资料 2][资料 5][资料 6]\n\n### 落地时需要同步的类型定义：\n实现落地时需要同步更新`@ecom/bam-types`或本仓库`packages/bam`生成的`AIVideo`类型定义，将新增的`estimatedSeconds`字段纳入其中。[资料 5]",
       "rewrittenQuery": "前端展示预计耗时依赖哪个接口字段？落地时需要同步什么类型定义？",
       "queryPlan": {
         "tasks": [
           {
             "id": 1,
             "type": "retrieve",
-            "query": "前端展示预计耗时所需依赖的接口字段是什么？",
+            "query": "前端展示预计耗时所依赖的接口字段是什么？",
             "dependsOn": []
           },
           {
@@ -865,8 +865,8 @@
       "stepResults": [
         {
           "stepId": 1,
-          "query": "前端展示预计耗时所需依赖的接口字段是什么？",
-          "searchQuery": "前端展示预计耗时所需依赖的接口字段是什么？",
+          "query": "前端展示预计耗时所依赖的接口字段是什么？",
+          "searchQuery": "前端展示预计耗时所依赖的接口字段是什么？",
           "taskType": "retrieve",
           "dependencyStepIds": [],
           "answer": "已检索到 7 条相关资料。",
@@ -1102,39 +1102,39 @@
         ],
         "missingAnswerPoints": [],
         "unsupportedClaims": [],
-        "judgeReason": "答案正确覆盖了所有关键点，内容均能从检索资料中找到依据，未发现无依据内容和禁止说法。"
+        "judgeReason": "答案正确覆盖了所有关键点，明确指出前端展示预计耗时依赖的接口字段及兜底策略，也说明了落地时需要同步的类型定义，所有内容均能从检索资料中找到依据，未发现无依据内容和禁止说法。"
       },
       "likelyCause": "pass"
     },
     {
       "caseId": "case_06",
       "question": "如果队列相关字段只在实验组生效，兼容性上要注意什么？",
-      "answer": "如果队列相关字段只在实验组生效，兼容性上需要注意以下两点：\n\n1. **接口返回值兼容处理**\n需保证对照组（单队列）返回值兼容，当队列相关字段（如`estimatedSeconds`）缺失或返回异常时，前端要执行兜底策略：优先回退为现有`taskStyleConfig.estimatedGenerateTime`文案，若该文案仍为空，则统一使用“预计需要10分钟”作为兜底内容。[资料 4][资料 2][资料 5]\n\n2. **类型定义同步更新**\n实现落地时要同步更新AIVideo的类型定义（`@ecom/bam-types`/本仓库`packages/bam`生成的AIVideo类型），使其包含新增的队列相关字段（如`estimatedSeconds`）。[资料 5]\n\n另外，在业务逻辑上需注意：无论实验组还是对照组，前台均不展示“高优/低优队列”的身份或权益相关内容，仅做“生成中”场景的预计耗时表达改造。[资料 7]\n\n当前资料未提及数据存储读取层面的兼容性注意事项，无法提供相关内容。",
+      "answer": "如果队列相关字段只在实验组生效，兼容性上需要注意：\n需保证对照组（单队列）返回值兼容，当队列相关字段缺失时按兜底策略回退。[资料 2]\n\n当前资料中未提及接口、数据存储与读取、上下游服务等其他层面的兼容性处理要点，相关信息不足。",
       "rewrittenQuery": "如果队列相关字段只在实验组生效，兼容性上要注意什么？",
       "queryPlan": {
         "tasks": [
           {
             "id": 1,
             "type": "retrieve",
-            "query": "队列相关字段仅在实验组生效时，涉及新旧版本接口交互的兼容性注意事项有哪些？",
+            "query": "队列相关字段仅在实验组生效时，涉及到的新旧版本接口兼容性注意事项有哪些？",
             "dependsOn": []
           },
           {
             "id": 2,
             "type": "retrieve",
-            "query": "队列相关字段仅在实验组生效时，涉及数据存储与读取的兼容性注意事项有哪些？",
+            "query": "队列相关字段仅在实验组生效时，数据存储与读取层面的兼容性风险及注意事项是什么？",
             "dependsOn": []
           },
           {
             "id": 3,
             "type": "retrieve",
-            "query": "队列相关字段仅在实验组生效时，涉及业务逻辑分支处理的兼容性注意事项有哪些？",
+            "query": "队列相关字段仅在实验组生效时，上下游服务（如消息生产者、消费者）的兼容性处理要点有哪些？",
             "dependsOn": []
           },
           {
             "id": 4,
             "type": "reasoning",
-            "query": "综合接口交互、数据存储读取、业务逻辑分支这三方面的信息，总结队列相关字段仅在实验组生效时的兼容性注意事项。",
+            "query": "综合接口、数据存储、上下游服务三个层面的信息，总结队列相关字段仅在实验组生效时的兼容性注意事项。",
             "dependsOn": [1, 2, 3]
           }
         ]
@@ -1142,8 +1142,8 @@
       "stepResults": [
         {
           "stepId": 1,
-          "query": "队列相关字段仅在实验组生效时，涉及新旧版本接口交互的兼容性注意事项有哪些？",
-          "searchQuery": "队列相关字段仅在实验组生效时，涉及新旧版本接口交互的兼容性注意事项有哪些？",
+          "query": "队列相关字段仅在实验组生效时，涉及到的新旧版本接口兼容性注意事项有哪些？",
+          "searchQuery": "队列相关字段仅在实验组生效时，涉及到的新旧版本接口兼容性注意事项有哪些？",
           "taskType": "retrieve",
           "dependencyStepIds": [],
           "answer": "已检索到 7 条相关资料。",
@@ -1157,36 +1157,12 @@
               "score": 0.01639344262295082
             },
             {
-              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
-              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
-              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
-              "title": "260324【AI智能成片】资源分配初版技术方案",
-              "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
-              "score": 0.016129032258064516
-            },
-            {
-              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
-              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
-              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
-              "title": "260324【AI智能成片】资源分配初版技术方案",
-              "content": "260324【AI智能成⽚】资源分配初版技术⽅案\nPRD⽂档 \t AI智能成⽚-资源分配初版 \n后端技术⽂档 \t 202603-智能成⽚资源分配 \nMeego链接 \t [需求]【P0】AI智能成⽚资源分配初版 \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2208675/flow?\ndevops_space_type=server_fe&pipelineId=1128918360066",
-              "score": 0.015873015873015872
-            },
-            {
               "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
               "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
               "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
               "title": "260324【AI智能成片】资源分配初版技术方案",
               "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
-              "score": 0.015625
-            },
-            {
-              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
-              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
-              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
-              "title": "260324【AI智能成片】资源分配初版技术方案",
-              "content": "## 4. 接⼝解读与数据依赖\n接⼝ /api/content/ai/video/get_shop_aivideo_list （前端封装为\nVideoCenterAPI.GetShopAIVideoList ）返回的 AIVideo 中新增字段：\n•\t\nestimatedSeconds ：预计耗时，单位秒（由后端根据队列/资源模型计算）\n前端改造依赖该字段进⾏展⽰分段⽂案；当字段缺失时按兜底策略回退为\ntaskStyleConfig.estimatedGenerateTime 。\n实现落地时需要同步更新类型定义（ @ecom/bam-types /本仓库 packages/bam ⽣成的\nAIVideo 类型）以包含 estimatedSeconds 。",
-              "score": 0.015384615384615385
+              "score": 0.016129032258064516
             },
             {
               "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
@@ -1194,6 +1170,30 @@
               "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
               "title": "260324【AI智能成片】资源分配初版技术方案",
               "content": "### 2.2 不做范围\n•\t\n不新增⼊⼝/权益展⽰，仅改造既有“⽣成中”预计耗时表达。",
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 4. 接⼝解读与数据依赖\n接⼝ /api/content/ai/video/get_shop_aivideo_list （前端封装为\nVideoCenterAPI.GetShopAIVideoList ）返回的 AIVideo 中新增字段：\n•\t\nestimatedSeconds ：预计耗时，单位秒（由后端根据队列/资源模型计算）\n前端改造依赖该字段进⾏展⽰分段⽂案；当字段缺失时按兜底策略回退为\ntaskStyleConfig.estimatedGenerateTime 。\n实现落地时需要同步更新类型定义（ @ecom/bam-types /本仓库 packages/bam ⽣成的\nAIVideo 类型）以包含 estimatedSeconds 。",
+              "score": 0.015625
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "260324【AI智能成⽚】资源分配初版技术⽅案\nPRD⽂档 \t AI智能成⽚-资源分配初版 \n后端技术⽂档 \t 202603-智能成⽚资源分配 \nMeego链接 \t [需求]【P0】AI智能成⽚资源分配初版 \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2208675/flow?\ndevops_space_type=server_fe&pipelineId=1128918360066",
+              "score": 0.015384615384615385
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
               "score": 0.015151515151515152
             },
             {
@@ -1208,8 +1208,8 @@
         },
         {
           "stepId": 2,
-          "query": "队列相关字段仅在实验组生效时，涉及数据存储与读取的兼容性注意事项有哪些？",
-          "searchQuery": "队列相关字段仅在实验组生效时，涉及数据存储与读取的兼容性注意事项有哪些？",
+          "query": "队列相关字段仅在实验组生效时，数据存储与读取层面的兼容性风险及注意事项是什么？",
+          "searchQuery": "队列相关字段仅在实验组生效时，数据存储与读取层面的兼容性风险及注意事项是什么？",
           "taskType": "retrieve",
           "dependencyStepIds": [],
           "answer": "已检索到 7 条相关资料。",
@@ -1274,8 +1274,8 @@
         },
         {
           "stepId": 3,
-          "query": "队列相关字段仅在实验组生效时，涉及业务逻辑分支处理的兼容性注意事项有哪些？",
-          "searchQuery": "队列相关字段仅在实验组生效时，涉及业务逻辑分支处理的兼容性注意事项有哪些？",
+          "query": "队列相关字段仅在实验组生效时，上下游服务（如消息生产者、消费者）的兼容性处理要点有哪些？",
+          "searchQuery": "队列相关字段仅在实验组生效时，上下游服务（如消息生产者、消费者）的兼容性处理要点有哪些？",
           "taskType": "retrieve",
           "dependencyStepIds": [],
           "answer": "已检索到 7 条相关资料。",
@@ -1289,36 +1289,12 @@
               "score": 0.01639344262295082
             },
             {
-              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
-              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
-              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
-              "title": "260324【AI智能成片】资源分配初版技术方案",
-              "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
-              "score": 0.016129032258064516
-            },
-            {
-              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
-              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
-              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
-              "title": "260324【AI智能成片】资源分配初版技术方案",
-              "content": "260324【AI智能成⽚】资源分配初版技术⽅案\nPRD⽂档 \t AI智能成⽚-资源分配初版 \n后端技术⽂档 \t 202603-智能成⽚资源分配 \nMeego链接 \t [需求]【P0】AI智能成⽚资源分配初版 \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2208675/flow?\ndevops_space_type=server_fe&pipelineId=1128918360066",
-              "score": 0.015873015873015872
-            },
-            {
-              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
-              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
-              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
-              "title": "260324【AI智能成片】资源分配初版技术方案",
-              "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
-              "score": 0.015625
-            },
-            {
               "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
               "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
               "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
               "title": "260324【AI智能成片】资源分配初版技术方案",
               "content": "## 4. 接⼝解读与数据依赖\n接⼝ /api/content/ai/video/get_shop_aivideo_list （前端封装为\nVideoCenterAPI.GetShopAIVideoList ）返回的 AIVideo 中新增字段：\n•\t\nestimatedSeconds ：预计耗时，单位秒（由后端根据队列/资源模型计算）\n前端改造依赖该字段进⾏展⽰分段⽂案；当字段缺失时按兜底策略回退为\ntaskStyleConfig.estimatedGenerateTime 。\n实现落地时需要同步更新类型定义（ @ecom/bam-types /本仓库 packages/bam ⽣成的\nAIVideo 类型）以包含 estimatedSeconds 。",
-              "score": 0.015384615384615385
+              "score": 0.016129032258064516
             },
             {
               "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
@@ -1326,7 +1302,23 @@
               "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
               "title": "260324【AI智能成片】资源分配初版技术方案",
               "content": "### 2.2 不做范围\n•\t\n不新增⼊⼝/权益展⽰，仅改造既有“⽣成中”预计耗时表达。",
-              "score": 0.015151515151515152
+              "score": 0.015873015873015872
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "260324【AI智能成⽚】资源分配初版技术⽅案\nPRD⽂档 \t AI智能成⽚-资源分配初版 \n后端技术⽂档 \t 202603-智能成⽚资源分配 \nMeego链接 \t [需求]【P0】AI智能成⽚资源分配初版 \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2208675/flow?\ndevops_space_type=server_fe&pipelineId=1128918360066",
+              "score": 0.015625
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
+              "score": 0.015384615384615385
             },
             {
               "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1",
@@ -1334,16 +1326,24 @@
               "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
               "title": "260324【AI智能成片】资源分配初版技术方案",
               "content": "### 2.1 功能范围\n本期前端范围仅覆盖“⽣成中”场景的预计耗时展⽰升级（⽂案与交互），不新增或外化“⾼优/低优\n队列”⾝份/权益展⽰；队列分级与权益策略对商家不可控且可能动态调整，因此前台不展⽰分级。\n变更点1：⽣成记录（PC）―批次标题预计耗时⽂案升级\n⼊⼝⻚⾯： apps/creative/web/src/pages/ai-generate-video-v1 右侧「⽣成结果」\n区域。\n现状：⽣成中批次标题使⽤ taskStyleConfig.estimatedGenerateTime （按视频类型配置\n的静态字符串）拼接： …条视频⽣成中…预计需要XX 。\n改造：所有成⽚类型统⼀预计耗时表达，基于接⼝\n/api/content/ai/video/get_shop_aivideo_list 返回的 estimatedSeconds （预计\n耗时，单位秒）⽣成分段⽂案，如果⼤于⼀⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover\n⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、AI智能成⽚⼊⼝提醒”。\n•\t\n展⽰位置： BatchAIVideoList 的批次标题（ useBatchVideoTitle ）\n\n-- 1 of 3 --\n\n变更点2：视频管理列表（PCMobile同逻辑）―「⽣成中」状态描述预计耗时⽂\n案升级\n⼊⼝： ai-generate-video-v1 内「视频管理」抽屉（PCWeb），状态列下⽅描述信息\n（ VideoStatusMap[Generating].desc ）。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”\n变更点3：视频⽣成Sheet（Mobile）—「⽣成中」状态描述预计耗时⽂案升级\n⼊⼝： AIGeneratedVideo/components/VideoGeneratingSheets 内\n「 VideoGeneratingSheets 」弹窗。\n现状：⽣成中状态描述为 预计需要{estimatedGenerateTime} 。\n改造：改为基于接⼝返回的 estimatedSeconds （预计耗时/秒）的计算出分段⽂案，如果⼤于⼀\n⼩时在“建议稍后查看”类⽂案旁新增提⽰icon，hover⽂案固定为：“⽣成后将在⾸⻚内容卡⽚、\nAI智能成⽚⼊⼝提醒”",
+              "score": 0.015151515151515152
+            },
+            {
+              "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+              "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+              "title": "260324【AI智能成片】资源分配初版技术方案",
+              "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
               "score": 0.014925373134328358
             }
           ]
         },
         {
           "stepId": 4,
-          "query": "综合接口交互、数据存储读取、业务逻辑分支这三方面的信息，总结队列相关字段仅在实验组生效时的兼容性注意事项。",
+          "query": "综合接口、数据存储、上下游服务三个层面的信息，总结队列相关字段仅在实验组生效时的兼容性注意事项。",
           "taskType": "reasoning",
           "dependencyStepIds": [1, 2, 3],
-          "answer": "队列相关字段仅在实验组生效时的兼容性注意事项如下：\n1. 接口交互层面：需保证对照组（单队列）返回值兼容，当队列相关字段（如estimatedSeconds）缺失或返回异常时，前端要执行兜底策略，优先回退为现有taskStyleConfig.estimatedGenerateTime文案，若该文案仍为空，则统一使用“预计需要10分钟”作为兜底内容。同时，实现落地时要同步更新AIVideo的类型定义，使其包含新增的estimatedSeconds字段。\n2. 数据存储读取层面：资料中未提及相关的兼容性注意事项，无法归纳该部分内容。\n3. 业务逻辑分支处理层面：要区分实验组和对照组的逻辑，实验组基于队列相关字段进行预计耗时的分段文案展示，对照组则沿用原有逻辑；且无论实验组还是对照组，前台均不展示“高优/低优队列”的身份或权益相关内容，仅做“生成中”场景的预计耗时表达改造。",
+          "answer": "队列相关字段仅在实验组生效时的兼容性注意事项如下：\n接口层面：需同步更新对应接口的类型定义，确保新增的队列相关字段被包含；当接口未返回该字段或返回异常时，要按兜底策略回退，优先使用现有配置的静态预估耗时文案，若该文案为空则统一兜底为“预计需要10分钟”。\n数据存储与读取层面：要保证对照组（单队列）的返回值兼容，当队列相关字段缺失时，需触发兜底回退逻辑，避免因字段缺失导致功能异常。\n上下游服务层面：未检索到针对消息生产者、消费者等上下游服务的具体兼容性处理要点，相关信息不足。",
           "contexts": []
         }
       ],
@@ -1357,36 +1357,12 @@
           "score": 0.01639344262295082
         },
         {
-          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
-          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
-          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
-          "title": "260324【AI智能成片】资源分配初版技术方案",
-          "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
-          "score": 0.016129032258064516
-        },
-        {
-          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
-          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
-          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
-          "title": "260324【AI智能成片】资源分配初版技术方案",
-          "content": "260324【AI智能成⽚】资源分配初版技术⽅案\nPRD⽂档 \t AI智能成⽚-资源分配初版 \n后端技术⽂档 \t 202603-智能成⽚资源分配 \nMeego链接 \t [需求]【P0】AI智能成⽚资源分配初版 \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2208675/flow?\ndevops_space_type=server_fe&pipelineId=1128918360066",
-          "score": 0.015873015873015872
-        },
-        {
           "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
           "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
           "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
           "title": "260324【AI智能成片】资源分配初版技术方案",
           "content": "## 5. ⻛险与兼容性\n•\t\n若队列相关字段只在实验组⽣效，需保证对照组（单队列）返回值兼容（字段缺失时按兜底策略回\n退）。\n\n-- 3 of 3 --",
-          "score": 0.015625
-        },
-        {
-          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
-          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
-          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
-          "title": "260324【AI智能成片】资源分配初版技术方案",
-          "content": "## 4. 接⼝解读与数据依赖\n接⼝ /api/content/ai/video/get_shop_aivideo_list （前端封装为\nVideoCenterAPI.GetShopAIVideoList ）返回的 AIVideo 中新增字段：\n•\t\nestimatedSeconds ：预计耗时，单位秒（由后端根据队列/资源模型计算）\n前端改造依赖该字段进⾏展⽰分段⽂案；当字段缺失时按兜底策略回退为\ntaskStyleConfig.estimatedGenerateTime 。\n实现落地时需要同步更新类型定义（ @ecom/bam-types /本仓库 packages/bam ⽣成的\nAIVideo 类型）以包含 estimatedSeconds 。",
-          "score": 0.015384615384615385
+          "score": 0.016129032258064516
         },
         {
           "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
@@ -1394,6 +1370,30 @@
           "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
           "title": "260324【AI智能成片】资源分配初版技术方案",
           "content": "### 2.2 不做范围\n•\t\n不新增⼊⼝/权益展⽰，仅改造既有“⽣成中”预计耗时表达。",
+          "score": 0.015873015873015872
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 4. 接⼝解读与数据依赖\n接⼝ /api/content/ai/video/get_shop_aivideo_list （前端封装为\nVideoCenterAPI.GetShopAIVideoList ）返回的 AIVideo 中新增字段：\n•\t\nestimatedSeconds ：预计耗时，单位秒（由后端根据队列/资源模型计算）\n前端改造依赖该字段进⾏展⽰分段⽂案；当字段缺失时按兜底策略回退为\ntaskStyleConfig.estimatedGenerateTime 。\n实现落地时需要同步更新类型定义（ @ecom/bam-types /本仓库 packages/bam ⽣成的\nAIVideo 类型）以包含 estimatedSeconds 。",
+          "score": 0.015625
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "260324【AI智能成⽚】资源分配初版技术⽅案\nPRD⽂档 \t AI智能成⽚-资源分配初版 \n后端技术⽂档 \t 202603-智能成⽚资源分配 \nMeego链接 \t [需求]【P0】AI智能成⽚资源分配初版 \nBits\n\nhttps://bits.bytedance.net/devops/139033499138/develop/detail/2208675/flow?\ndevops_space_type=server_fe&pipelineId=1128918360066",
+          "score": 0.015384615384615385
+        },
+        {
+          "id": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+          "parentId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
+          "docId": "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd",
+          "title": "260324【AI智能成片】资源分配初版技术方案",
+          "content": "## 3. 预计耗时分段⽂案函数设计（以接⼝返回的\nestimatedSeconds 和 taskTypeConfig 作为输⼊）\n说明：后端⽅案已确认在 /api/content/ai/video/get_shop_aivideo_list 返回的\nAIVideo 新增 estimatedSeconds （预计耗时，单位秒）。队列排队⼈数与资源模型的计算\n由后端完成；前端仅基于 estimatedSeconds 做展⽰与分段⽂案。\n兜底策略设计\n当接⼝未返回 estimatedSeconds （或返回异常）时：\n\n-- 2 of 3 --\n\n•\t优先回退为现有 taskStyleConfig.estimatedGenerateTime ⽂案（保持线上已有展⽰能\n⼒）。\n•\t\n若仍为空，统⼀兜底为： 预计需要10分钟 。",
           "score": 0.015151515151515152
         },
         {
@@ -1407,11 +1407,11 @@
       ],
       "retrievedParentIds": [
         "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_1_1",
-        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
-        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
         "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_6_5",
-        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
         "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_3_2-2",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_5_4",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_0_260324-AI-PRD-AI---202603--Meego-P0-AI-Bits-http",
+        "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_4_3",
         "local_c2faaa06e4cef3ef3b55460980fe39573571f301756d2cfe4063a878df83e9cd_p_2_2-1"
       ],
       "referenceDocuments": [
@@ -1449,7 +1449,7 @@
         ],
         "missingAnswerPoints": [],
         "unsupportedClaims": [],
-        "judgeReason": "答案正确覆盖了所有标准答案关键点，同时补充的类型定义更新、前台不展示队列身份等内容均能从检索资料中找到依据，未发现无依据内容和禁止说法。"
+        "judgeReason": "答案正确覆盖了所有标准答案关键点，内容均能从检索到的资料中找到依据，未发现无依据内容和禁止说法。"
       },
       "likelyCause": "pass"
     }

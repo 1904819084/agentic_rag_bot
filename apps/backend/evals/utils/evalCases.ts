@@ -1,10 +1,9 @@
-import { readFile } from 'node:fs/promises';
+import { readJsonFile } from '../../src/utils/jsonFile';
 import type { RagEvalCase } from '../types';
 import { resolveEvalCasesPath } from './evalConfig';
 
-// 读取评估用例
 export async function readEvalCases() {
-  const rawCases = JSON.parse(await readFile(resolveEvalCasesPath(), 'utf8')) as RagEvalCase[];
+  const rawCases = await readJsonFile<RagEvalCase[]>(resolveEvalCasesPath());
 
   return rawCases.filter((evalCase) => evalCase.id && evalCase.question);
 }

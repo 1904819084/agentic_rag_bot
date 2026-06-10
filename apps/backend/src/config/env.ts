@@ -20,6 +20,14 @@ export const env = {
     provider: process.env.RETRIEVAL_PROVIDER ?? 'hybrid',
     topK: readNumber(process.env.RETRIEVAL_TOP_K, 8),
   },
+  redis: {
+    host: process.env.REDIS_HOST ?? 'localhost',
+    port: readNumber(process.env.REDIS_PORT, 6379),
+    password: process.env.REDIS_PASSWORD || undefined,
+  },
+  evalQueue: {
+    concurrency: readNumber(process.env.EVAL_QUEUE_CONCURRENCY, 1),
+  },
   embedding: {
     provider: process.env.EMBEDDING_PROVIDER ?? 'hash',
     endpoint: process.env.EMBEDDING_ENDPOINT ?? '',
