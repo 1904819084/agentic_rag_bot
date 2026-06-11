@@ -32,3 +32,19 @@ export interface ImportFeishuDocumentResponse {
 export interface ImportLocalFileDocumentResponse {
   document: Document;
 }
+
+export interface AuthUser {
+  id: string;
+  feishuOpenId: string;
+  feishuUnionId?: string;
+  name: string;
+  avatarUrl?: string;
+}
+
+export interface AuthMeResponse {
+  user: AuthUser;
+}
+
+export interface AuthLoginUrlResponse {
+  loginUrl: string;
+}

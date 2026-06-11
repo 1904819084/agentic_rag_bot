@@ -1,9 +1,12 @@
 import { Injectable } from '@gulux/gulux';
 import { env } from '../config/env';
 import type { FeishuMessageEvent } from '../types';
+import FeishuClientService from './feishuClientService';
 
 @Injectable()
 export default class FeishuService {
+  public constructor(private readonly feishuClientService: FeishuClientService) {}
+
   public verifyToken(token?: string) {
     return !env.feishu.verificationToken || token === env.feishu.verificationToken;
   }
@@ -38,12 +41,7 @@ export default class FeishuService {
   }
 
   public async replyMessage({ messageId, text }: { messageId?: string; text: string }) {
-    // MVP placeholder. Production should call Feishu reply API with tenant access token.
-    return {
-      ok: Boolean(env.feishu.appId && env.feishu.appSecret),
-      messageId,
-      text,
-    };
+    return this.feishuClientService.replyTextMessage({ messageId, text });
   }
 }
 

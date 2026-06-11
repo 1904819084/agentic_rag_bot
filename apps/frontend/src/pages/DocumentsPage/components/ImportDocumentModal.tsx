@@ -98,7 +98,12 @@ export default function ImportDocumentModal({
                 >
                   <Input size="large" placeholder="https://xxx.feishu.cn/wiki/... 或 /docx/..." allowClear />
                 </Form.Item>
-                <Button type="primary" htmlType="submit" loading={feishuLoading} disabled={feishuLoading}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={feishuLoading}
+                  disabled={feishuLoading}
+                >
                   导入并索引
                 </Button>
               </Form>

@@ -1,12 +1,65 @@
-import { ApiOutlined, DatabaseOutlined } from '@ant-design/icons';
-import { Layout, Menu, Tag, Typography } from 'antd';
+import { ApiOutlined, DatabaseOutlined, LogoutOutlined } from '@ant-design/icons';
+import { Avatar, Button, Layout, Menu, Space, Spin, Tag, Typography, message } from 'antd';
+import type { AuthUser } from '@rag/shared';
+import useRequest from 'ahooks/es/useRequest';
 import { BrowserRouter, Link, useLocation } from 'react-router-dom';
+import { getCurrentUser, getFeishuLoginUrl, logout } from './services/authService';
 import AppRoutes from './router/AppRoutes';
 import { NAV_GROUPS, ROUTES, findRouteByKey } from './router';
 
 const { Header, Content, Sider } = Layout;
 
-function AppShell() {
+async function redirectToFeishuLogin() {
+  window.location.href = await getFeishuLoginUrl();
+}
+
+function UserMenu({ user }: { user: AuthUser }) {
+  const logoutRequest = useRequest(logout, {
+    manual: true,
+    onSuccess: () => {
+      message.success('已退出登录');
+      void redirectToFeishuLogin();
+    },
+    onError: (error) => {
+      message.error(error.message || '退出登录失败');
+    },
+  });
+
+  return (
+    <Space size={12}>
+      <Avatar src={user.avatarUrl}>{user.name.slice(0, 1)}</Avatar>
+      <Typography.Text strong>{user.name}</Typography.Text>
+      <Button
+        icon={<LogoutOutlined />}
+        loading={logoutRequest.loading}
+        onClick={() => logoutRequest.run()}
+      >
+        退出
+      </Button>
+    </Space>
+  );
+}
+
+function AuthGate({ children }: { children: (user: AuthUser) => React.ReactNode }) {
+  const currentUserRequest = useRequest(getCurrentUser, {
+    onError: () => {
+      void redirectToFeishuLogin();
+    },
+  });
+
+  if (currentUserRequest.loading || !currentUserRequest.data?.user) {
+    return (
+      <div className="app-auth-loading">
+        <Spin />
+        <Typography.Text type="secondary">正在检查飞书登录状态...</Typography.Text>
+      </div>
+    );
+  }
+
+  return children(currentUserRequest.data.user);
+}
+
+function AppShell({ user }: { user: AuthUser }) {
   const location = useLocation();
   const selectedKey = location.pathname.split('/')[1] || ROUTES[0].key;
   const current = findRouteByKey(selectedKey) ?? ROUTES[0];
@@ -59,6 +112,7 @@ function AppShell() {
               <ApiOutlined style={{ marginRight: 4 }} />
               Fornax · LangGraph
             </Tag>
+            <UserMenu user={user} />
           </div>
         </Header>
         <Content className="app-content">
@@ -72,7 +126,7 @@ function AppShell() {
 export default function App() {
   return (
     <BrowserRouter>
-      <AppShell />
+      <AuthGate>{(user) => <AppShell user={user} />}</AuthGate>
     </BrowserRouter>
   );
 }

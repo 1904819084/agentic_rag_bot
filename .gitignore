@@ -58,3 +58,12 @@ __pycache__/
 
 # ---- Husky 内部 stub（husky init 自管）----
 .husky/_/
+
+# k2 injected: managed agent directories
+.codex/skills/k2/
+.claude/skills/k2/
+.k2/
+
+# k2 injected: managed agent directories
+**/.codex/skills/k2/
+**/.claude/skills/k2/

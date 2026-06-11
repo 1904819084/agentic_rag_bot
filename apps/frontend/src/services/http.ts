@@ -3,6 +3,7 @@ import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
 const httpClient = axios.create({
   baseURL: '/api',
   timeout: 60_000,
+  withCredentials: true,
 });
 
 export async function request<T>(url: string, config?: AxiosRequestConfig): Promise<T> {

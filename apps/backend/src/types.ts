@@ -91,6 +91,11 @@ export interface FeishuDocumentContent {
   content: string;
 }
 
+export interface FetchFeishuDocumentContentInput {
+  url: string;
+  userAccessToken?: string;
+}
+
 // ---------- Document Ingestion ----------
 
 export interface ParsedDocumentInput {

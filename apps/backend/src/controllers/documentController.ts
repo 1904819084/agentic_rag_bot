@@ -1,10 +1,23 @@
 import { Inject } from '@gulux/gulux';
-import { Body, Controller, Files, Get, Param, Post, Res, type HTTPResponse } from '@gulux/gulux/application-http';
+import {
+  Body,
+  Controller,
+  Files,
+  Get,
+  Param,
+  Post,
+  Req,
+  Res,
+  type HTTPRequest,
+  type HTTPResponse,
+} from '@gulux/gulux/application-http';
 import type { ImportFeishuDocumentRequest } from '@rag/shared';
 import { readFile } from 'node:fs/promises';
+import AuthService from '../services/authService';
 import DocumentIngestionService from '../services/documentIngestionService';
 import DocumentService from '../services/documentService';
 import { AppError } from '../utils/appError';
+import { getAuthSessionCookieName, readCookie } from '../utils/cookie';
 
 type FormidableFile = {
   filepath?: string;
@@ -30,6 +43,9 @@ export default class DocumentController {
   @Inject()
   private readonly documentIngestionService!: DocumentIngestionService;
 
+  @Inject()
+  private readonly authService!: AuthService;
+
   @Get('')
   public async listDocuments() {
     return {
@@ -38,12 +54,23 @@ export default class DocumentController {
   }
 
   @Post('/import/feishu-docx')
-  public importFeishuDocxDocument(@Body() importRequest: ImportFeishuDocumentRequest) {
+  public async importFeishuDocxDocument(
+    @Body() importRequest: ImportFeishuDocumentRequest,
+    @Req() req: HTTPRequest,
+  ) {
     if (!importRequest?.url || typeof importRequest.url !== 'string') {
       throw new AppError('invalid_feishu_document_url', 400, 'url is required');
     }
 
-    return this.documentIngestionService.importFeishuDocxDocument(importRequest);
+    const userAccessToken = await this.authService.getFeishuAccessToken(getSessionId(req));
+    if (!userAccessToken) {
+      throw new AppError('missing_feishu_user_token', 401, 'Please log in with Feishu again');
+    }
+
+    return this.documentIngestionService.importFeishuDocxDocument({
+      url: importRequest.url,
+      userAccessToken,
+    });
   }
 
   @Post('/import/file')
@@ -69,4 +96,11 @@ export default class DocumentController {
     response.set('Content-Disposition', `inline; filename="${encodeURIComponent(originalFile.fileName)}"`);
     response.body = originalFile.buffer;
   }
+}
+
+function getSessionId(req: HTTPRequest) {
+  const cookieValue = req.cookies.get(getAuthSessionCookieName());
+  return typeof cookieValue === 'string'
+    ? cookieValue
+    : readCookie(req.get('cookie'), getAuthSessionCookieName());
 }

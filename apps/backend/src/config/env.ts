@@ -7,6 +7,11 @@ function readNumber(value: string | undefined, defaultValue: number) {
   return Number.isFinite(parsed) ? parsed : defaultValue;
 }
 
+const DEFAULT_FEISHU_OAUTH_SCOPE = [
+  'docx:document:readonly',
+  'wiki:wiki:readonly',
+].join(' ');
+
 export const env = {
   port: readNumber(process.env.PORT, 3001),
   postgres: {
@@ -39,6 +44,8 @@ export const env = {
     appId: process.env.FEISHU_APP_ID ?? 'cli_a97b05c584fa5bcb',
     appSecret: process.env.FEISHU_APP_SECRET ?? 'EjSIDNbePwkiq7SKimQ7jepP88FYLQR8',
     verificationToken: process.env.FEISHU_VERIFICATION_TOKEN ?? '',
-    encryptKey: process.env.FEISHU_ENCRYPT_KEY ?? '',
+    authRedirectUri: process.env.FEISHU_AUTH_REDIRECT_URI ?? '',
+    authSuccessRedirectUri: process.env.FEISHU_AUTH_SUCCESS_REDIRECT_URI ?? '',
+    oauthScope: process.env.FEISHU_OAUTH_SCOPE ?? DEFAULT_FEISHU_OAUTH_SCOPE,
   },
 };

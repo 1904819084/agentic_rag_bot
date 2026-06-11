@@ -1,7 +1,6 @@
 import { Injectable } from '@gulux/gulux';
 import type {
   Document,
-  ImportFeishuDocumentRequest,
   ImportFeishuDocumentResponse,
   ImportLocalFileDocumentResponse,
 } from '@rag/shared';
@@ -11,6 +10,11 @@ import { chunkPlainText } from '../utils/chunking';
 import EmbeddingService from './embeddingService';
 import FeishuDocumentService from './feishuDocumentService';
 import LocalDocumentService, { type UploadedLocalFile } from './localDocumentService';
+
+interface ImportFeishuDocxDocumentInput {
+  url: string;
+  userAccessToken?: string;
+}
 
 function createDocumentId(sourceDocId: string) {
   const safeSourceDocId = sourceDocId.replace(/[^a-zA-Z0-9_-]+/g, '_');
@@ -29,9 +33,12 @@ export default class DocumentIngestionService {
   
   // 飞书 Docx 和本地上传都会先被解析成纯文本，再进入统一入库流程。
   public async importFeishuDocxDocument(
-    importRequest: ImportFeishuDocumentRequest,
+    importRequest: ImportFeishuDocxDocumentInput,
   ): Promise<ImportFeishuDocumentResponse> {
-    const feishuDocument = await this.feishuDocumentService.fetchDocumentContent(importRequest.url);
+    const feishuDocument = await this.feishuDocumentService.fetchDocumentContent({
+      url: importRequest.url,
+      userAccessToken: importRequest.userAccessToken,
+    });
     return this.importParsedDocument({
       source: 'feishu',
       sourceDocId: feishuDocument.sourceDocId,
